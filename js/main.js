@@ -1859,23 +1859,6 @@ const defaultPalette = {
                 </summary>
                 <div class="px-4 pb-4">
                   <div id="sectionUseTokens" class="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-3"></div>
-                  <div class="mt-3 rounded-2xl border border-slate-200 bg-white p-3">
-                    <div class="mb-2 flex items-center justify-between">
-                      <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Composición</p>
-                      <p id="sectionUseRead" class="text-xs font-medium text-slate-500"></p>
-                    </div>
-                    <div class="rounded-2xl bg-slate-100 p-3">
-                      <div id="sectionUseOuter" class="rounded-2xl bg-slate-200 p-3">
-                        <div id="sectionUseInner" class="rounded-2xl bg-white p-3">
-                          <div id="sectionUseStack" class="space-y-2">
-                            <div class="h-3 w-3/5 rounded-full bg-slate-200"></div>
-                            <div class="h-3 w-4/5 rounded-full bg-slate-200"></div>
-                            <div class="h-3 w-2/3 rounded-full bg-slate-200"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </details>
 
@@ -3538,7 +3521,7 @@ const defaultPalette = {
           });
         }
         // typographyCompareRight removed (UI now follows top device switcher).
-        if (typeof data.device === "string" && devices[data.device]) state.device = data.device;
+        state.device = "desktop";
         return true;
       }
 
@@ -3601,14 +3584,13 @@ const defaultPalette = {
         const entries = getSpaceOrderList()
           .filter((key) => !hidden.has(key))
           .map((key) => {
-          const token = state.spaces[key];
-          const current = getCurrentSpaceValue(key);
-          const desktop = getSpaceValueForDevice("desktop", key);
-          const tablet = getSpaceValueForDevice("tablet", key);
-          const mobile = getSpaceValueForDevice("mobile", key);
-          const detail = `${desktop}/${tablet}/${mobile}`;
-          return { key, current, detail };
-        });
+            const current = getCurrentSpaceValue(key);
+            const desktop = getSpaceValueForDevice("desktop", key);
+            const tablet = getSpaceValueForDevice("tablet", key);
+            const mobile = getSpaceValueForDevice("mobile", key);
+            const detail = `${desktop}/${tablet}/${mobile}`;
+            return { key, current, detail };
+          });
         const maxValue = Math.max(...entries.map((entry) => entry.current), 1);
         scale.innerHTML = entries
           .map((entry) => {
@@ -3617,7 +3599,7 @@ const defaultPalette = {
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
                   <button type="button" data-space-copy="${entry.key}" class="space-copy text-left text-sm font-semibold text-slate-900 hover:text-slate-950" title="Copiar var(--mft-space-${entry.key})">--${entry.key}</button>
-                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
+                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
                 <div class="space-track rounded-full bg-slate-100">
                   <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
@@ -3644,7 +3626,6 @@ const defaultPalette = {
         const entries = getPaddingOrderList()
           .filter((key) => !hidden.has(key))
           .map((key) => {
-            const token = state.paddingSpaces[key];
             const current = getPaddingCurrentValue(key);
             const desktop = getPaddingValueForDevice("desktop", key);
             const tablet = getPaddingValueForDevice("tablet", key);
@@ -3660,7 +3641,7 @@ const defaultPalette = {
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
                   <button type="button" data-padding-copy="${entry.key}" class="space-copy text-left text-sm font-semibold text-slate-900 hover:text-slate-950" title="Copiar var(--mft-padding-${entry.key})">--${entry.key}</button>
-                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
+                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
                 <div class="space-track rounded-full bg-slate-100">
                   <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
@@ -3793,7 +3774,6 @@ const defaultPalette = {
 
         const row = ([key, label, value]) => {
           const resolved = resolveSpaceLikeForDevice(state.device, value);
-          const px = Number.isFinite(resolved.px) ? `${Math.round(resolved.px)}px` : "";
           const dRaw = getSectionUseForDevice("desktop")?.[key];
           const tRaw = getSectionUseForDevice("tablet")?.[key];
           const mRaw = getSectionUseForDevice("mobile")?.[key];
@@ -3809,7 +3789,7 @@ const defaultPalette = {
               <button type="button" data-secuse-copy="${key}" class="secuse-copy text-left text-xs font-semibold tracking-[0.2em] text-slate-500 hover:text-slate-900">${label}</button>
               <div class="flex items-center gap-2">
                 <button type="button" data-secuse-edit="${key}" class="secuse-prop rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">${value}</button>
-                ${glance ? `<span class="rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/Tablet/Mobile (px)">${glance}</span>` : ""}
+                ${glance ? `<span class="rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${glance}</span>` : ""}
               </div>
             </div>
           `;
@@ -3924,8 +3904,9 @@ const defaultPalette = {
                       const linePct = formatLineHeightPct(s.line);
                       const text = getTypographyStyleLabel(device, key);
                       const desk = getTypographyForDevice("desktop")?.styles?.[key];
+                      const tab = getTypographyForDevice("tablet")?.styles?.[key];
                       const mob = getTypographyForDevice("mobile")?.styles?.[key];
-                      const glance = desk && mob ? `${desk.size}/${mob.size}` : "";
+                      const glance = desk && tab && mob ? `${desk.size}/${tab.size}/${mob.size}` : "";
                       const metricStrip = [
                         ["Sz", `${s.size}px`, vars?.size, `${key}:size`],
                         ["Wt", `${s.weight}`, vars?.weight, `${key}:weight`],
