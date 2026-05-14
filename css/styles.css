@@ -376,9 +376,9 @@
 
       .space-row {
         display: grid;
-        grid-template-columns: 112px minmax(0, 1fr) 60px;
+        grid-template-columns: minmax(140px, 140px) minmax(0, 1fr) 65px;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         min-width: 0;
       }
 
@@ -387,14 +387,55 @@
         min-width: 0;
       }
 
+      .space-edit {
+        min-width: 56px;
+      }
+
+      .text-\[12px\] {
+        font-size: 14px;
+      }
+
       .space-track {
         padding: 3px;
         min-width: 0;
+        overflow: hidden;
       }
 
       .space-fill {
         height: 8px;
         border-radius: 999px;
+      }
+
+      .mft-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #64748b;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        cursor: pointer;
+        flex: 0 0 auto;
+        transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+      }
+
+      .mft-icon-btn:hover {
+        color: #0f172a;
+        border-color: rgba(148, 163, 184, 0.8);
+        background: rgba(248, 250, 252, 0.9);
+      }
+
+      .mft-icon-btn svg {
+        width: 12px;
+        height: 12px;
+        display: block;
+      }
+
+      .mft-icon-btn--xs {
+        width: 22px;
+        height: 22px;
       }
 
       #previewCanvas {

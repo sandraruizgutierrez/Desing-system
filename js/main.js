@@ -7,7 +7,16 @@ import { setupEditorModal } from "./modals/editorModal.js";
 import { devices } from "./core/devices.js";
 import { el } from "./core/elements.js";
 
-const defaultPalette = {
+      function copyIconSvg() {
+        return `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+            <path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+          </svg>
+        `.trim();
+      }
+
+      const defaultPalette = {
         primary: "#d09e5c", // e-global-color-primary
         secondary: "#32505c", // e-global-color-secondary
         accent: "#e0bf93", // e-global-color-accent
@@ -1902,10 +1911,6 @@ const defaultPalette = {
         el.previewCanvas.dataset.device = state.device;
         el.canvasFrame.style.maxWidth = "100%";
 
-        document.querySelectorAll(".device-btn").forEach((button) => {
-          button.classList.toggle("is-active", button.dataset.device === state.device);
-        });
-
         el.previewCanvas.style.background = `linear-gradient(180deg, ${mixColor(state.palette.light, "#ffffff", 0.1)} 0%, #ffffff 100%)`;
       }
 
@@ -3559,16 +3564,18 @@ const defaultPalette = {
                 const editAttr = card.kind === "palette" ? `data-color-edit-key="${card.key}"` : `data-color-edit-extra="${card.index}"`;
                 const labelAttr = card.kind === "palette" ? `data-color-label-key="${card.key}"` : `data-color-label-extra="${card.index}"`;
                 return `
-                  <div class="rounded-[18px] border border-slate-200/80 bg-white p-2.5">
-                    <button type="button" ${editAttr} class="mb-2 flex h-12 w-full items-end rounded-[14px] p-2.5 text-left" style="background:${value}; color:${textColor}">
-                      <span ${labelAttr} class="rounded-full px-2 py-0.5 text-[10px] font-semibold backdrop-blur" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
-                    </button>
-                    <div class="flex items-start justify-between gap-2">
-                      <div class="min-w-0">
-                        <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="block w-full truncate text-left text-[11px] font-semibold text-slate-800 hover:text-slate-950">${varLower}</button>
-                        <button type="button" data-color-hex="${value}" class="mt-0.5 font-mono text-[10px] font-semibold tracking-[0.10em] text-slate-500 hover:text-slate-900">${value}</button>
-                      </div>
-                      <button type="button" ${editAttr} class="h-7 w-7 shrink-0 rounded-full border border-slate-200" style="background:${value}"></button>
+                  <div class="rounded-[18px] border border-slate-200/80 bg-white p-3">
+                    <div class="mb-3 flex items-center gap-3">
+                      <button type="button" ${editAttr} class="flex h-12 w-full items-end rounded-[14px] p-2.5 text-left" style="background:${value}; color:${textColor}">
+                        <span ${labelAttr} class="rounded-full px-2 py-0.5 text-[9px] font-semibold backdrop-blur" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
+                      </button>
+                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="mft-icon-btn" aria-label="Copiar variable" title="Copiar variable">
+                        ${copyIconSvg()}
+                      </button>
+                    </div>
+                    <div class="flex min-w-0 items-center justify-between gap-4">
+                      <span class="min-w-0 flex-1 truncate text-left text-[11px] font-semibold text-slate-800">${varLower}</span>
+                      <button type="button" data-color-hex="${value}" class="shrink-0 font-mono text-[10px] font-semibold tracking-[0.10em] text-slate-500 hover:text-slate-900">${value}</button>
                     </div>
                   </div>
                 `;
@@ -3598,8 +3605,11 @@ const defaultPalette = {
             return `
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
-                  <button type="button" data-space-copy="${entry.key}" class="space-copy text-left text-sm font-semibold text-slate-900 hover:text-slate-950" title="Copiar var(--mft-space-${entry.key})">--${entry.key}</button>
-                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
+                  <span class="min-w-0 truncate text-left font-mono text-[12px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
+                  <button type="button" data-space-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-space-${entry.key})">
+                    ${copyIconSvg()}
+                  </button>
+                  <span class="shrink-0 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[9px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
                 <div class="space-track rounded-full bg-slate-100">
                   <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
@@ -3640,8 +3650,11 @@ const defaultPalette = {
             return `
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
-                  <button type="button" data-padding-copy="${entry.key}" class="space-copy text-left text-sm font-semibold text-slate-900 hover:text-slate-950" title="Copiar var(--mft-padding-${entry.key})">--${entry.key}</button>
-                  <span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
+                  <span class="min-w-0 truncate text-left font-mono text-[12px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
+                  <button type="button" data-padding-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-padding-${entry.key})">
+                    ${copyIconSvg()}
+                  </button>
+                  <span class="shrink-0 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[9px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
                 <div class="space-track rounded-full bg-slate-100">
                   <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
@@ -3786,7 +3799,12 @@ const defaultPalette = {
               : "";
           return `
             <div class="flex flex-wrap items-center justify-between gap-2">
-              <button type="button" data-secuse-copy="${key}" class="secuse-copy text-left text-xs font-semibold tracking-[0.2em] text-slate-500 hover:text-slate-900">${label}</button>
+              <div class="flex min-w-0 items-center gap-2">
+                <span class="min-w-0 truncate text-left text-xs font-semibold tracking-[0.2em] text-slate-500">${label}</span>
+                <button type="button" data-secuse-copy="${key}" class="mft-icon-btn" aria-label="Copiar valor" title="Copiar valor">
+                  ${copyIconSvg()}
+                </button>
+              </div>
               <div class="flex items-center gap-2">
                 <button type="button" data-secuse-edit="${key}" class="secuse-prop rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">${value}</button>
                 ${glance ? `<span class="rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${glance}</span>` : ""}
@@ -3980,13 +3998,6 @@ const defaultPalette = {
       }
 
       function bindInputs() {
-        document.querySelectorAll(".device-btn").forEach((button) => {
-          button.addEventListener("click", () => {
-            state.device = button.dataset.device;
-            renderAll();
-          });
-        });
-
         document.getElementById("colorSwatches").addEventListener("click", async (event) => {
           const editLabel = event.target.closest("[data-color-label-key]");
           if (editLabel) {
