@@ -699,9 +699,8 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-var {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: block;
+  padding: 4px 8px;
   font-size: 13px;
   font-weight: 600;
   color: #333333;
@@ -711,7 +710,6 @@ details[open] .mft-collapsible-chevron {
   min-width: 0;
   border: 1px solid #F7DFE1;
   border-radius: 6px;
-  padding: 4px 8px;
   background: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -720,13 +718,6 @@ details[open] .mft-collapsible-chevron {
 .swatch-var:hover {
   border-color: #C71827;
   background: #F8EAEB;
-}
-
-.swatch-var svg {
-  width: 13px;
-  height: 13px;
-  color: #C71827;
-  flex-shrink: 0;
 }
 
 .swatch-hex {
