@@ -3614,19 +3614,15 @@ import { el } from "./core/elements.js";
           .filter((key) => !hidden.has(key))
           .map((key) => {
             const current = getCurrentSpaceValue(key);
-            const desktop = getSpaceValueForDevice("desktop", key);
-            const tablet = getSpaceValueForDevice("tablet", key);
-            const mobile = getSpaceValueForDevice("mobile", key);
-            const detail = `${desktop}/${tablet}/${mobile}`;
             const token = state.spaces[key];
-            const minMax = token && token.type !== "fixed" ? `(${token.min}px - ${token.max}px)` : "";
-            return { key, current, detail, minMax };
+            const minMax = token && token.type !== "fixed" ? `${token.max}px | ${token.min}px` : "";
+            return { key, current, minMax };
           });
         const maxValue = Math.max(...entries.map((entry) => entry.current), 1);
         scale.innerHTML = entries
           .map((entry) => {
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
-            const valueDisplay = entry.minMax ? `${entry.current}px ${entry.minMax}` : `${entry.current}px`;
+            const valueDisplay = entry.minMax ? `${entry.minMax}` : `${entry.current}px`;
             return `
               <div class="space-row">
                 <div class="space-label-group">
@@ -3661,19 +3657,15 @@ import { el } from "./core/elements.js";
           .filter((key) => !hidden.has(key))
           .map((key) => {
             const current = getPaddingCurrentValue(key);
-            const desktop = getPaddingValueForDevice("desktop", key);
-            const tablet = getPaddingValueForDevice("tablet", key);
-            const mobile = getPaddingValueForDevice("mobile", key);
-            const detail = `${desktop}/${tablet}/${mobile}`;
             const token = state.paddingSpaces[key];
-            const minMax = token && token.type !== "fixed" ? `(${token.min}px - ${token.max}px)` : "";
-            return { key, current, detail, minMax };
+            const minMax = token && token.type !== "fixed" ? `${token.max}px | ${token.min}px` : "";
+            return { key, current, minMax };
           });
         const maxValue = Math.max(...entries.map((entry) => entry.current), 1);
         scale.innerHTML = entries
           .map((entry) => {
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
-            const valueDisplay = entry.minMax ? `${entry.current}px ${entry.minMax}` : `${entry.current}px`;
+            const valueDisplay = entry.minMax ? `${entry.minMax}` : `${entry.current}px`;
             return `
               <div class="space-row">
                 <div class="space-label-group">
