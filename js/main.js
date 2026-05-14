@@ -1935,6 +1935,16 @@ import { el } from "./core/elements.js";
         };
       }
 
+      function getTypographyClampValues(styleKey) {
+        const desktop = getTypographyForDevice("desktop")?.styles?.[styleKey];
+        const mobile = getTypographyForDevice("mobile")?.styles?.[styleKey];
+        if (!desktop || !mobile) return { min: null, max: null };
+        return {
+          min: Math.round(mobile.size),
+          max: Math.round(desktop.size),
+        };
+      }
+
       function getTypographyClampValue(styleKey) {
         const desktop = getTypographyForDevice("desktop")?.styles?.[styleKey];
         const mobile = getTypographyForDevice("mobile")?.styles?.[styleKey];
@@ -2638,13 +2648,17 @@ import { el } from "./core/elements.js";
           rowsHost.innerHTML = ctx.keys
             .map((k) => {
               const s = t.styles[k];
+              const clampValues = getTypographyClampValues(k);
               return `
                 <tr class="text-sm">
                   <td class="border-b border-pink-100 px-4 py-2.5">
                     <input data-type-field="label" data-type-key="${k}" class="w-full rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${getTypographyStyleLabel(ctx.device, k).replace(/"/g, "&quot;")}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="size" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.size}" />
+                    <input data-type-field="sizeMin" data-type-key="${k}" class="w-20 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.min || ''}" />
+                  </td>
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="sizeMax" data-type-key="${k}" class="w-20 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.max || ''}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
                     <input data-type-field="weight" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.weight}" />
@@ -2685,19 +2699,21 @@ import { el } from "./core/elements.js";
             const row = next.styles[k];
             const get = (field) => rowsHost.querySelector(`[data-type-key="${k}"][data-type-field="${field}"]`);
             const labelValue = String(get("label")?.value || "").trim();
-            const size = parseNumber(get("size")?.value);
+            const sizeMin = parseNumber(get("sizeMin")?.value);
+            const sizeMax = parseNumber(get("sizeMax")?.value);
             const weight = parseNumber(get("weight")?.value);
             const line = normalizeLineHeight(get("line")?.value, null);
             const space = parseNumber(get("space")?.value);
 
             if (!labelValue) return setError(`Label inválido en ${k}.`);
-            if (size === null || size <= 0) return setError(`Size inválido en ${k}.`);
+            if (sizeMin === null || sizeMin <= 0) return setError(`Size Min inválido en ${k}.`);
+            if (sizeMax === null || sizeMax <= 0) return setError(`Size Max inválido en ${k}.`);
             if (weight === null || weight <= 0) return setError(`Weight inválido en ${k}.`);
             if (line === null || line <= 0) return setError(`Line-height inválido en ${k}.`);
             if (space === null) return setError(`Letter-spacing inválido en ${k}.`);
 
             next.labels[k] = labelValue;
-            next.styles[k] = { ...row, size: Math.round(size), weight: Math.round(weight), line: Number(line.toFixed(3)), space: Number(space.toFixed(4)) };
+            next.styles[k] = { ...row, size: Math.round(sizeMin), weight: Math.round(weight), line: Number(line.toFixed(3)), space: Number(space.toFixed(4)) };
           }
 
           const familyValue = normalizeFontFamily(next.families[ctx.groupKey]);
@@ -2708,6 +2724,22 @@ import { el } from "./core/elements.js";
               ...currentDevice,
               families: { ...currentDevice.families, [ctx.groupKey]: familyValue },
             };
+
+            // Update size values for responsive typography
+            if (ctx.device === "desktop") {
+              // If editing desktop, update mobile with the min size
+              for (const k of ctx.keys) {
+                const sizeMin = parseNumber(rowsHost.querySelector(`[data-type-key="${k}"][data-type-field="sizeMin"]`)?.value);
+                const sizeMax = parseNumber(rowsHost.querySelector(`[data-type-key="${k}"][data-type-field="sizeMax"]`)?.value);
+                if (sizeMin && sizeMax) {
+                  if (device === "desktop") {
+                    updatedTypographyByDevice[device].styles[k].size = sizeMax;
+                  } else if (device === "mobile") {
+                    updatedTypographyByDevice[device].styles[k].size = sizeMin;
+                  }
+                }
+              }
+            }
           });
           state.typographyByDevice = updatedTypographyByDevice;
           hide();
