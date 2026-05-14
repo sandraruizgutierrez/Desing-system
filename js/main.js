@@ -395,30 +395,9 @@ import { el } from "./core/elements.js";
         paddingSpaces: {},
         typographyClamp: { from: 1180, to: 1920 },
         imageByDevice: {
-          desktop: {
-            items: [
-              { label: "Full", layout: "full", width: 1900, height: 700 },
-              { label: "Thumbnail 1", layout: "thumb", width: 1200, height: 1200 },
-              { label: "Thumbnail 2", layout: "thumb", width: 1080, height: 1920 },
-              { label: "Thumbnail 3", layout: "thumb", width: 1200, height: 1200 },
-            ]
-          },
-          tablet: {
-            items: [
-              { label: "Full", layout: "full", width: 1900, height: 700 },
-              { label: "Thumbnail 1", layout: "thumb", width: 1200, height: 1200 },
-              { label: "Thumbnail 2", layout: "thumb", width: 1080, height: 1920 },
-              { label: "Thumbnail 3", layout: "thumb", width: 1200, height: 1200 },
-            ]
-          },
-          mobile: {
-            items: [
-              { label: "Full", layout: "full", width: 1900, height: 700 },
-              { label: "Thumbnail 1", layout: "thumb", width: 1200, height: 1200 },
-              { label: "Thumbnail 2", layout: "thumb", width: 1080, height: 1920 },
-              { label: "Thumbnail 3", layout: "thumb", width: 1200, height: 1200 },
-            ]
-          },
+          desktop: { radius: "var(--mft-space-2xs)", box: "500px" },
+          tablet: { radius: "var(--mft-space-2xs)", box: "500px" },
+          mobile: { radius: "var(--mft-space-2xs)", box: "500px" },
         },
         btn: {
           arrowGap: "8px",
@@ -1856,8 +1835,27 @@ import { el } from "./core/elements.js";
                   </span>
                 </summary>
                 <div class="px-4 pb-4">
-                  <div id="imageGallery" class="mt-1 space-y-3">
-                    <!-- Imágenes se renderizarán aquí vía JavaScript -->
+                  <div class="mt-1">
+                    <div id="imagePreview" class="mft-bg-img relative overflow-hidden rounded-[20px] bg-slate-200">
+                      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de imagen de referencia" />
+                      <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/70 to-transparent p-3 text-white">
+                        <p class="text-xs font-semibold">Vista previa</p>
+                      </div>
+                    </div>
+                    <div class="mt-3 rounded-2xl bg-slate-50 p-3">
+                      <div class="flex items-center justify-between gap-3">
+                        <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Radio</p>
+                        <button id="imageRadiusBtn" type="button" class="whitespace-nowrap rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300" title="Clic para editar">
+                          <span id="imageRadiusRead"></span>
+                        </button>
+                      </div>
+                      <div class="mt-2 flex items-center justify-between gap-3">
+                        <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Altura</p>
+                        <button id="imageBoxBtn" type="button" class="rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">
+                          <span id="imageBoxRead"></span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </details>
@@ -3781,30 +3779,16 @@ import { el } from "./core/elements.js";
         }
       }
 
-      function renderImageGallery() {
-        const host = document.getElementById("imageGallery");
-        if (!host) return;
-
-        const images = getImageForDevice(state.device);
-        if (!images || !Array.isArray(images.items)) return;
-
-        host.innerHTML = images.items.map((img, idx) => {
-          const isFull = img.layout === "full";
-          const aspectClass = isFull ? "aspect-video" : "aspect-square";
-          return `
-            <div class="group relative">
-              <div class="rounded-2xl overflow-hidden bg-slate-200 ${aspectClass} flex items-center justify-center">
-                <div class="text-center text-slate-500">
-                  <p class="text-sm font-semibold">${img.label || 'Image ' + (idx + 1)}</p>
-                  <p class="text-xs mt-1">${img.width}x${img.height}</p>
-                </div>
-              </div>
-              <button type="button" data-img-edit="${idx}" class="absolute top-2 right-2 hidden group-hover:flex rounded-full bg-white p-2 ring-1 ring-slate-200 hover:ring-slate-300">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94m-5.6-5.6L19.5 7.75m0 0l-2.25-2.25m0 0L21 4.75m-4.5 0H6.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-          `;
-        }).join('');
+      function renderImagePreview() {
+        const imagePreview = document.getElementById("imagePreview");
+        const img = getImageForDevice(state.device);
+        imagePreview.style.borderRadius = String(img.radius || "").trim().toLowerCase() === "none" ? "0px" : img.radius;
+        imagePreview.style.height = "170px";
+        imagePreview.style.width = "100%";
+        const radiusRead = document.getElementById("imageRadiusRead");
+        if (radiusRead) radiusRead.textContent = formatImageRadiusDisplay(state.device, img.radius);
+        const boxRead = document.getElementById("imageBoxRead");
+        if (boxRead) boxRead.textContent = normalizePx(img.box, "500px");
       }
 
       function renderButtonTokens() {
@@ -4114,7 +4098,7 @@ import { el } from "./core/elements.js";
         renderPaddingScale();
         const paddingSection = document.querySelector('details[data-collapsible=\"padding-scale\"]');
         if (paddingSection) paddingSection.hidden = getPaddingOrderList().length === 0;
-        renderImageGallery();
+        renderImagePreview();
         renderButtonTokens();
         renderSectionUse();
         renderTypographyStudio();
