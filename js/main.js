@@ -3618,12 +3618,15 @@ import { el } from "./core/elements.js";
             const tablet = getSpaceValueForDevice("tablet", key);
             const mobile = getSpaceValueForDevice("mobile", key);
             const detail = `${desktop}/${tablet}/${mobile}`;
-            return { key, current, detail };
+            const token = state.spaces[key];
+            const minMax = token && token.type !== "fixed" ? `(${token.min}px - ${token.max}px)` : "";
+            return { key, current, detail, minMax };
           });
         const maxValue = Math.max(...entries.map((entry) => entry.current), 1);
         scale.innerHTML = entries
           .map((entry) => {
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
+            const valueDisplay = entry.minMax ? `${entry.current}px ${entry.minMax}` : `${entry.current}px`;
             return `
               <div class="space-row">
                 <div class="space-label-group">
@@ -3637,7 +3640,7 @@ import { el } from "./core/elements.js";
                 </div>
                 <div class="space-value-group">
                   <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
-                  <span class="space-edit">${entry.current}px</span>
+                  <span class="space-edit">${valueDisplay}</span>
                 </div>
               </div>
             `;
@@ -3663,12 +3666,15 @@ import { el } from "./core/elements.js";
             const tablet = getPaddingValueForDevice("tablet", key);
             const mobile = getPaddingValueForDevice("mobile", key);
             const detail = `${desktop}/${tablet}/${mobile}`;
-            return { key, current, detail };
+            const token = state.paddingSpaces[key];
+            const minMax = token && token.type !== "fixed" ? `(${token.min}px - ${token.max}px)` : "";
+            return { key, current, detail, minMax };
           });
         const maxValue = Math.max(...entries.map((entry) => entry.current), 1);
         scale.innerHTML = entries
           .map((entry) => {
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
+            const valueDisplay = entry.minMax ? `${entry.current}px ${entry.minMax}` : `${entry.current}px`;
             return `
               <div class="space-row">
                 <div class="space-label-group">
@@ -3682,7 +3688,7 @@ import { el } from "./core/elements.js";
                 </div>
                 <div class="space-value-group">
                   <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
-                  <span class="space-edit">${entry.current}px</span>
+                  <span class="space-edit">${valueDisplay}</span>
                 </div>
               </div>
             `;
