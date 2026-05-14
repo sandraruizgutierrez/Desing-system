@@ -66,7 +66,7 @@
           <p id="deviceMeta" hidden></p>
           <div id="tokenBadge" hidden></div>
 
-          <section class="mini-grid preview-surface overflow-x-auto rounded-2xl border border-slate-200/40 p-0">
+          <section class="mini-grid preview-surface overflow-x-auto rounded-2xl border border-pink-100/40 p-0">
             <div id="canvasFrame" class="canvas-frame w-full overflow-hidden rounded-2xl border border-slate-700">
               <div id="previewCanvas" class="space-y-4 p-0"></div>
             </div>
@@ -91,12 +91,12 @@
 
           <div class="mt-4 space-y-3">
             <div id="editorRowColor" class="hidden items-center gap-3">
-              <input id="editorColor" type="color" class="h-11 w-14 cursor-pointer rounded-xl border border-slate-200 bg-white p-1" />
+              <input id="editorColor" type="color" class="h-11 w-14 cursor-pointer rounded-xl border border-pink-100 bg-white p-1" />
               <div class="min-w-0 flex-1">
                 <label for="editorInput" class="block text-xs font-medium text-slate-500">Hex</label>
                 <input
                   id="editorInput"
-                  class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                  class="mt-1 w-full rounded-2xl border border-pink-100 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                   autocomplete="off"
                   spellcheck="false"
                   inputmode="text"
@@ -107,7 +107,7 @@
             <div id="editorRowText" class="hidden">
               <input
                 id="editorInputText"
-                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                class="w-full rounded-2xl border border-pink-100 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                 autocomplete="off"
                 spellcheck="false"
                 inputmode="text"
@@ -118,7 +118,7 @@
               <label for="editorTextarea" class="block text-xs font-medium text-slate-500">CSS del kit</label>
               <textarea
                 id="editorTextarea"
-                class="mt-1 h-80 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-[12px] font-medium leading-6 text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                class="mt-1 h-80 w-full rounded-2xl border border-pink-100 bg-white px-4 py-3 font-mono text-[12px] font-medium leading-6 text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                 spellcheck="false"
               ></textarea>
             </div>
@@ -155,23 +155,23 @@
             <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <label class="block text-xs font-medium text-slate-500">Familia tipográfica</label>
-                <input id="typeFamily" class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" />
+                <input id="typeFamily" class="mt-1 w-full rounded-2xl border border-pink-100 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" />
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-500">Grupo</label>
-                <input id="typeGroup" class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" disabled />
+                <input id="typeGroup" class="mt-1 w-full rounded-2xl border border-pink-100 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" disabled />
               </div>
             </div>
 
-          <div class="overflow-auto rounded-2xl border border-slate-200 bg-white">
+          <div class="overflow-auto rounded-2xl border border-pink-100 bg-white">
               <table class="w-full min-w-[780px] border-separate border-spacing-0">
-                <thead class="sticky top-0 bg-slate-50">
+                <thead class="sticky top-0 bg-pink-50">
                   <tr class="text-left text-xs font-semibold text-slate-600">
-                    <th class="border-b border-slate-200 px-4 py-3">Alias</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Size (px)</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Weight</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Line-height</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Letter-space (em)</th>
+                    <th class="border-b border-pink-100 px-4 py-3">Alias</th>
+                    <th class="border-b border-pink-100 px-4 py-3">Size (px)</th>
+                    <th class="border-b border-pink-100 px-4 py-3">Weight</th>
+                    <th class="border-b border-pink-100 px-4 py-3">Line-height</th>
+                    <th class="border-b border-pink-100 px-4 py-3">Letter-space (em)</th>
                   </tr>
                 </thead>
                 <tbody id="typeRows"></tbody>
@@ -203,7 +203,7 @@
           </div>
 
           <div class="mt-3 max-h-[calc(100vh-11rem)] space-y-3 overflow-y-auto pr-1">
-            <div class="sticky top-0 z-20 rounded-3xl border border-slate-200 bg-slate-50 p-3 shadow-sm">
+            <div class="sticky top-0 z-20 rounded-3xl border border-pink-100 bg-pink-50 p-3 shadow-sm">
               <div class="flex items-center justify-between gap-2">
                 <div>
                   <p class="text-xs font-semibold tracking-[0.18em] text-slate-500">Vista previa</p>
