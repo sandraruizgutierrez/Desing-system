@@ -438,7 +438,7 @@ details[open] .mft-collapsible-chevron {
 }
 
 .space-var-name {
-  font-family: "Courier New", monospace;
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: #333333;
@@ -493,7 +493,7 @@ details[open] .mft-collapsible-chevron {
 }
 
 .space-detail {
-  font-family: "Courier New", monospace;
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: #475569;
@@ -511,7 +511,7 @@ details[open] .mft-collapsible-chevron {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  font-family: "Courier New", monospace;
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
 }
 
 .space-edit:hover {
