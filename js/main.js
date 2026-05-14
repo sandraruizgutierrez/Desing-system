@@ -4058,7 +4058,7 @@ import { el } from "./core/elements.js";
                                     return `
                                       <div class="flex items-baseline gap-1" style="padding: 5px 12px; background: #F8EAEB; border: 1px solid #F7DFE1; border-radius: 6px;">
                                         <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[13px] font-semibold text-slate-500 hover:text-slate-900 leading-none" style="line-height: 1;" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
-                                        <span class="font-mono text-[13px] font-semibold text-slate-700 cursor-pointer leading-none" style="line-height: 1;" ${variableName ? `data-type-copy-value="${variableName}"` : ""} title="${variableName ? `Copiar ${variableName}` : ''}">${value}</span>
+                                        <span class="font-mono text-[12px] font-semibold text-slate-700 cursor-pointer leading-none" style="line-height: 1;" ${variableName ? `data-type-copy-value="${variableName}"` : ""} title="${variableName ? `Copiar ${variableName}` : ''}">${value}</span>
                                       </div>
                                     `;
                                   })
