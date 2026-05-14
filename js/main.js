@@ -4009,11 +4009,8 @@ import { el } from "./core/elements.js";
                               <span class="leading-none" style="${css}">
                                 ${text}
                               </span>
-                              <button type="button" data-type-copy-allvars="${key}" class="shrink-0 text-slate-400 hover:text-slate-600" title="Copiar todas las variables" aria-label="Copiar variables">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                </svg>
+                              <button type="button" data-type-copy-allvars="${key}" class="shrink-0 h-4 w-4 text-slate-400 hover:text-slate-600" title="Copiar todas las variables" aria-label="Copiar variables">
+                                ${copyIconSvg()}
                               </button>
                             </div>
                             <div class="shrink-0">
