@@ -2666,9 +2666,6 @@ import { el } from "./core/elements.js";
                   <td class="border-b border-pink-100 px-4 py-2.5">
                     <input data-type-field="line" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${formatLineHeightPct(s.line) || s.line}" />
                   </td>
-                  <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="space" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.space}" />
-                  </td>
                 </tr>
               `;
             })
@@ -2703,17 +2700,15 @@ import { el } from "./core/elements.js";
             const sizeMax = parseNumber(get("sizeMax")?.value);
             const weight = parseNumber(get("weight")?.value);
             const line = normalizeLineHeight(get("line")?.value, null);
-            const space = parseNumber(get("space")?.value);
 
             if (!labelValue) return setError(`Label inválido en ${k}.`);
             if (sizeMin === null || sizeMin <= 0) return setError(`Size Min inválido en ${k}.`);
             if (sizeMax === null || sizeMax <= 0) return setError(`Size Max inválido en ${k}.`);
             if (weight === null || weight <= 0) return setError(`Weight inválido en ${k}.`);
             if (line === null || line <= 0) return setError(`Line-height inválido en ${k}.`);
-            if (space === null) return setError(`Letter-spacing inválido en ${k}.`);
 
             next.labels[k] = labelValue;
-            next.styles[k] = { ...row, size: Math.round(sizeMin), weight: Math.round(weight), line: Number(line.toFixed(3)), space: Number(space.toFixed(4)) };
+            next.styles[k] = { ...row, size: Math.round(sizeMin), weight: Math.round(weight), line: Number(line.toFixed(3)), space: 0 };
           }
 
           const familyValue = normalizeFontFamily(next.families[ctx.groupKey]);
@@ -4034,7 +4029,6 @@ import { el } from "./core/elements.js";
                         ["Sz", sizeDisplay, vars?.size, `${key}:size`],
                         ["Wt", `${s.weight}`, vars?.weight, `${key}:weight`],
                         ["Ln", `${linePct || s.line}`, vars?.line, `${key}:line`],
-                        ["Sp", `${s.space}em`, vars?.space, `${key}:space`],
                       ];
                       return `
                         <div class="rounded-xl border border-pink-100 bg-white p-2.5">
