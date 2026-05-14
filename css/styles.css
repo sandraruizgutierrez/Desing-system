@@ -418,11 +418,11 @@ details[open] .mft-collapsible-chevron {
 
 .space-row {
   display: grid;
-  grid-template-columns: 50px 1fr auto;
+  grid-template-columns: 40px 1fr auto;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   min-width: 0;
-  padding: 12px 0;
+  padding: 6px 0;
   border-bottom: 1px solid #F7DFE1;
 }
 
@@ -433,16 +433,16 @@ details[open] .mft-collapsible-chevron {
 .space-label-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   min-width: 0;
 }
 
 .space-var-name {
   font-family: "Courier New", monospace;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: #333333;
-  line-height: 1.4;
+  line-height: 1.2;
   display: block;
   min-width: auto;
   white-space: nowrap;
@@ -450,11 +450,11 @@ details[open] .mft-collapsible-chevron {
 
 .space-copy-btn {
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  padding: 3px;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
   border: 1px solid #F7DFE1;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -469,8 +469,8 @@ details[open] .mft-collapsible-chevron {
 }
 
 .space-copy-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   color: #333333;
 }
 
@@ -480,34 +480,34 @@ details[open] .mft-collapsible-chevron {
   overflow: hidden;
   display: flex;
   align-items: center;
-  height: 28px;
-  border-radius: 14px;
+  height: 18px;
+  border-radius: 9px;
   background: #F8EAEB;
 }
 
 .space-value-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .space-detail {
   font-family: "Courier New", monospace;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 500;
   color: #475569;
   white-space: nowrap;
 }
 
 .space-edit {
-  padding: 6px 12px;
-  font-size: 11px;
+  padding: 4px 8px;
+  font-size: 9px;
   font-weight: 500;
   color: #333333;
   background: #F8EAEB;
   border: 1px solid #F7DFE1;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -567,21 +567,21 @@ details[open] .mft-collapsible-chevron {
 
 #previewCanvas .preview-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
   align-items: start;
 }
 
 #previewCanvas .preview-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 #previewCanvas .swatch-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
   width: 100%;
 }
 
@@ -589,35 +589,35 @@ details[open] .mft-collapsible-chevron {
 .swatch-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 12px;
+  gap: 6px;
+  padding: 8px;
   background: #FFFFFF;
   border: 1px solid #F7DFE1;
-  border-radius: 16px;
+  border-radius: 12px;
   transition: all 0.2s ease;
 }
 
 .swatch-card:hover {
   border-color: #C71827;
-  box-shadow: 0 4px 12px rgba(199, 24, 39, 0.1);
+  box-shadow: 0 2px 8px rgba(199, 24, 39, 0.1);
 }
 
 .swatch-preview {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 60px;
+  gap: 6px;
+  min-height: 40px;
 }
 
 .swatch-button {
   flex: 1;
-  min-height: 50px;
-  padding: 8px 12px;
+  min-height: 38px;
+  padding: 6px 10px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   text-align: center;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 9px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -629,9 +629,9 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-label {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 8px;
   font-weight: 600;
   word-break: break-word;
   max-width: 100%;
@@ -640,11 +640,11 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-copy-btn {
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  padding: 4px;
+  width: 22px;
+  height: 22px;
+  padding: 3px;
   border: 1px solid #F7DFE1;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -659,27 +659,26 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-copy-btn svg {
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   color: #333333;
 }
 
 .swatch-info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 6px;
+  flex-direction: column;
+  gap: 4px;
   min-width: 0;
 }
 
 .swatch-var {
   display: block;
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 600;
   color: #333333;
   word-break: break-word;
   white-space: normal;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .swatch-hex {
@@ -688,13 +687,13 @@ details[open] .mft-collapsible-chevron {
   border: none;
   background: none;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 600;
   color: #475569;
   text-align: left;
   cursor: pointer;
   transition: color 0.2s ease;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
 }
 
 .swatch-hex:hover {
@@ -727,7 +726,7 @@ details[open] .mft-collapsible-chevron {
 #previewCanvas {
   overflow-wrap: anywhere;
   word-break: break-word;
-  padding: 20px;
+  padding: 16px;
 }
 
 #previewCanvas * {
