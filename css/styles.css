@@ -618,12 +618,9 @@ details[open] .mft-collapsible-chevron {
   text-align: center;
   font-weight: 500;
   font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.swatch-button:hover {
-  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .swatch-label {
