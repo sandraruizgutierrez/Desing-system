@@ -3626,18 +3626,18 @@ import { el } from "./core/elements.js";
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
             return `
               <div class="space-row">
-                <div class="flex min-w-0 items-center gap-2">
-                  <span class="min-w-0 truncate text-left font-mono text-[14px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
-                  <button type="button" data-space-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-space-${entry.key})">
+                <div class="space-label-group">
+                  <span class="space-var-name" title="--mft-space-${entry.key}">--mft-space-${entry.key}</span>
+                  <button type="button" data-space-copy="${entry.key}" class="space-copy-btn" aria-label="Copiar variable" title="Copiar var(--mft-space-${entry.key})">
                     ${copyIconSvg()}
                   </button>
-                  <span class="shrink-0 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[9px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
-                <div class="space-track rounded-full bg-slate-100">
-                  <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
+                <div class="space-track">
+                  <div class="space-chip space-fill" style="width:${width}%;"></div>
                 </div>
-                <div class="flex items-center justify-end">
-                  <button type="button" data-space-edit="${entry.key}" class="space-edit min-w-[60px] whitespace-nowrap rounded-full bg-slate-100 px-2.5 py-1.5 text-right text-sm font-semibold text-slate-700 hover:bg-slate-200">${entry.current}px</button>
+                <div class="space-value-group">
+                  <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
+                  <button type="button" data-space-edit="${entry.key}" class="space-edit">${entry.current}px</button>
                 </div>
               </div>
             `;
@@ -3671,18 +3671,18 @@ import { el } from "./core/elements.js";
             const width = Math.max(10, Math.min(100, (entry.current / maxValue) * 100));
             return `
               <div class="space-row">
-                <div class="flex min-w-0 items-center gap-2">
-                  <span class="min-w-0 truncate text-left font-mono text-[14px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
-                  <button type="button" data-padding-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-padding-${entry.key})">
+                <div class="space-label-group">
+                  <span class="space-var-name" title="--mft-padding-${entry.key}">--mft-padding-${entry.key}</span>
+                  <button type="button" data-padding-copy="${entry.key}" class="space-copy-btn" aria-label="Copiar variable" title="Copiar var(--mft-padding-${entry.key})">
                     ${copyIconSvg()}
                   </button>
-                  <span class="shrink-0 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[9px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${entry.detail}</span>
                 </div>
-                <div class="space-track rounded-full bg-slate-100">
-                  <div class="space-chip space-fill" style="width:${width}%; background:${state.palette.accent};"></div>
+                <div class="space-track">
+                  <div class="space-chip space-fill" style="width:${width}%;"></div>
                 </div>
-                <div class="flex items-center justify-end">
-                  <button type="button" data-padding-edit="${entry.key}" class="space-edit min-w-[60px] whitespace-nowrap rounded-full bg-slate-100 px-2.5 py-1.5 text-right text-sm font-semibold text-slate-700 hover:bg-slate-200">${entry.current}px</button>
+                <div class="space-value-group">
+                  <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
+                  <button type="button" data-padding-edit="${entry.key}" class="space-edit">${entry.current}px</button>
                 </div>
               </div>
             `;

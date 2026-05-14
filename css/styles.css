@@ -411,15 +411,18 @@ details[open] .mft-collapsible-chevron {
 
 .space-chip {
   transition: width 0.35s ease, background-color 0.35s ease;
+  display: block;
+  height: 100%;
+  border-radius: 12px;
 }
 
 .space-row {
   display: grid;
-  grid-template-columns: 120px 1fr 70px;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   min-width: 0;
-  padding: 8px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #F7DFE1;
 }
 
@@ -427,35 +430,48 @@ details[open] .mft-collapsible-chevron {
   border-bottom: none;
 }
 
-.space-copy {
-  white-space: nowrap;
+.space-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   min-width: 0;
+}
+
+.space-var-name {
+  font-family: "Courier New", monospace;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   color: #333333;
-  word-break: break-word;
+  word-break: break-all;
+  line-height: 1.4;
+  display: block;
+  min-width: 0;
 }
 
-.space-edit {
-  min-width: 56px;
-  text-align: right;
-}
-
-.space-edit button {
-  padding: 4px 8px;
-  font-size: 10px;
-  color: #475569;
-  background: #F8EAEB;
+.space-copy-btn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 3px;
   border: 1px solid #F7DFE1;
   border-radius: 8px;
+  background: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.space-edit button:hover {
-  color: #C71827;
+.space-copy-btn:hover {
   border-color: #C71827;
-  background: #FFFFFF;
+  background: #F8EAEB;
+}
+
+.space-copy-btn svg {
+  width: 12px;
+  height: 12px;
+  color: #333333;
 }
 
 .space-track {
@@ -464,9 +480,44 @@ details[open] .mft-collapsible-chevron {
   overflow: hidden;
   display: flex;
   align-items: center;
-  height: 24px;
-  border-radius: 12px;
+  height: 28px;
+  border-radius: 14px;
   background: #F8EAEB;
+}
+
+.space-value-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.space-detail {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.space-edit {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #333333;
+  background: #F8EAEB;
+  border: 1px solid #F7DFE1;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: "Courier New", monospace;
+}
+
+.space-edit:hover {
+  color: #C71827;
+  border-color: #C71827;
+  background: #FFFFFF;
 }
 
 .space-fill {
