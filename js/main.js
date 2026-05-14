@@ -3586,18 +3586,18 @@ import { el } from "./core/elements.js";
                 const editAttr = card.kind === "palette" ? `data-color-edit-key="${card.key}"` : `data-color-edit-extra="${card.index}"`;
                 const labelAttr = card.kind === "palette" ? `data-color-label-key="${card.key}"` : `data-color-label-extra="${card.index}"`;
                 return `
-                  <div class="rounded-[18px] border border-slate-200/80 bg-white p-3">
-                    <div class="mb-3 flex items-center gap-3">
-                      <button type="button" ${editAttr} class="flex h-12 w-full items-center rounded-[14px] p-2.5 text-left" style="background:${value}; color:${textColor}">
-                        <span ${labelAttr} class="rounded-full px-2 py-0.5 text-[9px] font-semibold backdrop-blur" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
+                  <div class="swatch-card">
+                    <div class="swatch-preview">
+                      <button type="button" ${editAttr} class="swatch-button" style="background:${value}; color:${textColor}">
+                        <span ${labelAttr} class="swatch-label" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
                       </button>
-                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="mft-icon-btn" aria-label="Copiar variable" title="Copiar variable">
+                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="swatch-copy-btn" aria-label="Copiar variable" title="Copiar variable">
                         ${copyIconSvg()}
                       </button>
                     </div>
-                    <div class="flex min-w-0 items-center justify-between gap-4">
-                      <span class="min-w-0 flex-1 truncate text-left text-[11px] font-semibold text-slate-800">${varLower}</span>
-                      <button type="button" data-color-hex="${value}" class="shrink-0 font-mono text-[10px] font-semibold tracking-[0.10em] text-slate-500 hover:text-slate-900">${value}</button>
+                    <div class="swatch-info">
+                      <span class="swatch-var">${varLower}</span>
+                      <button type="button" data-color-hex="${value}" class="swatch-hex">${value}</button>
                     </div>
                   </div>
                 `;
