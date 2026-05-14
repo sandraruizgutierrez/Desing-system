@@ -1114,13 +1114,29 @@ import { el } from "./core/elements.js";
         return match ? match[1] : normalized;
       }
 
-      function extractSpaceValueFromClass(cssText, selector, property) {
-        const blockContent = findCssBlockBySelector(cssText, selector);
-        if (!blockContent) return null;
-        const match = blockContent.match(new RegExp(`${property}\\s*:\\s*var\\(--([^)]+)\\)`));
-        if (match) {
-          const varName = match[1].replace(/^mft-space-/, "");
-          return varName;
+      function extractSpaceValueFromClass(selector, property) {
+        try {
+          for (const sheet of document.styleSheets) {
+            try {
+              const rules = sheet.cssRules || sheet.rules;
+              for (const rule of rules) {
+                if (rule.selectorText && rule.selectorText.includes(selector)) {
+                  const style = rule.style[property];
+                  if (style) {
+                    const match = style.match(/var\(--([^)]+)\)/);
+                    if (match) {
+                      const varName = match[1].replace(/^mft-space-/, "");
+                      return varName;
+                    }
+                  }
+                }
+              }
+            } catch (e) {
+              // Skip stylesheets that can't be accessed (CORS, etc)
+            }
+          }
+        } catch (e) {
+          // Ignore errors
         }
         return null;
       }
@@ -1134,8 +1150,8 @@ import { el } from "./core/elements.js";
         const mobileVars = parseCssVarMap(mobileChunk);
         const read = (varMap, name, fallback, device = "desktop") => normalizeSpaceFieldValue(varMap[`--${name}`] || fallback, device);
 
-        const containerTop = extractSpaceValueFromClass(cssText, ".mft-space-section-t", "padding-top") || "4xl";
-        const containerBottom = extractSpaceValueFromClass(cssText, ".mft-space-section-b", "padding-bottom") || "4xl";
+        const containerTop = extractSpaceValueFromClass(".mft-space-section-t", "paddingTop") || "4xl";
+        const containerBottom = extractSpaceValueFromClass(".mft-space-section-b", "paddingBottom") || "4xl";
 
         const base = {
           paddingTop: read(rootVars, "container-default-padding-top", "0", "desktop"),
