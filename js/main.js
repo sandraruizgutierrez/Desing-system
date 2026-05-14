@@ -4057,8 +4057,8 @@ import { el } from "./core/elements.js";
                                     const isEditable = String(field || "").includes(":");
                                     return `
                                       <div class="flex items-center gap-1 rounded-full bg-pink-50 px-1.5 py-0.5">
-                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[10px] font-semibold text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
-                                        <span class="font-mono text-[10px] font-semibold text-slate-700">${value}</span>
+                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[13px] font-semibold text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
+                                        <span class="font-mono text-[13px] font-semibold text-slate-700">${value}</span>
                                       </div>
                                     `;
                                   })
@@ -4066,7 +4066,7 @@ import { el } from "./core/elements.js";
                               </div>
                             </div>
                           </div>
-                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[9px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
+                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[13px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
                         </div>
                       `;
                     })
