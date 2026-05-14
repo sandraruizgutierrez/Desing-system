@@ -2627,7 +2627,7 @@ import { el } from "./core/elements.js";
                 ? "Body / Links"
                 : ctx.groupKey === "ui"
                   ? "UI"
-                  : "Body Text";
+                  : "Body";
 
           title.textContent = `${groupLabel} | ${deviceLabel}`;
           desc.textContent = "Ajusta la familia y la escala visual. Los nombres visibles se editan en la tabla.";
@@ -4040,7 +4040,7 @@ import { el } from "./core/elements.js";
             <div class="space-y-3">
               ${groupCard("heading", "Heading", heading)}
               ${groupCard("links", "Body / Links", links)}
-              ${groupCard("body", "Body Text", body)}
+              ${groupCard("body", "Body", body)}
             </div>
           `;
         };
