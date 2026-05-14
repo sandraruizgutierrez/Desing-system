@@ -4043,7 +4043,7 @@ import { el } from "./core/elements.js";
                         <div class="rounded-xl border border-pink-100 bg-white p-2.5">
                           <div class="flex items-center justify-between gap-3">
                             <div class="min-w-0 flex items-center gap-2">
-                              <span class="leading-none" style="${css}">
+                              <span class="leading-none text-[13px] font-medium" style="font-family:${t.families[groupKey] || 'Inter, system-ui, sans-serif'}; color:${state.palette.text};">
                                 ${text}
                               </span>
                               <button type="button" data-type-copy-allvars="${key}" class="space-copy-btn" title="Copiar todas las variables" aria-label="Copiar variables">
