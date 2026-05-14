@@ -494,7 +494,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-detail {
   font-family: "Courier New", monospace;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #475569;
   white-space: nowrap;
@@ -502,7 +502,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-edit {
   padding: 5px 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #333333;
   background: #F8EAEB;
@@ -583,7 +583,7 @@ details[open] .mft-collapsible-chevron {
 
 #previewCanvas .swatch-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   width: 100%;
 }
@@ -669,7 +669,8 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 3px;
   min-width: 0;
 }
@@ -691,7 +692,7 @@ details[open] .mft-collapsible-chevron {
   border: none;
   background: none;
   font-family: monospace;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #475569;
   text-align: left;
