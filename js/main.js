@@ -2406,11 +2406,74 @@ import { el } from "./core/elements.js";
         state.btn.customButtons = Array.from(new Set(state.btn.customButtons)).sort((a, b) => getButtonIndex(a) - getButtonIndex(b));
       }
 
+      function importTypographyFromElementorCss(cssText) {
+        const vars = parseCssVarMap(cssText);
+        const typographyByDevice = { desktop: { families: {}, styles: {}, labels: {} }, tablet: { families: {}, styles: {}, labels: {} }, mobile: { families: {}, styles: {}, labels: {} } };
+
+        const typographyVars = Object.entries(vars).filter(([key]) => key.startsWith("--e-global-typography-"));
+
+        typographyVars.forEach(([key, value]) => {
+          const match = key.match(/^--e-global-typography-([a-z0-9]+)-([a-z-]+)$/i);
+          if (!match) return;
+          const [, typographyId, property] = match;
+
+          typographyId.split("").forEach((_, i) => {
+            const deviceTypographyId = typographyId.substring(0, i + 1);
+            if (!typographyByDevice.desktop.styles[deviceTypographyId]) {
+              typographyByDevice.desktop.styles[deviceTypographyId] = { size: 16, weight: 400, line: 1.5, space: 0 };
+              typographyByDevice.tablet.styles[deviceTypographyId] = { size: 16, weight: 400, line: 1.5, space: 0 };
+              typographyByDevice.mobile.styles[deviceTypographyId] = { size: 16, weight: 400, line: 1.5, space: 0 };
+              typographyByDevice.desktop.labels[deviceTypographyId] = typographyId;
+            }
+          });
+
+          const styleParts = typographyId.match(/^([a-z]+)/i)?.[1] || typographyId;
+          if (property === "font-family") {
+            typographyByDevice.desktop.families[styleParts] = normalizeFontFamily(value);
+            typographyByDevice.tablet.families[styleParts] = normalizeFontFamily(value);
+            typographyByDevice.mobile.families[styleParts] = normalizeFontFamily(value);
+          } else if (property === "font-size") {
+            const parsedSize = extractClampValues(value);
+            typographyByDevice.desktop.styles[typographyId].size = parsedSize.max || 16;
+            typographyByDevice.tablet.styles[typographyId].size = parsedSize.mid || parsedSize.max || 16;
+            typographyByDevice.mobile.styles[typographyId].size = parsedSize.min || 16;
+          } else if (property === "font-weight") {
+            const weight = Number(value) || 400;
+            typographyByDevice.desktop.styles[typographyId].weight = weight;
+            typographyByDevice.tablet.styles[typographyId].weight = weight;
+            typographyByDevice.mobile.styles[typographyId].weight = weight;
+          } else if (property === "line-height") {
+            const line = normalizeLineHeight(value, 1.5);
+            typographyByDevice.desktop.styles[typographyId].line = line;
+            typographyByDevice.tablet.styles[typographyId].line = line;
+            typographyByDevice.mobile.styles[typographyId].line = line;
+          }
+        });
+
+        if (Object.keys(typographyByDevice.desktop.styles).length > 0) {
+          state.typographyByDevice = typographyByDevice;
+        }
+      }
+
+      function extractClampValues(clampStr) {
+        const str = String(clampStr).trim();
+        const clampMatch = str.match(/clamp\s*\(\s*([\d.]+)px\s*,\s*[^,]+,\s*([\d.]+)px\s*\)/i);
+        if (clampMatch) {
+          const min = Number(clampMatch[1]);
+          const max = Number(clampMatch[2]);
+          return { min, max, mid: (min + max) / 2 };
+        }
+        const pxMatch = str.match(/([\d.]+)px/);
+        const val = pxMatch ? Number(pxMatch[1]) : 16;
+        return { min: val, max: val, mid: val };
+      }
+
       function applyStylesheetCssText(cssText) {
         importSpaceScaleFromCss(cssText);
         importPaddingScaleFromCss(cssText);
         importSectionUseFromCss(cssText);
         importButtonStylesFromCss(cssText);
+        importTypographyFromElementorCss(cssText);
         applyThemeVariables();
         renderAll();
         saveToLocalStorage();
