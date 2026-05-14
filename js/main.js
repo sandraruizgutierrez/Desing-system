@@ -2655,16 +2655,16 @@ import { el } from "./core/elements.js";
                     <input data-type-field="label" data-type-key="${k}" class="w-full rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${getTypographyStyleLabel(ctx.device, k).replace(/"/g, "&quot;")}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="sizeMin" data-type-key="${k}" class="w-20 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.min || ''}" />
+                    <input data-type-field="sizeMin" data-type-key="${k}" class="w-20 text-center rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.min || ''}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="sizeMax" data-type-key="${k}" class="w-20 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.max || ''}" />
+                    <input data-type-field="sizeMax" data-type-key="${k}" class="w-20 text-center rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${clampValues.max || ''}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="weight" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.weight}" />
+                    <input data-type-field="weight" data-type-key="${k}" class="w-28 text-center rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.weight}" />
                   </td>
                   <td class="border-b border-pink-100 px-4 py-2.5">
-                    <input data-type-field="line" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${formatLineHeightPct(s.line) || s.line}" />
+                    <input data-type-field="line" data-type-key="${k}" class="w-28 text-center rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${formatLineHeightPct(s.line) || s.line}" />
                   </td>
                 </tr>
               `;
