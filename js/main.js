@@ -4028,8 +4028,10 @@ import { el } from "./core/elements.js";
                       const vars = getTypographyVarNames(key);
                       const linePct = formatLineHeightPct(s.line);
                       const text = getTypographyStyleLabel(device, key);
+                      const clampValues = getTypographyClampValues(key);
+                      const sizeDisplay = clampValues.min && clampValues.max ? `${clampValues.max}px | ${clampValues.min}px` : `${s.size}px`;
                       const metricStrip = [
-                        ["Sz", `${s.size}px`, vars?.size, `${key}:size`],
+                        ["Sz", sizeDisplay, vars?.size, `${key}:size`],
                         ["Wt", `${s.weight}`, vars?.weight, `${key}:weight`],
                         ["Ln", `${linePct || s.line}`, vars?.line, `${key}:line`],
                         ["Sp", `${s.space}em`, vars?.space, `${key}:space`],
