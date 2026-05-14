@@ -1849,12 +1849,6 @@ import { el } from "./core/elements.js";
                           <span id="imageRadiusRead"></span>
                         </button>
                       </div>
-                      <div class="mt-2 flex items-center justify-between gap-3">
-                        <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Altura</p>
-                        <button id="imageBoxBtn" type="button" class="rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">
-                          <span id="imageBoxRead"></span>
-                        </button>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -3787,8 +3781,6 @@ import { el } from "./core/elements.js";
         imagePreview.style.width = "100%";
         const radiusRead = document.getElementById("imageRadiusRead");
         if (radiusRead) radiusRead.textContent = formatImageRadiusDisplay(state.device, img.radius);
-        const boxRead = document.getElementById("imageBoxRead");
-        if (boxRead) boxRead.textContent = normalizePx(img.box, "500px");
       }
 
       function renderButtonTokens() {
@@ -4232,25 +4224,6 @@ import { el } from "./core/elements.js";
         }
 
         document.getElementById("imageRadiusBtn").addEventListener("click", editImageRadius);
-
-        document.getElementById("imageBoxBtn").addEventListener("click", async () => {
-          const current = normalizePx(getImageForDevice(state.device).box, "500px");
-          const next = await openEditor({
-            kicker: "Imagen",
-            title: "Altura de imagen",
-            description: "Solo referencia. Se guarda en px.",
-            kind: "text",
-            value: current,
-            validate: (raw) => {
-              const v = normalizePx(raw, "");
-              if (!v) return { ok: false, message: 'Usa un número o "500px".' };
-              return { ok: true, value: v };
-            },
-          });
-          if (!next) return;
-          setImageForDevice(state.device, "box", next);
-          renderAll();
-        });
 
         document.getElementById("spaceModeLabel").addEventListener("click", async () => {
           const fromRaw = await openEditor({
