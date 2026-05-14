@@ -798,31 +798,25 @@ h3 {
   flex-shrink: 0;
 }
 
-/* Paleta de color → rojo secundario */
+/* Todos los kickers con rojo consistente */
 .kicker-color { color: #C71827; }
 .kicker-color .section-kicker-dot { background-color: #C71827; }
 
-/* Escala de espacios → rosa */
-.kicker-space { color: #F7DFE1; }
-.kicker-space .section-kicker-dot { background-color: #F7DFE1; }
+.kicker-space { color: #C71827; }
+.kicker-space .section-kicker-dot { background-color: #C71827; }
 
-/* Escala de paddings → acento */
-.kicker-padding { color: #F8EAEB; }
-.kicker-padding .section-kicker-dot { background-color: #F8EAEB; }
+.kicker-padding { color: #C71827; }
+.kicker-padding .section-kicker-dot { background-color: #C71827; }
 
-/* Tipografía → gris */
-.kicker-type { color: #475569; }
-.kicker-type .section-kicker-dot { background-color: #475569; }
+.kicker-type { color: #C71827; }
+.kicker-type .section-kicker-dot { background-color: #C71827; }
 
-/* Imagen de referencia → rojo */
 .kicker-image { color: #C71827; }
 .kicker-image .section-kicker-dot { background-color: #C71827; }
 
-/* Espaciado en contexto → gris */
-.kicker-context { color: #475569; }
-.kicker-context .section-kicker-dot { background-color: #475569; }
+.kicker-context { color: #C71827; }
+.kicker-context .section-kicker-dot { background-color: #C71827; }
 
-/* Botones → secundario */
 .kicker-buttons { color: #C71827; }
 .kicker-buttons .section-kicker-dot { background-color: #C71827; }
 

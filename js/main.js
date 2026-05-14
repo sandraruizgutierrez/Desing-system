@@ -1763,7 +1763,7 @@ import { el } from "./core/elements.js";
                   <div class="min-w-0 flex-1">
                     <p class="section-kicker kicker-space"><span class="section-kicker-dot"></span>Ritmo espacial</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
-                      <h3 class="text-xl font-semibold tracking-tight text-slate-950">Escala de espacios</h3>
+                      <h3 class="text-lg font-semibold text-slate-950">Escala de espacios</h3>
                       <div class="flex items-center gap-2">
                         <span id="spaceModeLabel" class="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"></span>
                       </div>
@@ -1785,7 +1785,7 @@ import { el } from "./core/elements.js";
                   <div class="min-w-0 flex-1">
                     <p class="section-kicker kicker-padding"><span class="section-kicker-dot"></span>Escala auxiliar</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
-                      <h3 class="text-xl font-semibold tracking-tight text-slate-950">Escala de paddings</h3>
+                      <h3 class="text-lg font-semibold text-slate-950">Escala de paddings</h3>
                       <div class="flex items-center gap-2">
                         <button type="button" data-padding-import class="rounded-full bg-slate-950 px-3 py-1 text-sm font-semibold text-white hover:bg-slate-800">Pegar lista</button>
                         <span id="paddingModeLabel" class="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"></span>
@@ -1868,7 +1868,7 @@ import { el } from "./core/elements.js";
                   <div class="min-w-0 flex-1">
                     <p class="section-kicker kicker-context"><span class="section-kicker-dot"></span>Aplicación real</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
-                      <h3 class="text-xl font-semibold tracking-tight text-slate-950">Espaciado en contexto</h3>
+                      <h3 class="text-lg font-semibold text-slate-950">Espaciado en contexto</h3>
                       <span id="sectionUseMeta" class="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"></span>
                     </div>
                   </div>
