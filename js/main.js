@@ -1116,27 +1116,49 @@ import { el } from "./core/elements.js";
 
       function extractSpaceValueFromClass(selector, property) {
         try {
-          for (const sheet of document.styleSheets) {
-            try {
-              const rules = sheet.cssRules || sheet.rules;
-              for (const rule of rules) {
-                if (rule.selectorText && rule.selectorText.includes(selector)) {
-                  const style = rule.style[property];
-                  if (style) {
-                    const match = style.match(/var\(--([^)]+)\)/);
-                    if (match) {
-                      const varName = match[1].replace(/^mft-space-/, "");
-                      return varName;
-                    }
-                  }
-                }
-              }
-            } catch (e) {
-              // Skip stylesheets that can't be accessed (CORS, etc)
+          // Create a temporary element and apply the selector style
+          const temp = document.createElement("div");
+          temp.className = selector.replace(/^\./, "");
+          document.body.appendChild(temp);
+
+          const computed = window.getComputedStyle(temp);
+          const value = computed[property];
+
+          document.body.removeChild(temp);
+
+          if (value) {
+            // Extract variable name from computed padding value
+            // The computed value might be the actual pixel value, so we need to match it to our spacing scale
+            const match = value.match(/var\(--([^)]+)\)/);
+            if (match) {
+              const varName = match[1].replace(/^mft-space-/, "");
+              return varName;
+            }
+
+            // If it's a direct pixel value, try to match it to our spacing scale
+            const pxValue = parseFloat(value);
+            if (!Number.isNaN(pxValue)) {
+              // Map common spacing values to their aliases
+              const spacingMap = {
+                4: "5xs",
+                8: "4xs",
+                12: "3xs",
+                16: "2xs",
+                24: "xs",
+                32: "s",
+                40: "m",
+                48: "l",
+                56: "xl",
+                64: "2xl",
+                80: "3xl",
+                96: "4xl",
+                160: "5xl"
+              };
+              return spacingMap[pxValue] || null;
             }
           }
         } catch (e) {
-          // Ignore errors
+          console.log(`Error extracting space value for ${selector}:`, e);
         }
         return null;
       }
