@@ -4009,7 +4009,7 @@ import { el } from "./core/elements.js";
                               <span class="leading-none" style="${css}">
                                 ${text}
                               </span>
-                              <button type="button" data-type-copy-allvars="${key}" class="shrink-0 h-4 w-4 text-slate-400 hover:text-slate-600" title="Copiar todas las variables" aria-label="Copiar variables">
+                              <button type="button" data-type-copy-allvars="${key}" class="space-copy-btn" title="Copiar todas las variables" aria-label="Copiar variables">
                                 ${copyIconSvg()}
                               </button>
                             </div>
