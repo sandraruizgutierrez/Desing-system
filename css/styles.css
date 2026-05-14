@@ -418,11 +418,11 @@ details[open] .mft-collapsible-chevron {
 
 .space-row {
   display: grid;
-  grid-template-columns: 45px 1fr auto;
+  grid-template-columns: 50px 1fr auto;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #F7DFE1;
 }
 
@@ -439,7 +439,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-var-name {
   font-family: "Courier New", monospace;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #333333;
   line-height: 1.2;
@@ -450,9 +450,9 @@ details[open] .mft-collapsible-chevron {
 
 .space-copy-btn {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
+  width: 22px;
+  height: 22px;
+  padding: 3px;
   border: 1px solid #F7DFE1;
   border-radius: 4px;
   background: #FFFFFF;
@@ -469,8 +469,8 @@ details[open] .mft-collapsible-chevron {
 }
 
 .space-copy-btn svg {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   color: #333333;
 }
 
@@ -480,29 +480,29 @@ details[open] .mft-collapsible-chevron {
   overflow: hidden;
   display: flex;
   align-items: center;
-  height: 20px;
-  border-radius: 10px;
+  height: 22px;
+  border-radius: 11px;
   background: #F8EAEB;
 }
 
 .space-value-group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .space-detail {
   font-family: "Courier New", monospace;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   color: #475569;
   white-space: nowrap;
 }
 
 .space-edit {
-  padding: 4px 10px;
-  font-size: 10px;
+  padding: 5px 12px;
+  font-size: 12px;
   font-weight: 500;
   color: #333333;
   background: #F8EAEB;
@@ -666,8 +666,10 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-info {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -676,9 +678,11 @@ details[open] .mft-collapsible-chevron {
   font-size: 11px;
   font-weight: 600;
   color: #333333;
-  word-break: break-word;
-  white-space: normal;
-  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 
 .swatch-hex {
@@ -687,13 +691,15 @@ details[open] .mft-collapsible-chevron {
   border: none;
   background: none;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #475569;
-  text-align: left;
+  text-align: right;
   cursor: pointer;
   transition: color 0.2s ease;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .swatch-hex:hover {
