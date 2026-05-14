@@ -4005,10 +4005,16 @@ import { el } from "./core/elements.js";
                       return `
                         <div class="rounded-xl border border-pink-100 bg-white p-2.5">
                           <div class="flex items-center justify-between gap-3">
-                            <div class="min-w-0">
-                              <span data-type-copy-allvars="${key}" class="cursor-pointer leading-none" style="${css}" title="Copiar variables (size/weight/line-height)">
+                            <div class="min-w-0 flex items-center gap-2">
+                              <span class="leading-none" style="${css}">
                                 ${text}
                               </span>
+                              <button type="button" data-type-copy-allvars="${key}" class="shrink-0 text-slate-400 hover:text-slate-600" title="Copiar todas las variables" aria-label="Copiar variables">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                              </button>
                             </div>
                             <div class="shrink-0">
                               <div class="flex items-center justify-end gap-1">
