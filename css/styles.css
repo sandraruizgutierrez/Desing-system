@@ -418,7 +418,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-row {
   display: grid;
-  grid-template-columns: 40px 1fr auto;
+  grid-template-columns: 45px 1fr auto;
   align-items: center;
   gap: 10px;
   min-width: 0;
@@ -439,7 +439,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-var-name {
   font-family: "Courier New", monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #333333;
   line-height: 1.2;
@@ -450,8 +450,8 @@ details[open] .mft-collapsible-chevron {
 
 .space-copy-btn {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   padding: 2px;
   border: 1px solid #F7DFE1;
   border-radius: 4px;
@@ -469,8 +469,8 @@ details[open] .mft-collapsible-chevron {
 }
 
 .space-copy-btn svg {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   color: #333333;
 }
 
@@ -480,8 +480,8 @@ details[open] .mft-collapsible-chevron {
   overflow: hidden;
   display: flex;
   align-items: center;
-  height: 18px;
-  border-radius: 9px;
+  height: 20px;
+  border-radius: 10px;
   background: #F8EAEB;
 }
 
@@ -494,15 +494,15 @@ details[open] .mft-collapsible-chevron {
 
 .space-detail {
   font-family: "Courier New", monospace;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 500;
   color: #475569;
   white-space: nowrap;
 }
 
 .space-edit {
-  padding: 4px 8px;
-  font-size: 9px;
+  padding: 4px 10px;
+  font-size: 10px;
   font-weight: 500;
   color: #333333;
   background: #F8EAEB;
@@ -589,8 +589,8 @@ details[open] .mft-collapsible-chevron {
 .swatch-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px;
+  gap: 4px;
+  padding: 10px;
   background: #FFFFFF;
   border: 1px solid #F7DFE1;
   border-radius: 12px;
@@ -605,19 +605,19 @@ details[open] .mft-collapsible-chevron {
 .swatch-preview {
   display: flex;
   align-items: center;
-  gap: 6px;
-  min-height: 40px;
+  gap: 4px;
+  min-height: 45px;
 }
 
 .swatch-button {
   flex: 1;
-  min-height: 38px;
+  min-height: 40px;
   padding: 6px 10px;
   border: none;
   border-radius: 10px;
   text-align: center;
   font-weight: 500;
-  font-size: 9px;
+  font-size: 11px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -629,9 +629,9 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-label {
   display: inline-block;
-  padding: 2px 6px;
+  padding: 3px 8px;
   border-radius: 8px;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
   word-break: break-word;
   max-width: 100%;
@@ -640,8 +640,8 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-copy-btn {
   flex-shrink: 0;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   padding: 3px;
   border: 1px solid #F7DFE1;
   border-radius: 6px;
@@ -659,21 +659,21 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-copy-btn svg {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   color: #333333;
 }
 
 .swatch-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 }
 
 .swatch-var {
   display: block;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   color: #333333;
   word-break: break-word;
@@ -687,7 +687,7 @@ details[open] .mft-collapsible-chevron {
   border: none;
   background: none;
   font-family: monospace;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
   color: #475569;
   text-align: left;
