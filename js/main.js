@@ -1761,7 +1761,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="spacing-scale" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="section-kicker kicker-space"><span class="section-kicker-dot"></span>Ritmo espacial</p>
+                    <p class="section-kicker kicker-space"><span class="section-kicker-dot"></span>Sistema de espacios</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-lg font-semibold text-slate-950">Escala de espacios</h3>
                       <div class="flex items-center gap-2">
