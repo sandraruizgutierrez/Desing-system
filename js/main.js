@@ -1380,11 +1380,9 @@ import { el } from "./core/elements.js";
 
       function formatImageRadiusDisplay(device, value) {
         const resolved = resolveSpaceLikeForDevice(device, value);
-        const triplet = formatImageRadiusTriplet();
-        if (String(resolved.raw || "").trim().toLowerCase() === "none") return `None · ${triplet}`;
-        if (resolved.kind === "token") return `--${resolved.token} ${triplet}`;
-        if (resolved.kind === "px") return `${resolved.px}px ${triplet}`;
-        return `${resolved.raw || ""} ${triplet}`.trim();
+        if (String(resolved.raw || "").trim().toLowerCase() === "none") return `None`;
+        if (Number.isFinite(resolved.px)) return `${Math.round(resolved.px)}px`;
+        return `${resolved.raw || ""}`.trim();
       }
 
       function normalizePx(input, fallbackPx) {
@@ -1842,10 +1840,10 @@ import { el } from "./core/elements.js";
                         <p class="text-xs font-semibold">Vista previa</p>
                       </div>
                     </div>
-                    <div class="mt-3 rounded-2xl bg-slate-50 p-3">
+                    <div class="mt-3 rounded-2xl bg-white p-3 border border-pink-100">
                       <div class="flex items-center justify-between gap-3">
                         <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Radio</p>
-                        <button id="imageRadiusBtn" type="button" class="whitespace-nowrap rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300" title="Clic para editar">
+                        <button id="imageRadiusBtn" type="button" class="space-edit" title="Clic para editar">
                           <span id="imageRadiusRead"></span>
                         </button>
                       </div>
