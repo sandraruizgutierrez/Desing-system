@@ -131,9 +131,8 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
   font-size: 14px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-  color: #e2e8f0;
-  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  color: #0f172a;
 }
 
 
@@ -141,11 +140,10 @@ body {
 
 .panel-card,
 .reference-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.85) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(20px);
-  color: #e2e8f0;
 }
 
 /* Logo de la aplicación en el header */
@@ -157,9 +155,9 @@ body {
   height: 36px;
   border-radius: 10px;
   background: linear-gradient(135deg, #d09e5c 0%, #e0bf93 100%);
-  color: #1c3042;
+  color: #ffffff;
   flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(208, 158, 92, 0.3);
+  box-shadow: 0 8px 20px rgba(208, 158, 92, 0.25);
 }
 
 
@@ -198,8 +196,8 @@ details[open] .mft-collapsible-chevron {
 
 .device-btn.is-active {
   background: linear-gradient(135deg, #d09e5c 0%, #e0bf93 100%);
-  color: #1c3042;
-  box-shadow: 0 12px 30px rgba(208, 158, 92, 0.4);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(208, 158, 92, 0.3);
   font-weight: 600;
 }
 
@@ -208,8 +206,8 @@ details[open] .mft-collapsible-chevron {
 
 .preview-surface {
   background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%),
-    radial-gradient(circle at top right, rgba(208, 158, 92, 0.08), transparent 40%);
+    linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(241, 245, 249, 0.95) 100%),
+    radial-gradient(circle at top right, rgba(208, 158, 92, 0.06), transparent 40%);
 }
 
 .canvas-frame {
@@ -218,8 +216,8 @@ details[open] .mft-collapsible-chevron {
 
 .mini-grid {
   background-image:
-    linear-gradient(rgba(71, 85, 105, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71, 85, 105, 0.2) 1px, transparent 1px);
+    linear-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 
@@ -396,17 +394,17 @@ details[open] .mft-collapsible-chevron {
 /* ===== INPUT DE TOKEN ===== */
 
 .input-token {
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: rgba(15, 23, 42, 0.5);
-  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #ffffff;
+  color: #0f172a;
   transition: all 0.2s ease;
 }
 
 .input-token:focus {
   outline: none;
   border-color: #d09e5c;
-  background: rgba(15, 23, 42, 0.8);
-  box-shadow: 0 0 0 4px rgba(208, 158, 92, 0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(208, 158, 92, 0.12);
 }
 
 
@@ -456,9 +454,9 @@ details[open] .mft-collapsible-chevron {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: rgba(71, 85, 105, 0.3);
-  color: #cbd5e1;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #ffffff;
+  color: #64748b;
+  border: 1px solid rgba(148, 163, 184, 0.5);
   cursor: pointer;
   flex: 0 0 auto;
   transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
@@ -466,8 +464,8 @@ details[open] .mft-collapsible-chevron {
 
 .mft-icon-btn:hover {
   color: #d09e5c;
-  border-color: rgba(208, 158, 92, 0.5);
-  background: rgba(208, 158, 92, 0.15);
+  border-color: rgba(208, 158, 92, 0.6);
+  background: rgba(208, 158, 92, 0.08);
 }
 
 .mft-icon-btn svg {
@@ -542,32 +540,32 @@ details[open] .mft-collapsible-chevron {
 }
 
 /* Paleta de color → rosa */
-.kicker-color { color: #e11d48; }
-.kicker-color .section-kicker-dot { background-color: #e11d48; }
+.kicker-color { color: #ff4d6d; }
+.kicker-color .section-kicker-dot { background-color: #ff4d6d; }
 
 /* Escala de espacios → azul */
-.kicker-space { color: #2563eb; }
-.kicker-space .section-kicker-dot { background-color: #2563eb; }
+.kicker-space { color: #4da6ff; }
+.kicker-space .section-kicker-dot { background-color: #4da6ff; }
 
 /* Escala de paddings → sky */
-.kicker-padding { color: #0284c7; }
-.kicker-padding .section-kicker-dot { background-color: #0284c7; }
+.kicker-padding { color: #00d4ff; }
+.kicker-padding .section-kicker-dot { background-color: #00d4ff; }
 
 /* Tipografía → violeta */
-.kicker-type { color: #7c3aed; }
-.kicker-type .section-kicker-dot { background-color: #7c3aed; }
+.kicker-type { color: #c77dff; }
+.kicker-type .section-kicker-dot { background-color: #c77dff; }
 
 /* Imagen de referencia → ámbar */
-.kicker-image { color: #d97706; }
-.kicker-image .section-kicker-dot { background-color: #d97706; }
+.kicker-image { color: #ffb700; }
+.kicker-image .section-kicker-dot { background-color: #ffb700; }
 
 /* Espaciado en contexto → teal */
-.kicker-context { color: #0d9488; }
-.kicker-context .section-kicker-dot { background-color: #0d9488; }
+.kicker-context { color: #00d9a3; }
+.kicker-context .section-kicker-dot { background-color: #00d9a3; }
 
 /* Botones → emerald */
-.kicker-buttons { color: #059669; }
-.kicker-buttons .section-kicker-dot { background-color: #059669; }
+.kicker-buttons { color: #52d580; }
+.kicker-buttons .section-kicker-dot { background-color: #52d580; }
 
 
 /* ===== RESPONSIVO ===== */
