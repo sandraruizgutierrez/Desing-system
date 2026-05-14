@@ -2577,20 +2577,20 @@ import { el } from "./core/elements.js";
               const s = t.styles[k];
               return `
                 <tr class="text-sm">
-                  <td class="border-b border-slate-200 px-4 py-2.5">
-                    <input data-type-field="label" data-type-key="${k}" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-[15px] font-semibold text-slate-900 outline-none focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" value="${getTypographyStyleLabel(ctx.device, k).replace(/"/g, "&quot;")}" />
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="label" data-type-key="${k}" class="w-full rounded-lg border border-pink-100 bg-white px-3 py-2 text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${getTypographyStyleLabel(ctx.device, k).replace(/"/g, "&quot;")}" />
                   </td>
-                  <td class="border-b border-slate-200 px-4 py-2.5">
-                    <input data-type-field="size" data-type-key="${k}" class="w-28 rounded-xl border border-slate-200 bg-white px-3 py-2 font-mono text-[15px] font-semibold text-slate-900 outline-none focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" value="${s.size}" />
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="size" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.size}" />
                   </td>
-                  <td class="border-b border-slate-200 px-4 py-2.5">
-                    <input data-type-field="weight" data-type-key="${k}" class="w-28 rounded-xl border border-slate-200 bg-white px-3 py-2 font-mono text-[15px] font-semibold text-slate-900 outline-none focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" value="${s.weight}" />
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="weight" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.weight}" />
                   </td>
-                  <td class="border-b border-slate-200 px-4 py-2.5">
-                    <input data-type-field="line" data-type-key="${k}" class="w-28 rounded-xl border border-slate-200 bg-white px-3 py-2 font-mono text-[15px] font-semibold text-slate-900 outline-none focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" value="${formatLineHeightPct(s.line) || s.line}" />
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="line" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${formatLineHeightPct(s.line) || s.line}" />
                   </td>
-                  <td class="border-b border-slate-200 px-4 py-2.5">
-                    <input data-type-field="space" data-type-key="${k}" class="w-28 rounded-xl border border-slate-200 bg-white px-3 py-2 font-mono text-[15px] font-semibold text-slate-900 outline-none focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" value="${s.space}" />
+                  <td class="border-b border-pink-100 px-4 py-2.5">
+                    <input data-type-field="space" data-type-key="${k}" class="w-28 rounded-lg border border-pink-100 bg-white px-3 py-2 font-mono text-sm font-medium text-slate-900 outline-none focus:border-pink-200 focus:ring-4 focus:ring-pink-100" value="${s.space}" />
                   </td>
                 </tr>
               `;

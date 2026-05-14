@@ -855,6 +855,14 @@ tbody tr:hover {
   background-color: #A61620;
 }
 
+.type-save-btn {
+  background-color: #C71827;
+}
+
+.type-save-btn:hover {
+  background-color: #A61620;
+}
+
 
 /* ===== RESPONSIVO ===== */
 
