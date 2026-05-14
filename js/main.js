@@ -1842,6 +1842,9 @@ import { el } from "./core/elements.js";
                         <p class="text-xs font-semibold">Vista previa</p>
                       </div>
                     </div>
+                    <div id="imageThumbnails" class="mt-3 grid grid-cols-3 gap-2">
+                      <!-- Miniaturas se renderizarán aquí -->
+                    </div>
                     <div class="mt-3 rounded-2xl bg-slate-50 p-3">
                       <div class="flex items-center justify-between gap-3">
                         <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Radio</p>
@@ -3789,6 +3792,22 @@ import { el } from "./core/elements.js";
         if (radiusRead) radiusRead.textContent = formatImageRadiusDisplay(state.device, img.radius);
         const boxRead = document.getElementById("imageBoxRead");
         if (boxRead) boxRead.textContent = normalizePx(img.box, "500px");
+
+        const thumbnails = document.getElementById("imageThumbnails");
+        if (thumbnails) {
+          const thumbRadius = String(img.radius || "").trim().toLowerCase() === "none" ? "0px" : img.radius;
+          thumbnails.innerHTML = `
+            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
+              <p class="text-xs font-semibold text-slate-600">1200x1200</p>
+            </div>
+            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
+              <p class="text-xs font-semibold text-slate-600">1080x1920</p>
+            </div>
+            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
+              <p class="text-xs font-semibold text-slate-600">1200x1200</p>
+            </div>
+          `;
+        }
       }
 
       function renderButtonTokens() {
