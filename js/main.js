@@ -3666,16 +3666,19 @@ import { el } from "./core/elements.js";
                 const labelAttr = card.kind === "palette" ? `data-color-label-key="${card.key}"` : `data-color-label-extra="${card.index}"`;
                 return `
                   <div class="swatch-card">
-                    <div class="swatch-preview">
-                      <button type="button" ${editAttr} class="swatch-button" style="background:${value}; color:${textColor}">
-                        <span ${labelAttr} class="swatch-label" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
+                    <div class="swatch-preview" style="background:${value}">
+                      <button type="button" ${editAttr} class="swatch-button" style="color:${textColor}">
+                        <span ${labelAttr} class="swatch-label" style="color:${textColor}">${card.label}</span>
                       </button>
-                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="swatch-copy-btn" aria-label="Copiar variable" title="Copiar ${copyValue}">
-                        ${copyIconSvg()}
+                      <button type="button" data-color-label-edit="${editAttr}" class="swatch-edit-label-btn" aria-label="Editar nombre" title="Editar nombre">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                       </button>
                     </div>
                     <div class="swatch-info">
-                      <span class="swatch-var">${varLower}</span>
+                      <button type="button" data-color-copy="${varLower.replace(/\"/g, "&quot;")}" class="swatch-var swatch-copy-btn" aria-label="Copiar ID" title="Copiar ${varLower}">
+                        ${varLower}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M15 9V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path></svg>
+                      </button>
                       <button type="button" data-color-hex="${value}" class="swatch-hex">${value}</button>
                     </div>
                   </div>

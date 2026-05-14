@@ -601,8 +601,11 @@ details[open] .mft-collapsible-chevron {
 .swatch-preview {
   display: flex;
   align-items: center;
-  gap: 6px;
-  min-height: 50px;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 60px;
+  padding: 8px 12px;
+  border-radius: 10px;
 }
 
 .swatch-button {
@@ -611,6 +614,7 @@ details[open] .mft-collapsible-chevron {
   padding: 8px 12px;
   border: none;
   border-radius: 10px;
+  background: transparent;
   text-align: center;
   font-weight: 500;
   font-size: 12px;
@@ -619,8 +623,7 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-button:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
+  opacity: 0.85;
 }
 
 .swatch-label {
@@ -631,22 +634,49 @@ details[open] .mft-collapsible-chevron {
   font-weight: 600;
   word-break: break-word;
   max-width: 100%;
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(4px);
 }
 
-.swatch-copy-btn {
+.swatch-edit-label-btn {
   flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  padding: 3px;
-  border: 1px solid #F7DFE1;
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border: none;
   border-radius: 6px;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.swatch-edit-label-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.swatch-edit-label-btn svg {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+.swatch-copy-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid #F7DFE1;
+  border-radius: 6px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333333;
 }
 
 .swatch-copy-btn:hover {
@@ -657,7 +687,7 @@ details[open] .mft-collapsible-chevron {
 .swatch-copy-btn svg {
   width: 13px;
   height: 13px;
-  color: #333333;
+  color: #C71827;
 }
 
 .swatch-info {
@@ -669,7 +699,9 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-var {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 600;
   color: #333333;
@@ -677,6 +709,24 @@ details[open] .mft-collapsible-chevron {
   word-break: break-word;
   line-height: 1.2;
   min-width: 0;
+  border: 1px solid #F7DFE1;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.swatch-var:hover {
+  border-color: #C71827;
+  background: #F8EAEB;
+}
+
+.swatch-var svg {
+  width: 13px;
+  height: 13px;
+  color: #C71827;
+  flex-shrink: 0;
 }
 
 .swatch-hex {
