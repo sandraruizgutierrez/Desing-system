@@ -615,7 +615,8 @@ details[open] .mft-collapsible-chevron {
 
 .swatch-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 6px;
   min-width: 0;
 }
@@ -675,7 +676,7 @@ details[open] .mft-collapsible-chevron {
 #previewCanvas {
   overflow-wrap: anywhere;
   word-break: break-word;
-  padding: 40px;
+  padding: 20px;
 }
 
 #previewCanvas * {
