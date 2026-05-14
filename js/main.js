@@ -1744,7 +1744,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="palette" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0">
-                    <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Sistema de color</p>
+                    <p class="section-kicker kicker-color"><span class="section-kicker-dot"></span>Sistema de color</p>
                     <h3 class="mt-2 text-lg font-semibold text-slate-950">Paleta</h3>
                   </div>
                   <span class="mft-collapsible-chevron mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
@@ -1761,7 +1761,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="spacing-scale" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold tracking-[0.22em] text-slate-500">Ritmo espacial</p>
+                    <p class="section-kicker kicker-space"><span class="section-kicker-dot"></span>Ritmo espacial</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-xl font-semibold tracking-tight text-slate-950">Escala de espacios</h3>
                       <div class="flex items-center gap-2">
@@ -1783,7 +1783,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="padding-scale" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold tracking-[0.22em] text-slate-500">Escala auxiliar</p>
+                    <p class="section-kicker kicker-padding"><span class="section-kicker-dot"></span>Escala auxiliar</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-xl font-semibold tracking-tight text-slate-950">Escala de paddings</h3>
                       <div class="flex items-center gap-2">
@@ -1806,7 +1806,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="typography" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Tipografía</p>
+                    <p class="section-kicker kicker-type"><span class="section-kicker-dot"></span>Tipografía</p>
                     <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
                       <h3 class="text-lg font-semibold text-slate-950">Sistema tipográfico</h3>
                       <span id="typeDeviceChip" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"></span>
@@ -1828,11 +1828,8 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="images" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Imagen de referencia</p>
-                    <div class="mt-2 flex items-center justify-between gap-4">
-                      <h3 class="text-lg font-semibold text-slate-950">Tratamiento de imagen</h3>
-                      <span id="imageMeta" class="whitespace-nowrap rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"></span>
-                    </div>
+                    <p class="section-kicker kicker-image"><span class="section-kicker-dot"></span>Imagen de referencia</p>
+                    <h3 class="mt-2 text-lg font-semibold text-slate-950">Tratamiento de imagen</h3>
                   </div>
                   <span class="mft-collapsible-chevron mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
                     <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
@@ -1869,7 +1866,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="spacing-usage" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold tracking-[0.22em] text-slate-500">Aplicación real</p>
+                    <p class="section-kicker kicker-context"><span class="section-kicker-dot"></span>Aplicación real</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-xl font-semibold tracking-tight text-slate-950">Espaciado en contexto</h3>
                       <span id="sectionUseMeta" class="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"></span>
@@ -1889,7 +1886,7 @@ import { el } from "./core/elements.js";
               <details class="reference-card rounded-2xl" data-collapsible="buttons" open>
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
-                    <p class="text-xs font-semibold tracking-[0.2em] text-slate-500">Botones</p>
+                    <p class="section-kicker kicker-buttons"><span class="section-kicker-dot"></span>Botones</p>
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-lg font-semibold text-slate-950">Sistema de botones</h3>
                       <span class="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">mft-btn-1 · 2 · 3 · 4 · 5</span>
@@ -3703,10 +3700,8 @@ import { el } from "./core/elements.js";
         const imagePreview = document.getElementById("imagePreview");
         const img = getImageForDevice(state.device);
         imagePreview.style.borderRadius = String(img.radius || "").trim().toLowerCase() === "none" ? "0px" : img.radius;
-        // Keep preview stable; "Box (alto)" is a reference token, not a live sizing control.
         imagePreview.style.height = "170px";
         imagePreview.style.width = "100%";
-        document.getElementById("imageMeta").textContent = formatImageRadiusDisplay(state.device, img.radius);
         const radiusRead = document.getElementById("imageRadiusRead");
         if (radiusRead) radiusRead.textContent = formatImageRadiusDisplay(state.device, img.radius);
         const boxRead = document.getElementById("imageBoxRead");

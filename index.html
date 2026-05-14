@@ -22,36 +22,55 @@
   <body>
     <div class="px-5 py-6 lg:px-8 lg:py-8">
       <div class="mx-auto w-full">
-        <div class="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h1 class="text-2xl font-semibold tracking-tight text-slate-950">Design Studio</h1>
+        <header class="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex items-center gap-3">
+            <div class="studio-logo" aria-hidden="true">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-xl font-bold tracking-tight text-white">Design Studio</h1>
+              <p class="mt-0.5 text-xs font-medium text-slate-400">Sistema de tokens · Kit Mirai</p>
+            </div>
           </div>
           <div class="flex flex-wrap items-center justify-end gap-2">
-            <div class="panel-card inline-flex w-fit rounded-2xl p-1.5">
-              <button id="exportBtn" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-950" type="button">Exportar</button>
-              <button id="importBtn" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-950" type="button">Importar</button>
-              <button id="kitBtn" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-950" type="button">Kit</button>
-              <button id="sheetBtn" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-950" type="button">Hoja de estilo</button>
+            <div class="panel-card inline-flex w-fit items-center rounded-2xl p-1.5">
+              <button id="exportBtn" class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white" type="button">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0-3 3m3-3 3 3M4 20h16"/></svg>
+                Exportar
+              </button>
+              <span class="mx-0.5 h-4 w-px bg-slate-200" aria-hidden="true"></span>
+              <button id="importBtn" class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white" type="button">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v12m0 0-3-3m3 3 3-3M4 4h16"/></svg>
+                Importar
+              </button>
+              <span class="mx-0.5 h-4 w-px bg-slate-200" aria-hidden="true"></span>
+              <button id="kitBtn" class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white" type="button">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                Kit
+              </button>
+              <span class="mx-0.5 h-4 w-px bg-slate-200" aria-hidden="true"></span>
+              <button id="sheetBtn" class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white" type="button">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Hoja de estilo
+              </button>
             </div>
             <input id="importFile" type="file" accept="application/json" class="hidden" />
           </div>
-        </div>
+        </header>
 
         <div class="panel-card rounded-3xl p-4">
-          <div class="mb-4 hidden flex-wrap items-center justify-between gap-3">
-            <div>
-              <p id="deviceMeta" class="text-sm font-medium text-slate-500"></p>
-            </div>
-            <div id="tokenBadge" class="rounded-full px-3 py-1 text-xs font-semibold"></div>
-          </div>
+          <!-- deviceMeta y tokenBadge: usados por JS internamente, no visibles en UI -->
+          <p id="deviceMeta" hidden></p>
+          <div id="tokenBadge" hidden></div>
 
-          <div>
-            <section class="mini-grid preview-surface overflow-x-auto rounded-2xl border border-slate-200/80 p-0">
-              <div id="canvasFrame" class="canvas-frame w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-                <div id="previewCanvas" class="space-y-4 p-0"></div>
-              </div>
-            </section>
-          </div>
+          <section class="mini-grid preview-surface overflow-x-auto rounded-2xl border border-slate-600/40 p-0">
+            <div id="canvasFrame" class="canvas-frame w-full overflow-hidden rounded-2xl border border-slate-700">
+              <div id="previewCanvas" class="space-y-4 p-0"></div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -63,21 +82,21 @@
         <div class="panel-card w-full max-w-4xl rounded-3xl p-4 shadow-2xl">
           <div id="editorHeader" class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <p id="editorKicker" class="text-xs font-semibold tracking-[0.16em] text-slate-500"></p>
-              <h3 id="editorTitle" class="mt-2 truncate text-lg font-semibold text-slate-950"></h3>
-              <p id="editorDesc" class="mt-1 text-sm leading-6 text-slate-600"></p>
+              <p id="editorKicker" class="text-xs font-semibold tracking-[0.16em] text-slate-400"></p>
+              <h3 id="editorTitle" class="mt-2 truncate text-lg font-semibold text-white"></h3>
+              <p id="editorDesc" class="mt-1 text-sm leading-6 text-slate-300"></p>
             </div>
-            <button id="editorClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-500 transition hover:text-slate-950">Cerrar</button>
+            <button id="editorClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-400 transition hover:text-white">Cerrar</button>
           </div>
 
           <div class="mt-4 space-y-3">
             <div id="editorRowColor" class="hidden items-center gap-3">
-              <input id="editorColor" type="color" class="h-11 w-14 cursor-pointer rounded-xl border border-slate-200 bg-white p-1" />
+              <input id="editorColor" type="color" class="h-11 w-14 cursor-pointer rounded-xl border border-slate-600 bg-slate-800 p-1" />
               <div class="min-w-0 flex-1">
-                <label for="editorInput" class="block text-xs font-medium text-slate-500">Hex</label>
+                <label for="editorInput" class="block text-xs font-medium text-slate-400">Hex</label>
                 <input
                   id="editorInput"
-                  class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                  class="mt-1 w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-3 font-mono text-sm font-semibold text-slate-100 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                   autocomplete="off"
                   spellcheck="false"
                   inputmode="text"
@@ -88,7 +107,7 @@
             <div id="editorRowText" class="hidden">
               <input
                 id="editorInputText"
-                class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-sm font-semibold text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                class="w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-3 font-mono text-sm font-semibold text-slate-100 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                 autocomplete="off"
                 spellcheck="false"
                 inputmode="text"
@@ -96,10 +115,10 @@
             </div>
 
             <div id="editorRowTextarea" class="hidden">
-              <label for="editorTextarea" class="block text-xs font-medium text-slate-500">CSS del kit</label>
+              <label for="editorTextarea" class="block text-xs font-medium text-slate-400">CSS del kit</label>
               <textarea
                 id="editorTextarea"
-                class="mt-1 h-80 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mono text-[12px] font-medium leading-6 text-slate-900 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
+                class="mt-1 h-80 w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-3 font-mono text-[12px] font-medium leading-6 text-slate-100 outline-none ring-0 transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
                 spellcheck="false"
               ></textarea>
             </div>
@@ -110,7 +129,7 @@
           <div class="mt-5 flex items-center justify-between gap-2">
             <button id="editorDelete" type="button" class="hidden rounded-2xl px-4 py-2.5 text-sm font-semibold text-rose-700 ring-1 ring-rose-200 transition hover:bg-rose-50">Eliminar</button>
             <div class="ml-auto flex items-center gap-2">
-            <button id="editorCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
+            <button id="editorCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-200 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
             <button id="editorOk" type="button" class="rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-900">Guardar</button>
             </div>
           </div>
@@ -125,34 +144,34 @@
         <div class="panel-card w-full max-w-4xl rounded-3xl p-4 shadow-2xl">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <p class="text-xs font-semibold tracking-[0.16em] text-slate-500">Tipografía</p>
-              <h3 id="typeTitle" class="mt-2 truncate text-lg font-semibold text-slate-950"></h3>
-              <p id="typeDesc" class="mt-1 text-sm leading-6 text-slate-600"></p>
+              <p class="text-xs font-semibold tracking-[0.16em] text-slate-400">Tipografía</p>
+              <h3 id="typeTitle" class="mt-2 truncate text-lg font-semibold text-white"></h3>
+              <p id="typeDesc" class="mt-1 text-sm leading-6 text-slate-300"></p>
             </div>
-            <button id="typeClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-500 transition hover:text-slate-950">Cerrar</button>
+            <button id="typeClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-400 transition hover:text-white">Cerrar</button>
           </div>
 
           <div class="mt-4 space-y-3">
             <div class="grid gap-3 sm:grid-cols-2">
               <div>
-                <label class="block text-xs font-medium text-slate-500">Familia tipográfica</label>
-                <input id="typeFamily" class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" />
+                <label class="block text-xs font-medium text-slate-400">Familia tipográfica</label>
+                <input id="typeFamily" class="mt-1 w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-100 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" />
               </div>
               <div>
-                <label class="block text-xs font-medium text-slate-500">Grupo</label>
-                <input id="typeGroup" class="mt-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" disabled />
+                <label class="block text-xs font-medium text-slate-400">Grupo</label>
+                <input id="typeGroup" class="mt-1 w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-100 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60" disabled />
               </div>
             </div>
 
-          <div class="overflow-auto rounded-2xl border border-slate-200 bg-white">
+          <div class="overflow-auto rounded-2xl border border-slate-600 bg-slate-800">
               <table class="w-full min-w-[780px] border-separate border-spacing-0">
-                <thead class="sticky top-0 bg-slate-50">
-                  <tr class="text-left text-xs font-semibold text-slate-600">
-                    <th class="border-b border-slate-200 px-4 py-3">Alias</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Size (px)</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Weight</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Line-height</th>
-                    <th class="border-b border-slate-200 px-4 py-3">Letter-space (em)</th>
+                <thead class="sticky top-0 bg-slate-700/40">
+                  <tr class="text-left text-xs font-semibold text-slate-300">
+                    <th class="border-b border-slate-600 px-4 py-3">Alias</th>
+                    <th class="border-b border-slate-600 px-4 py-3">Size (px)</th>
+                    <th class="border-b border-slate-600 px-4 py-3">Weight</th>
+                    <th class="border-b border-slate-600 px-4 py-3">Line-height</th>
+                    <th class="border-b border-slate-600 px-4 py-3">Letter-space (em)</th>
                   </tr>
                 </thead>
                 <tbody id="typeRows"></tbody>
@@ -163,7 +182,7 @@
           </div>
 
           <div class="mt-5 flex items-center justify-end gap-2">
-            <button id="typeCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
+            <button id="typeCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-200 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
             <button id="typeSave" type="button" class="rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-900">Guardar</button>
           </div>
         </div>
@@ -176,21 +195,21 @@
         <div class="panel-card w-[min(98vw,100rem)] max-h-[calc(100vh-3rem)] overflow-hidden rounded-3xl p-3 shadow-2xl">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <p class="text-xs font-semibold tracking-[0.16em] text-slate-500">Botones</p>
-              <h3 id="buttonTitle" class="mt-2 truncate text-lg font-semibold text-slate-950"></h3>
-              <p id="buttonDesc" class="mt-1 text-sm leading-6 text-slate-600"></p>
+              <p class="text-xs font-semibold tracking-[0.16em] text-slate-400">Botones</p>
+              <h3 id="buttonTitle" class="mt-2 truncate text-lg font-semibold text-white"></h3>
+              <p id="buttonDesc" class="mt-1 text-sm leading-6 text-slate-300"></p>
             </div>
-            <button id="buttonClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-500 transition hover:text-slate-950">Cerrar</button>
+            <button id="buttonClose" type="button" class="rounded-xl px-3 py-2 text-sm font-medium text-slate-400 transition hover:text-white">Cerrar</button>
           </div>
 
           <div class="mt-3 max-h-[calc(100vh-11rem)] space-y-3 overflow-y-auto pr-1">
-            <div class="sticky top-0 z-20 rounded-3xl border border-slate-200 bg-slate-50 p-3 shadow-sm">
+            <div class="sticky top-0 z-20 rounded-3xl border border-slate-600 bg-slate-700/40 p-3 shadow-sm">
               <div class="flex items-center justify-between gap-2">
                 <div>
-                  <p class="text-xs font-semibold tracking-[0.18em] text-slate-500">Vista previa</p>
-                  <p id="buttonActiveValue" class="mt-1 text-xs font-medium text-slate-600"></p>
+                  <p class="text-xs font-semibold tracking-[0.18em] text-slate-400">Vista previa</p>
+                  <p id="buttonActiveValue" class="mt-1 text-xs font-medium text-slate-300"></p>
                 </div>
-                <button id="buttonResetDraft" type="button" class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-200">Restaurar</button>
+                <button id="buttonResetDraft" type="button" class="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-200 ring-1 ring-slate-200 hover:bg-slate-200">Restaurar</button>
               </div>
               <div id="buttonPreview" class="mt-3"></div>
             </div>
@@ -201,7 +220,7 @@
 
           <div class="mt-3 flex items-center justify-end gap-2">
             <button id="buttonDelete" type="button" class="hidden rounded-2xl px-4 py-2.5 text-sm font-semibold text-rose-700 ring-1 ring-rose-200 transition hover:bg-rose-50">Eliminar</button>
-            <button id="buttonCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
+            <button id="buttonCancel" type="button" class="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-200 ring-1 ring-slate-200 transition hover:ring-slate-300">Cancelar</button>
             <button id="buttonSave" type="button" class="rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-900">Guardar</button>
           </div>
         </div>

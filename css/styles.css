@@ -1,454 +1,579 @@
-/* Elementor Kit font: The Seasons (from your kit export) */
-      @font-face {
-        font-family: "The Seasons";
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-reg.ttf")
-          format("truetype");
-      }
-      @font-face {
-        font-family: "The Seasons";
-        font-style: italic;
-        font-weight: 400;
-        font-display: swap;
-        src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-lt.ttf")
-          format("truetype");
-      }
-      @font-face {
-        font-family: "The Seasons";
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-bd.ttf")
-          format("truetype");
-      }
+/* ============================================================
+   KitStyle — Hoja de estilos principal
+   ============================================================ */
 
-      :root {
-        --mft-space-5xs: 4px;
-        --mft-space-4xs: 8px;
-        --mft-space-3xs: 12px;
-        --mft-space-2xs: 16px;
-        --mft-space-xs: clamp(16px, calc(16px + (24 - 16) * ((100vw - 1180px) / (1920 - 1180))), 24px); /*24 --- 16*/
-        --mft-space-s: clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px); /*32 --- 24*/
-        --mft-space-m: clamp(32px, calc(32px + (40 - 32) * ((100vw - 1180px) / (1920 - 1180))), 40px); /*40 --- 32*/
-        --mft-space-l: clamp(32px, calc(32px + (48 - 32) * ((100vw - 1180px) / (1920 - 1180))), 48px); /*48 --- 32*/
-        --mft-space-xl: clamp(32px, calc(32px + (56 - 32) * ((100vw - 1180px) / (1920 - 1180))), 56px); /*56 --- 32*/
-        --mft-space-2xl: clamp(48px, calc(48px + (64 - 48) * ((100vw - 1180px) / (1920 - 1180))), 64px); /*64 --- 48*/
-        --mft-space-3xl: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px); /*80 --- 48*/
-        --mft-space-4xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px); /*96 --- 48*/
-        --mft-space-5xl: clamp(48px, calc(48px + (160 - 48) * ((100vw - 1180px) / (1920 - 1180))), 160px); /*160 --- 48*/
-        --mft-padding-xxs: clamp(4px, calc(4px + (8 - 4) * ((100vw - 1180px) / (1920 - 1180))), 8px); /*8 --- 4*/
-        --mft-padding-xs: clamp(8px, calc(8px + (12 - 8) * ((100vw - 1180px) / (1920 - 1180))), 12px); /*12 --- 8*/
-        --mft-padding-s: clamp(16px, calc(16px + (32 - 16) * ((100vw - 1180px) / (1920 - 1180))), 32px); /*32 --- 16*/
-        --mft-padding-ms: clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px); /*32 --- 24*/
-        --mft-padding-m: clamp(24px, calc(24px + (40 - 24) * ((100vw - 1180px) / (1920 - 1180))), 40px); /*40 --- 24*/
-        --mft-padding-lxs: clamp(24px, calc(24px + (72 - 24) * ((100vw - 1180px) / (1920 - 1180))), 72px); /*72 --- 24*/
-        --mft-padding-ls: clamp(40px, calc(40px + (72 - 40) * ((100vw - 1180px) / (1920 - 1180))), 72px); /*72 --- 40*/
-        --mft-padding-l: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px); /*80 --- 48*/
-        --mft-padding-xl: clamp(24px, calc(24px + (96 - 24) * ((100vw - 1180px) / (1920 - 1180))), 96px); /*96 --- 24*/
-        --mft-padding-2xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px); /*96 --- 48*/
-        --mft-padding-3xl: clamp(72px, calc(72px + (96 - 72) * ((100vw - 1180px) / (1920 - 1180))), 96px); /*96 --- 72*/
-        --mft-padding-4xl: clamp(24px, calc(24px + (96 - 24) * ((100vw - 1180px) / (1920 - 1180))), 96px); /*96 --- 24*/
-        --mft-padding-5xl: clamp(72px, calc(72px + (120 - 72) * ((100vw - 1180px) / (1920 - 1180))), 120px); /*120 --- 72*/
-        --mft-padding-6xl: clamp(72px, calc(72px + (160 - 72) * ((100vw - 1180px) / (1920 - 1180))), 160px); /*160 --- 72*/
-        --width-s: 700px;
-        --width-m: 1280px;
-        --width-l: 1920px;
-        --container-legal: 1080px;
-        --min-height-s: 300px;
-        --min-height-m: 500px;
-        --min-height-l: 600px;
-        /* Elementor kit 1397 (colors) */
-        --e-global-color-primary: #d09e5c;
-        --e-global-color-secondary: #32505c;
-        --e-global-color-accent: #e0bf93;
-        --e-global-color-text: #202020;
-        --e-global-color-52235058: #45341e;
-        --e-global-color-13f4851a: #89683d;
-        --e-global-color-6cb047a: #f1e5d9;
-        --e-global-color-c192f6c: #faf6f2;
-        --e-global-color-d2ec73e: #111a1e;
-        --e-global-color-cde7fbb: #21353d;
-        --e-global-color-ca1687a: #788b93;
-        --e-global-color-9c3eef3: #bbc5c9;
-        --e-global-color-f79e654: #eaedef;
-        --e-global-color-21f8c9b7: #202020;
-        --e-global-color-d9f1a36: #484848;
-        --e-global-color-485e56c: #737373;
-        --e-global-color-610777e: #e4e4e4;
-        --e-global-color-15b9b07: #f6f6f6;
-        --e-global-color-47eea86e: #fff;
-        --e-global-color-bd9d5b8: #1c3042;
-        --e-global-color-fc842eb: #89683d;
-        --e-global-color-e0ef2e7: #1c3042;
 
-        /* Mirai convenience aliases */
-        --mirai-wp-primary: #d09e5c;
-        --mirai-wp-secondary: #32505c;
-        --mirai-wp-primary-light: #e0bf93;
-        --mirai-ui-content: #202020;
-        --mirai-wp-primary-dark: #89683d;
-        --mirai-ui-button-color: #ffffff;
-        --mirai-ui-button-background: #202020;
-        --mirai-ui-button-color-active: #ffffff;
-        --mirai-ui-button-background-active: #d09e5c;
-        /* Elementor kit 1397 (typography used by buttons in your CSS) */
-        --e-global-typography-6d2edf1-font-family: "Lato", sans-serif;
-        --e-global-typography-6d2edf1-font-size: 18px;
-        --e-global-typography-6d2edf1-font-weight: 600;
-        --e-global-typography-6d2edf1-text-transform: none;
-        --e-global-typography-6d2edf1-line-height: 1.1;
-        --e-global-typography-6d2edf1-letter-spacing: 0em;
-      }
+/* ===== FUENTES ===== */
 
-      * {
-        box-sizing: border-box;
-      }
+@font-face {
+  font-family: "The Seasons";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-reg.ttf")
+    format("truetype");
+}
 
-      body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        font-size: 14px;
-        background:
-          radial-gradient(circle at top left, rgba(59, 130, 246, 0.08), transparent 30%),
-          linear-gradient(180deg, #f3f4f6 0%, #eef2f7 100%);
-        color: #0f172a;
-      }
+@font-face {
+  font-family: "The Seasons";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-lt.ttf")
+    format("truetype");
+}
 
-      .panel-card,
-      .reference-card {
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        box-shadow: 0 22px 50px rgba(15, 23, 42, 0.08);
-        backdrop-filter: blur(10px);
-      }
+@font-face {
+  font-family: "The Seasons";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-bd.ttf")
+    format("truetype");
+}
 
-      details.reference-card > summary {
-        list-style: none;
-      }
 
-      details.reference-card > summary::-webkit-details-marker {
-        display: none;
-      }
+/* ===== DESIGN TOKENS (CSS CUSTOM PROPERTIES) ===== */
 
-      #buttonFields details > summary {
-        list-style: none;
-      }
+:root {
+  /* — Escala de espacios — */
+  --mft-space-5xs: 4px;
+  --mft-space-4xs: 8px;
+  --mft-space-3xs: 12px;
+  --mft-space-2xs: 16px;
+  --mft-space-xs:  clamp(16px, calc(16px + (24 - 16) * ((100vw - 1180px) / (1920 - 1180))), 24px);   /* 24 → 16 */
+  --mft-space-s:   clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px);   /* 32 → 24 */
+  --mft-space-m:   clamp(32px, calc(32px + (40 - 32) * ((100vw - 1180px) / (1920 - 1180))), 40px);   /* 40 → 32 */
+  --mft-space-l:   clamp(32px, calc(32px + (48 - 32) * ((100vw - 1180px) / (1920 - 1180))), 48px);   /* 48 → 32 */
+  --mft-space-xl:  clamp(32px, calc(32px + (56 - 32) * ((100vw - 1180px) / (1920 - 1180))), 56px);   /* 56 → 32 */
+  --mft-space-2xl: clamp(48px, calc(48px + (64 - 48) * ((100vw - 1180px) / (1920 - 1180))), 64px);   /* 64 → 48 */
+  --mft-space-3xl: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px);   /* 80 → 48 */
+  --mft-space-4xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px);   /* 96 → 48 */
+  --mft-space-5xl: clamp(48px, calc(48px + (160 - 48) * ((100vw - 1180px) / (1920 - 1180))), 160px); /* 160 → 48 */
 
-      #buttonFields details > summary::-webkit-details-marker {
-        display: none;
-      }
+  /* — Escala de paddings — */
+  --mft-padding-xxs: clamp(4px,  calc(4px  + (8   - 4)   * ((100vw - 1180px) / (1920 - 1180))), 8px);   /* 8 → 4 */
+  --mft-padding-xs:  clamp(8px,  calc(8px  + (12  - 8)   * ((100vw - 1180px) / (1920 - 1180))), 12px);  /* 12 → 8 */
+  --mft-padding-s:   clamp(16px, calc(16px + (32  - 16)  * ((100vw - 1180px) / (1920 - 1180))), 32px);  /* 32 → 16 */
+  --mft-padding-ms:  clamp(24px, calc(24px + (32  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 32px);  /* 32 → 24 */
+  --mft-padding-m:   clamp(24px, calc(24px + (40  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 40px);  /* 40 → 24 */
+  --mft-padding-lxs: clamp(24px, calc(24px + (72  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 72px);  /* 72 → 24 */
+  --mft-padding-ls:  clamp(40px, calc(40px + (72  - 40)  * ((100vw - 1180px) / (1920 - 1180))), 72px);  /* 72 → 40 */
+  --mft-padding-l:   clamp(48px, calc(48px + (80  - 48)  * ((100vw - 1180px) / (1920 - 1180))), 80px);  /* 80 → 48 */
+  --mft-padding-xl:  clamp(24px, calc(24px + (96  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 24 */
+  --mft-padding-2xl: clamp(48px, calc(48px + (96  - 48)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 48 */
+  --mft-padding-3xl: clamp(72px, calc(72px + (96  - 72)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 72 */
+  --mft-padding-4xl: clamp(24px, calc(24px + (96  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 24 */
+  --mft-padding-5xl: clamp(72px, calc(72px + (120 - 72)  * ((100vw - 1180px) / (1920 - 1180))), 120px); /* 120 → 72 */
+  --mft-padding-6xl: clamp(72px, calc(72px + (160 - 72)  * ((100vw - 1180px) / (1920 - 1180))), 160px); /* 160 → 72 */
 
-      details.reference-card {
-        overflow: hidden;
-      }
+  /* — Anchos de layout — */
+  --width-s: 700px;
+  --width-m: 1280px;
+  --width-l: 1920px;
+  --container-legal: 1080px;
+  --min-height-s: 300px;
+  --min-height-m: 500px;
+  --min-height-l: 600px;
 
-      .mft-collapsible-chevron {
-        transition: transform 0.18s ease;
-      }
+  /* — Colores del kit Elementor 1397 — */
+  --e-global-color-primary:    #d09e5c;
+  --e-global-color-secondary:  #32505c;
+  --e-global-color-accent:     #e0bf93;
+  --e-global-color-text:       #202020;
+  --e-global-color-52235058:   #45341e;
+  --e-global-color-13f4851a:   #89683d;
+  --e-global-color-6cb047a:    #f1e5d9;
+  --e-global-color-c192f6c:    #faf6f2;
+  --e-global-color-d2ec73e:    #111a1e;
+  --e-global-color-cde7fbb:    #21353d;
+  --e-global-color-ca1687a:    #788b93;
+  --e-global-color-9c3eef3:    #bbc5c9;
+  --e-global-color-f79e654:    #eaedef;
+  --e-global-color-21f8c9b7:   #202020;
+  --e-global-color-d9f1a36:    #484848;
+  --e-global-color-485e56c:    #737373;
+  --e-global-color-610777e:    #e4e4e4;
+  --e-global-color-15b9b07:    #f6f6f6;
+  --e-global-color-47eea86e:   #fff;
+  --e-global-color-bd9d5b8:    #1c3042;
+  --e-global-color-fc842eb:    #89683d;
+  --e-global-color-e0ef2e7:    #1c3042;
 
-      details[open] .mft-collapsible-chevron {
-        transform: rotate(180deg);
-      }
+  /* — Alias de conveniencia Mirai — */
+  --mirai-wp-primary:                    #d09e5c;
+  --mirai-wp-secondary:                  #32505c;
+  --mirai-wp-primary-light:              #e0bf93;
+  --mirai-ui-content:                    #202020;
+  --mirai-wp-primary-dark:               #89683d;
+  --mirai-ui-button-color:               #ffffff;
+  --mirai-ui-button-background:          #202020;
+  --mirai-ui-button-color-active:        #ffffff;
+  --mirai-ui-button-background-active:   #d09e5c;
 
-      .device-btn.is-active {
-        background: #0f172a;
-        color: #fff;
-        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
-      }
+  /* — Tipografía del kit (botones y UI) — */
+  --e-global-typography-6d2edf1-font-family:    "Lato", sans-serif;
+  --e-global-typography-6d2edf1-font-size:      18px;
+  --e-global-typography-6d2edf1-font-weight:    600;
+  --e-global-typography-6d2edf1-text-transform: none;
+  --e-global-typography-6d2edf1-line-height:    1.1;
+  --e-global-typography-6d2edf1-letter-spacing: 0em;
+}
 
-      .preview-surface {
-        background:
-          linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(255, 255, 255, 1)),
-          radial-gradient(circle at top, rgba(249, 115, 22, 0.05), transparent 25%);
-      }
 
-      .canvas-frame {
-        transition: width 0.35s ease;
-      }
+/* ===== BASE ===== */
 
-      .space-chip {
-        transition: width 0.35s ease, background-color 0.35s ease;
-      }
+* {
+  box-sizing: border-box;
+}
 
-      .button-preview-font,
-      .button-preview-font .elementor-button-text {
-        font-family: "Montserrat", sans-serif !important;
-      }
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  color: #e2e8f0;
+  min-height: 100vh;
+}
 
-      .elementor-button[class^="mft-btn"] {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        font-family: var(--e-global-typography-6d2edf1-font-family);
-        font-size: var(--e-global-typography-6d2edf1-font-size);
-        font-weight: var(--e-global-typography-6d2edf1-font-weight);
-        text-transform: var(--e-global-typography-6d2edf1-text-transform);
-        line-height: var(--e-global-typography-6d2edf1-line-height);
-        letter-spacing: var(--e-global-typography-6d2edf1-letter-spacing);
-        background-color: transparent;
-        border-radius: 0;
-        border: none;
-        transition: all 0.3s ease;
-      }
 
-      .elementor-button.mft-btn-1 {
-        font-family: var(--mirai-ui-button-font-family, var(--e-global-typography-6d2edf1-font-family));
-        font-size: var(--mirai-ui-button-font-size, var(--e-global-typography-6d2edf1-font-size));
-        font-weight: var(--mirai-ui-button-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-        color: var(--mirai-ui-button-color);
-        fill: var(--mirai-ui-button-color);
-        background-color: var(--mirai-ui-button-background);
-        border: 2px solid var(--mirai-ui-button-background);
-        border-radius: var(--mirai-ui-button-radius, 0);
-        padding: var(--mirai-ui-button-pad-y, var(--mft-space-xs)) var(--mirai-ui-button-pad-x, var(--mft-space-xs));
-      }
+/* ===== PANEL CARD & REFERENCE CARD ===== */
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-1:hover {
-          color: var(--mirai-ui-button-color-active);
-          fill: var(--mirai-ui-button-color-active);
-          background-color: var(--mirai-ui-button-background-active);
-          border: 2px solid var(--mirai-ui-button-background-active);
-          border-radius: var(--mirai-ui-button-radius-active, var(--mirai-ui-button-radius, 0));
-        }
-      }
+.panel-card,
+.reference-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.85) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  color: #e2e8f0;
+}
 
-      .elementor-button.mft-btn-2,
-      .elementor-button.mft-btn-4,
-      .elementor-button.mft-btn-5 {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--mft-btn-arrow-gap, 8px);
-      }
+/* Logo de la aplicación en el header */
+.studio-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d09e5c 0%, #e0bf93 100%);
+  color: #1c3042;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(208, 158, 92, 0.3);
+}
 
-      .elementor-button.mft-btn-2::after,
-      .elementor-button.mft-btn-4::after,
-      .elementor-button.mft-btn-5::after {
-        content: var(--mft-btn-arrow-content, "â†’");
-        font-size: 1em;
-        line-height: 1;
-        display: inline-block;
-        transition: transform 0.3s ease;
-      }
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-2:hover::after,
-        .elementor-button.mft-btn-4:hover::after,
-        .elementor-button.mft-btn-5:hover::after {
-          transform: translateX(4px);
-        }
-      }
+/* ===== COLLAPSIBLES (DETAILS / SUMMARY) ===== */
 
-      .elementor-button.mft-btn-2 {
-        font-family: var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
-        font-size: var(--mft-btn-2-font-size, var(--e-global-typography-6d2edf1-font-size));
-        font-weight: var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-        color: var(--mft-btn-2-color);
-        background-color: var(--mft-btn-2-bg);
-        border: var(--mft-btn-2-border);
-        border-radius: var(--mft-btn-2-radius);
-        padding: var(--mft-btn-2-pad-y) var(--mft-btn-2-pad-x);
-      }
+details.reference-card > summary {
+  list-style: none;
+}
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-2:hover {
-          color: var(--mft-btn-2-hover-color, var(--mft-btn-2-color));
-          background-color: var(--mft-btn-2-hover-bg);
-          border: var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
-          border-radius: var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
-        }
-      }
+details.reference-card > summary::-webkit-details-marker {
+  display: none;
+}
 
-      .elementor-button.mft-btn-3 {
-        font-family: var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
-        font-size: var(--mft-btn-3-font-size, var(--e-global-typography-6d2edf1-font-size));
-        font-weight: var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-        color: var(--mft-btn-3-color);
-        background-color: var(--mft-btn-3-bg);
-        border: var(--mft-btn-3-border);
-        border-radius: var(--mft-btn-3-radius);
-        padding: var(--mft-btn-3-pad-y) var(--mft-btn-3-pad-x);
-      }
+#buttonFields details > summary {
+  list-style: none;
+}
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-3:hover {
-          color: var(--mft-btn-3-hover-color, var(--mft-btn-3-color));
-          background-color: var(--mft-btn-3-hover-bg);
-          border: var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
-          border-radius: var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
-        }
-      }
+#buttonFields details > summary::-webkit-details-marker {
+  display: none;
+}
 
-      .elementor-button.mft-btn-4 {
-        font-family: var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
-        font-size: var(--mft-btn-4-font-size, var(--e-global-typography-6d2edf1-font-size));
-        font-weight: var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-        color: var(--mft-btn-4-color);
-        background-color: var(--mft-btn-4-bg);
-        border: var(--mft-btn-4-border);
-        border-radius: var(--mft-btn-4-radius);
-        padding: var(--mft-btn-4-pad-y) var(--mft-btn-4-pad-x);
-      }
+details.reference-card {
+  overflow: hidden;
+}
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-4:hover {
-          color: var(--mft-btn-4-hover-color, var(--mft-btn-4-color));
-          background-color: var(--mft-btn-4-hover-bg);
-          border: var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
-          border-radius: var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
-        }
-      }
+.mft-collapsible-chevron {
+  transition: transform 0.18s ease;
+}
 
-      .elementor-button.mft-btn-5 {
-        font-family: var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
-        font-size: var(--mft-btn-5-font-size, var(--e-global-typography-6d2edf1-font-size));
-        font-weight: var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-        color: var(--mft-btn-5-color);
-        background-color: var(--mft-btn-5-bg);
-        border: var(--mft-btn-5-border);
-        border-radius: var(--mft-btn-5-radius);
-        padding: var(--mft-btn-5-pad-y) var(--mft-btn-5-pad-x);
-      }
+details[open] .mft-collapsible-chevron {
+  transform: rotate(180deg);
+}
 
-      @media (hover: hover) and (pointer: fine) {
-        .elementor-button.mft-btn-5:hover {
-          color: var(--mft-btn-5-hover-color, var(--mft-btn-5-color));
-          background-color: var(--mft-btn-5-hover-bg);
-          border: var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
-          border-radius: var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
-        }
-      }
 
-      .mft-bg-img {
-        position: relative;
-        overflow: hidden;
-      }
+/* ===== BOTÓN DE DISPOSITIVO ===== */
 
-      .mft-bg-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
+.device-btn.is-active {
+  background: linear-gradient(135deg, #d09e5c 0%, #e0bf93 100%);
+  color: #1c3042;
+  box-shadow: 0 12px 30px rgba(208, 158, 92, 0.4);
+  font-weight: 600;
+}
 
-      .input-token {
-        border: 1px solid #dbe2ea;
-        background: #fff;
-        color: #0f172a;
-      }
 
-      .input-token:focus {
-        outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-      }
+/* ===== CANVAS Y SUPERFICIE DE PREVIEW ===== */
 
-      .mini-grid {
-        background-image:
-          linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
-        background-size: 16px 16px;
-      }
+.preview-surface {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%),
+    radial-gradient(circle at top right, rgba(208, 158, 92, 0.08), transparent 40%);
+}
 
-      #previewCanvas .preview-columns {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-        align-items: start;
-      }
+.canvas-frame {
+  transition: width 0.35s ease;
+}
 
-      #previewCanvas .preview-column {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
+.mini-grid {
+  background-image:
+    linear-gradient(rgba(71, 85, 105, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71, 85, 105, 0.2) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
 
-      #previewCanvas .swatch-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
 
-      #previewCanvas .btn-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+/* ===== BOTONES ELEMENTOR (mft-btn) ===== */
 
-      .space-row {
-        display: grid;
-        grid-template-columns: minmax(140px, 140px) minmax(0, 1fr) 65px;
-        align-items: center;
-        gap: 6px;
-        min-width: 0;
-      }
+.elementor-button[class^="mft-btn"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--e-global-typography-6d2edf1-font-family);
+  font-size: var(--e-global-typography-6d2edf1-font-size);
+  font-weight: var(--e-global-typography-6d2edf1-font-weight);
+  text-transform: var(--e-global-typography-6d2edf1-text-transform);
+  line-height: var(--e-global-typography-6d2edf1-line-height);
+  letter-spacing: var(--e-global-typography-6d2edf1-letter-spacing);
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-      .space-copy {
-        white-space: nowrap;
-        min-width: 0;
-      }
+.elementor-button.mft-btn-1 {
+  font-family:   var(--mirai-ui-button-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size:     var(--mirai-ui-button-font-size,   var(--e-global-typography-6d2edf1-font-size));
+  font-weight:   var(--mirai-ui-button-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color:            var(--mirai-ui-button-color);
+  fill:             var(--mirai-ui-button-color);
+  background-color: var(--mirai-ui-button-background);
+  border:           2px solid var(--mirai-ui-button-background);
+  border-radius:    var(--mirai-ui-button-radius, 0);
+  padding:          var(--mirai-ui-button-pad-y, var(--mft-space-xs)) var(--mirai-ui-button-pad-x, var(--mft-space-xs));
+}
 
-      .space-edit {
-        min-width: 56px;
-      }
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-1:hover {
+    color:            var(--mirai-ui-button-color-active);
+    fill:             var(--mirai-ui-button-color-active);
+    background-color: var(--mirai-ui-button-background-active);
+    border:           2px solid var(--mirai-ui-button-background-active);
+    border-radius:    var(--mirai-ui-button-radius-active, var(--mirai-ui-button-radius, 0));
+  }
+}
 
-      .text-\[12px\] {
-        font-size: 14px;
-      }
+.elementor-button.mft-btn-2,
+.elementor-button.mft-btn-4,
+.elementor-button.mft-btn-5 {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mft-btn-arrow-gap, 8px);
+}
 
-      .space-track {
-        padding: 3px;
-        min-width: 0;
-        overflow: hidden;
-      }
+.elementor-button.mft-btn-2::after,
+.elementor-button.mft-btn-4::after,
+.elementor-button.mft-btn-5::after {
+  content: var(--mft-btn-arrow-content, "→");
+  font-size: 1em;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
 
-      .space-fill {
-        height: 8px;
-        border-radius: 999px;
-      }
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-2:hover::after,
+  .elementor-button.mft-btn-4:hover::after,
+  .elementor-button.mft-btn-5:hover::after {
+    transform: translateX(4px);
+  }
+}
 
-      .mft-icon-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
-        border-radius: 999px;
-        background: #ffffff;
-        color: #64748b;
-        border: 1px solid rgba(148, 163, 184, 0.55);
-        cursor: pointer;
-        flex: 0 0 auto;
-        transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-      }
+.elementor-button.mft-btn-2 {
+  font-family:   var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size:     var(--mft-btn-2-font-size,   var(--e-global-typography-6d2edf1-font-size));
+  font-weight:   var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color:            var(--mft-btn-2-color);
+  background-color: var(--mft-btn-2-bg);
+  border:           var(--mft-btn-2-border);
+  border-radius:    var(--mft-btn-2-radius);
+  padding:          var(--mft-btn-2-pad-y) var(--mft-btn-2-pad-x);
+}
 
-      .mft-icon-btn:hover {
-        color: #0f172a;
-        border-color: rgba(148, 163, 184, 0.8);
-        background: rgba(248, 250, 252, 0.9);
-      }
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-2:hover {
+    color:            var(--mft-btn-2-hover-color, var(--mft-btn-2-color));
+    background-color: var(--mft-btn-2-hover-bg);
+    border:           var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
+    border-radius:    var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
+  }
+}
 
-      .mft-icon-btn svg {
-        width: 12px;
-        height: 12px;
-        display: block;
-      }
+.elementor-button.mft-btn-3 {
+  font-family:   var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size:     var(--mft-btn-3-font-size,   var(--e-global-typography-6d2edf1-font-size));
+  font-weight:   var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color:            var(--mft-btn-3-color);
+  background-color: var(--mft-btn-3-bg);
+  border:           var(--mft-btn-3-border);
+  border-radius:    var(--mft-btn-3-radius);
+  padding:          var(--mft-btn-3-pad-y) var(--mft-btn-3-pad-x);
+}
 
-      .mft-icon-btn--xs {
-        width: 22px;
-        height: 22px;
-      }
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-3:hover {
+    color:            var(--mft-btn-3-hover-color, var(--mft-btn-3-color));
+    background-color: var(--mft-btn-3-hover-bg);
+    border:           var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
+    border-radius:    var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
+  }
+}
 
-      #previewCanvas {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
+.elementor-button.mft-btn-4 {
+  font-family:   var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size:     var(--mft-btn-4-font-size,   var(--e-global-typography-6d2edf1-font-size));
+  font-weight:   var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color:            var(--mft-btn-4-color);
+  background-color: var(--mft-btn-4-bg);
+  border:           var(--mft-btn-4-border);
+  border-radius:    var(--mft-btn-4-radius);
+  padding:          var(--mft-btn-4-pad-y) var(--mft-btn-4-pad-x);
+}
 
-      #previewCanvas * {
-        min-width: 0;
-      }
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-4:hover {
+    color:            var(--mft-btn-4-hover-color, var(--mft-btn-4-color));
+    background-color: var(--mft-btn-4-hover-bg);
+    border:           var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
+    border-radius:    var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
+  }
+}
 
-      @media (max-width: 1023px) {
-        #previewCanvas .preview-columns {
-          grid-template-columns: 1fr;
-        }
-      }
+.elementor-button.mft-btn-5 {
+  font-family:   var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size:     var(--mft-btn-5-font-size,   var(--e-global-typography-6d2edf1-font-size));
+  font-weight:   var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color:            var(--mft-btn-5-color);
+  background-color: var(--mft-btn-5-bg);
+  border:           var(--mft-btn-5-border);
+  border-radius:    var(--mft-btn-5-radius);
+  padding:          var(--mft-btn-5-pad-y) var(--mft-btn-5-pad-x);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .elementor-button.mft-btn-5:hover {
+    color:            var(--mft-btn-5-hover-color, var(--mft-btn-5-color));
+    background-color: var(--mft-btn-5-hover-bg);
+    border:           var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
+    border-radius:    var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
+  }
+}
+
+/* Fuente del preview de botones en el modal */
+.button-preview-font,
+.button-preview-font .elementor-button-text {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+
+/* ===== BLOQUE DE IMAGEN ===== */
+
+.mft-bg-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.mft-bg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* ===== INPUT DE TOKEN ===== */
+
+.input-token {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.5);
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.input-token:focus {
+  outline: none;
+  border-color: #d09e5c;
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 0 0 4px rgba(208, 158, 92, 0.15);
+}
+
+
+/* ===== VISUALIZACIÓN DE ESPACIADO ===== */
+
+.space-chip {
+  transition: width 0.35s ease, background-color 0.35s ease;
+}
+
+.space-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 140px) minmax(0, 1fr) 65px;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.space-copy {
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.space-edit {
+  min-width: 56px;
+}
+
+.space-track {
+  padding: 3px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.space-fill {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #d09e5c, #e0bf93);
+  box-shadow: 0 2px 8px rgba(208, 158, 92, 0.2);
+}
+
+
+/* ===== BOTÓN ICONO ===== */
+
+.mft-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(71, 85, 105, 0.3);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.mft-icon-btn:hover {
+  color: #d09e5c;
+  border-color: rgba(208, 158, 92, 0.5);
+  background: rgba(208, 158, 92, 0.15);
+}
+
+.mft-icon-btn svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+.mft-icon-btn--xs {
+  width: 22px;
+  height: 22px;
+}
+
+
+/* ===== LAYOUT DEL CANVAS ===== */
+
+#previewCanvas .preview-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+#previewCanvas .preview-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#previewCanvas .swatch-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#previewCanvas .btn-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#previewCanvas {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+#previewCanvas * {
+  min-width: 0;
+}
+
+/* Tailwind text-[12px] override: fuerza 14px mínimo para legibilidad en tablas */
+.text-\[12px\] {
+  font-size: 14px;
+}
+
+
+/* ===== ACENTOS POR CATEGORÍA DE SECCIÓN ===== */
+
+/* Dot de color + label de kicker */
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-kicker-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+/* Paleta de color → rosa */
+.kicker-color { color: #e11d48; }
+.kicker-color .section-kicker-dot { background-color: #e11d48; }
+
+/* Escala de espacios → azul */
+.kicker-space { color: #2563eb; }
+.kicker-space .section-kicker-dot { background-color: #2563eb; }
+
+/* Escala de paddings → sky */
+.kicker-padding { color: #0284c7; }
+.kicker-padding .section-kicker-dot { background-color: #0284c7; }
+
+/* Tipografía → violeta */
+.kicker-type { color: #7c3aed; }
+.kicker-type .section-kicker-dot { background-color: #7c3aed; }
+
+/* Imagen de referencia → ámbar */
+.kicker-image { color: #d97706; }
+.kicker-image .section-kicker-dot { background-color: #d97706; }
+
+/* Espaciado en contexto → teal */
+.kicker-context { color: #0d9488; }
+.kicker-context .section-kicker-dot { background-color: #0d9488; }
+
+/* Botones → emerald */
+.kicker-buttons { color: #059669; }
+.kicker-buttons .section-kicker-dot { background-color: #059669; }
+
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 1023px) {
+  #previewCanvas .preview-columns {
+    grid-template-columns: 1fr;
+  }
+}
