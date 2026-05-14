@@ -3969,6 +3969,15 @@ import { el } from "./core/elements.js";
         return `font-family:${fam}; font-size:${s.size}px; font-weight:${s.weight}; line-height:${s.line}; letter-spacing:${s.space}em; color:${state.palette.text};`;
       }
 
+      function styleToActualCss(device, group, key) {
+        const t = getTypographyForDevice(device);
+        const s = t.styles[key];
+        const fam = t.families[group] || t.families.body || "Inter, system-ui, sans-serif";
+        if (!s) return "";
+
+        return `font-family:${fam}; font-size:${s.size}px; font-weight:${s.weight}; line-height:${s.line}; letter-spacing:${s.space}em; color:${state.palette.text};`;
+      }
+
       function styleToPreviewCss(device, group, key) {
         const t = getTypographyForDevice(device);
         const s = t.styles[key];
@@ -4018,7 +4027,7 @@ import { el } from "./core/elements.js";
                   ${items
                     .map((key) => {
                       const s = t.styles[key];
-                      const css = styleToPreviewCss(device, groupKey, key);
+                      const css = styleToActualCss(device, groupKey, key);
                       const clampDecl = getTypographyClampDeclaration(key);
                       const vars = getTypographyVarNames(key);
                       const linePct = formatLineHeightPct(s.line);
