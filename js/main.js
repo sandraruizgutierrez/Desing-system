@@ -1807,10 +1807,7 @@ import { el } from "./core/elements.js";
                 <summary class="flex cursor-pointer items-start justify-between gap-4 px-4 py-4">
                   <div class="min-w-0 flex-1">
                     <p class="section-kicker kicker-type"><span class="section-kicker-dot"></span>Tipografía</p>
-                    <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
-                      <h3 class="text-lg font-semibold text-slate-950">Sistema tipográfico</h3>
-                      <span id="typeDeviceChip" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"></span>
-                    </div>
+                    <h3 class="mt-2 text-lg font-semibold text-slate-950">Sistema tipográfico</h3>
                   </div>
                   <span class="mft-collapsible-chevron mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
                     <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
@@ -3908,8 +3905,6 @@ import { el } from "./core/elements.js";
         ensureTypographyByDevice();
 
         const device = state.device;
-        const chip = document.getElementById("typeDeviceChip");
-        if (chip) chip.textContent = devices[device].label;
 
         const panel = () => {
           const t = getTypographyForDevice(device);
@@ -3917,16 +3912,17 @@ import { el } from "./core/elements.js";
           const heading = ["primaryHeading", "secondaryHeading", "tertiaryHeading", "subheading", "overline"];
           const links = ["menuLinkL", "menuLinkM", "menuLinkS"];
           const body = ["paragraphL", "paragraphM", "paragraphS", "paragraphXS", "button", "buttonS"];
+
           const groupCard = (groupKey, titleText, items) => {
             const family = t.families[groupKey] || "";
             return `
-              <div class="rounded-2xl border border-slate-200 bg-white p-3">
-                <div class="flex items-center justify-between gap-3 rounded-xl bg-slate-100 px-3 py-2">
-                  <div class="min-w-0">
+              <div class="rounded-2xl border border-pink-100 bg-white p-3">
+                <div class="flex items-center justify-between gap-3 rounded-xl bg-pink-50 px-3 py-2.5">
+                  <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-semibold text-slate-900">${titleText}</p>
-                    <p class="truncate font-mono text-[11px] font-semibold tracking-[0.08em] text-slate-500">${family}</p>
+                    <p class="truncate font-mono text-xs font-semibold tracking-[0.08em] text-slate-500 mt-0.5">${family}</p>
                   </div>
-                  <button type="button" data-type-edit="${groupKey}" class="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">Editar grupo</button>
+                  <button type="button" data-type-edit="${groupKey}" class="shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold text-white transition" style="background-color: #C71827; hover: background-color: #A61620;">Editar</button>
                 </div>
                 <div class="mt-3 space-y-2">
                   ${items
@@ -3937,10 +3933,6 @@ import { el } from "./core/elements.js";
                       const vars = getTypographyVarNames(key);
                       const linePct = formatLineHeightPct(s.line);
                       const text = getTypographyStyleLabel(device, key);
-                      const desk = getTypographyForDevice("desktop")?.styles?.[key];
-                      const tab = getTypographyForDevice("tablet")?.styles?.[key];
-                      const mob = getTypographyForDevice("mobile")?.styles?.[key];
-                      const glance = desk && tab && mob ? `${desk.size}/${tab.size}/${mob.size}` : "";
                       const metricStrip = [
                         ["Sz", `${s.size}px`, vars?.size, `${key}:size`],
                         ["Wt", `${s.weight}`, vars?.weight, `${key}:weight`],
@@ -3948,25 +3940,22 @@ import { el } from "./core/elements.js";
                         ["Sp", `${s.space}em`, vars?.space, `${key}:space`],
                       ];
                       return `
-                        <div class="rounded-2xl border border-slate-200/70 bg-slate-50/60 p-3">
+                        <div class="rounded-xl border border-pink-100 bg-white p-2.5">
                           <div class="flex items-center justify-between gap-3">
                             <div class="min-w-0">
-                              <div class="flex min-w-0 items-center gap-2">
-                                <span data-type-copy-allvars="${key}" class="cursor-pointer whitespace-nowrap text-left leading-none" style="${css}" title="Copiar variables (size/weight/line-height)">
-                                  ${text}
-                                </span>
-                                ${glance ? `<span class="whitespace-nowrap rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold leading-none tracking-[0.08em] text-slate-500 ring-1 ring-slate-200">${glance}</span>` : ""}
-                              </div>
+                              <span data-type-copy-allvars="${key}" class="cursor-pointer leading-none" style="${css}" title="Copiar variables (size/weight/line-height)">
+                                ${text}
+                              </span>
                             </div>
                             <div class="shrink-0">
-                              <div class="flex flex-wrap items-center justify-end gap-1.5">
+                              <div class="flex items-center justify-end gap-1">
                                 ${metricStrip
                                   .map(([abbr, value, variableName, field]) => {
                                     const isEditable = String(field || "").includes(":");
                                     return `
-                                      <div class="flex items-center gap-1.5 rounded-full bg-white px-2 py-1 ring-1 ring-slate-200/80">
-                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[10px] font-semibold tracking-[0.04em] text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
-                                        <button type="button" ${isEditable ? `data-type-edit-field="${field}"` : ""} class="font-mono text-[10px] font-semibold text-slate-700 hover:text-slate-950" title="Clic para editar">${value}</button>
+                                      <div class="flex items-center gap-1 rounded-full bg-pink-50 px-1.5 py-0.5">
+                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[10px] font-semibold text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
+                                        <span class="font-mono text-[10px] font-semibold text-slate-700">${value}</span>
                                       </div>
                                     `;
                                   })
@@ -3974,7 +3963,7 @@ import { el } from "./core/elements.js";
                               </div>
                             </div>
                           </div>
-                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-2 block w-full min-w-0 cursor-pointer truncate text-left font-mono text-[9px] leading-none tracking-[0.02em] text-slate-500" title="${clampDecl}">${clampDecl}</button>` : ""}
+                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[9px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
                         </div>
                       `;
                     })
@@ -3985,12 +3974,10 @@ import { el } from "./core/elements.js";
           };
 
           return `
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-              <div class="space-y-3">
-                ${groupCard("heading", "Titulares", heading)}
-                ${groupCard("links", "Navegación", links)}
-                ${groupCard("body", "Cuerpo", body)}
-              </div>
+            <div class="space-y-3">
+              ${groupCard("heading", "Titulares", heading)}
+              ${groupCard("links", "Navegación", links)}
+              ${groupCard("body", "Cuerpo", body)}
             </div>
           `;
         };
