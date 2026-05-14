@@ -4066,7 +4066,7 @@ import { el } from "./core/elements.js";
                               </div>
                             </div>
                           </div>
-                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[11px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
+                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[9px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
                         </div>
                       `;
                     })
