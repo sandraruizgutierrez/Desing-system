@@ -514,9 +514,42 @@ details[open] .mft-collapsible-chevron {
   min-width: 0;
 }
 
-/* Tailwind text-[12px] override: fuerza 14px mínimo para legibilidad en tablas */
+/* Tailwind text-[12px] override: fuerza 12px mínimo para legibilidad en tablas */
 .text-\[12px\] {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+/* Mejoras de tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+  font-weight: 500;
+  color: #333333;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Efectos de hover en cards */
+.reference-card {
+  transition: all 0.2s ease;
+}
+
+.reference-card:hover {
+  border-color: #C71827;
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 25px 60px -25px;
 }
 
 
@@ -568,6 +601,38 @@ details[open] .mft-collapsible-chevron {
 /* Botones → secundario */
 .kicker-buttons { color: #C71827; }
 .kicker-buttons .section-kicker-dot { background-color: #C71827; }
+
+
+/* ===== TABLAS ===== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+  font-size: 12px;
+}
+
+thead {
+  background-color: #F8EAEB;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 500;
+  color: #333333;
+  border-bottom: 1px solid #F7DFE1;
+}
+
+td {
+  padding: 12px;
+  color: #475569;
+  border-bottom: 1px solid #F7DFE1;
+}
+
+tbody tr:hover {
+  background-color: #F8EAEB;
+}
 
 
 /* ===== RESPONSIVO ===== */
