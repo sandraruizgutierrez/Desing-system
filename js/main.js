@@ -1114,6 +1114,17 @@ import { el } from "./core/elements.js";
         return match ? match[1] : normalized;
       }
 
+      function extractSpaceValueFromClass(cssText, selector, property) {
+        const blockContent = findCssBlockBySelector(cssText, selector);
+        if (!blockContent) return null;
+        const match = blockContent.match(new RegExp(`${property}\\s*:\\s*var\\(--([^)]+)\\)`));
+        if (match) {
+          const varName = match[1].replace(/^mft-space-/, "");
+          return varName;
+        }
+        return null;
+      }
+
       function buildSectionUseFromKit(cssText) {
         const rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)") || cssText;
         const rootVars = parseCssVarMap(rootChunk);
@@ -1122,16 +1133,20 @@ import { el } from "./core/elements.js";
         const tabletVars = parseCssVarMap(desktopChunk);
         const mobileVars = parseCssVarMap(mobileChunk);
         const read = (varMap, name, fallback, device = "desktop") => normalizeSpaceFieldValue(varMap[`--${name}`] || fallback, device);
+
+        const containerTop = extractSpaceValueFromClass(cssText, ".mft-space-section-t", "padding-top") || "4xl";
+        const containerBottom = extractSpaceValueFromClass(cssText, ".mft-space-section-b", "padding-bottom") || "4xl";
+
         const base = {
           paddingTop: read(rootVars, "container-default-padding-top", "0", "desktop"),
           paddingBottom: read(rootVars, "container-default-padding-bottom", "0", "desktop"),
           paddingLeft: read(rootVars, "container-default-padding-left", "0", "desktop"),
           paddingRight: read(rootVars, "container-default-padding-right", "0", "desktop"),
           gap: read(rootVars, "widgets-spacing-row", rootVars["--widgets-spacing-row"] || "0", "desktop"),
-          containerTop: "4xl",
-          containerBottom: "4xl",
-          containerLeft: "s",
-          containerRight: "s",
+          containerTop: containerTop,
+          containerBottom: containerBottom,
+          containerLeft: read(rootVars, "container-default-padding-left", "s", "desktop"),
+          containerRight: read(rootVars, "container-default-padding-right", "s", "desktop"),
         };
         const tablet = {
           ...base,
