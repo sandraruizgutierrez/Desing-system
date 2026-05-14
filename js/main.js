@@ -3591,7 +3591,7 @@ import { el } from "./core/elements.js";
                       <button type="button" ${editAttr} class="swatch-button" style="background:${value}; color:${textColor}">
                         <span ${labelAttr} class="swatch-label" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
                       </button>
-                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="swatch-copy-btn" aria-label="Copiar variable" title="Copiar variable">
+                      <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="swatch-copy-btn" aria-label="Copiar variable" title="Copiar ${copyValue}">
                         ${copyIconSvg()}
                       </button>
                     </div>
@@ -3752,7 +3752,7 @@ import { el } from "./core/elements.js";
                   <button type="button" data-btn-edit-name="${btnKey}" class="truncate text-left text-sm font-semibold text-slate-900 hover:text-slate-700">${editable ? getButtonDraftLabel(btnKey) : "Base global"}</button>
                   <div class="mt-0.5 flex flex-wrap items-center gap-1.5">
                     <button type="button" data-btn-edit-code="${btnKey}" class="truncate font-mono text-[10px] font-semibold tracking-[0.08em] text-slate-500 hover:text-slate-900" title="Editar nombre técnico">${editable ? getButtonDisplayCodeName(btnKey) : "mft-btn-1"}</button>
-                    <button type="button" data-btn-copy-class="${editable ? className : "mft-btn-1"}" class="truncate rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-slate-600 hover:bg-slate-200" title="Copiar clase real">Copiar clase</button>
+                    <button type="button" data-btn-copy-class="${editable ? className : "mft-btn-1"}" class="truncate rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-slate-600 hover:bg-slate-200" title="Copiar ${editable ? className : "mft-btn-1"}">Copiar clase</button>
                   </div>
                 </div>
                 <div class="flex flex-nowrap items-center gap-1.5 whitespace-nowrap">
@@ -3821,7 +3821,7 @@ import { el } from "./core/elements.js";
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex min-w-0 items-center gap-2">
                 <span class="min-w-0 truncate text-left text-xs font-semibold tracking-[0.2em] text-slate-500">${label}</span>
-                <button type="button" data-secuse-copy="${key}" class="mft-icon-btn" aria-label="Copiar valor" title="Copiar valor">
+                <button type="button" data-secuse-copy="${key}" class="mft-icon-btn" aria-label="Copiar valor" title="Copiar ${key}">
                   ${copyIconSvg()}
                 </button>
               </div>
@@ -3969,7 +3969,7 @@ import { el } from "./core/elements.js";
                                     const isEditable = String(field || "").includes(":");
                                     return `
                                       <div class="flex items-center gap-1.5 rounded-full bg-white px-2 py-1 ring-1 ring-slate-200/80">
-                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[10px] font-semibold tracking-[0.04em] text-slate-500 hover:text-slate-900" title="Clic para copiar">${abbr}</button>
+                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[10px] font-semibold tracking-[0.04em] text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
                                         <button type="button" ${isEditable ? `data-type-edit-field="${field}"` : ""} class="font-mono text-[10px] font-semibold text-slate-700 hover:text-slate-950" title="Clic para editar">${value}</button>
                                       </div>
                                     `;
