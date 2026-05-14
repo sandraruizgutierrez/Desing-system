@@ -418,7 +418,7 @@ details[open] .mft-collapsible-chevron {
 
 .space-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 50px 1fr auto;
   align-items: center;
   gap: 16px;
   min-width: 0;
@@ -439,13 +439,13 @@ details[open] .mft-collapsible-chevron {
 
 .space-var-name {
   font-family: "Courier New", monospace;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #333333;
-  word-break: break-all;
   line-height: 1.4;
   display: block;
-  min-width: 0;
+  min-width: auto;
+  white-space: nowrap;
 }
 
 .space-copy-btn {

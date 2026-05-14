@@ -3627,7 +3627,7 @@ import { el } from "./core/elements.js";
             return `
               <div class="space-row">
                 <div class="space-label-group">
-                  <span class="space-var-name" title="--mft-space-${entry.key}">--mft-space-${entry.key}</span>
+                  <span class="space-var-name" title="--mft-space-${entry.key}">${entry.key}</span>
                   <button type="button" data-space-copy="${entry.key}" class="space-copy-btn" aria-label="Copiar variable" title="Copiar var(--mft-space-${entry.key})">
                     ${copyIconSvg()}
                   </button>
@@ -3672,7 +3672,7 @@ import { el } from "./core/elements.js";
             return `
               <div class="space-row">
                 <div class="space-label-group">
-                  <span class="space-var-name" title="--mft-padding-${entry.key}">--mft-padding-${entry.key}</span>
+                  <span class="space-var-name" title="--mft-padding-${entry.key}">${entry.key}</span>
                   <button type="button" data-padding-copy="${entry.key}" class="space-copy-btn" aria-label="Copiar variable" title="Copiar var(--mft-padding-${entry.key})">
                     ${copyIconSvg()}
                   </button>
