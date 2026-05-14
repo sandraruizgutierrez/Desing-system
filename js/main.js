@@ -3869,11 +3869,6 @@ import { el } from "./core/elements.js";
         if (meta) meta.textContent = "";
 
         const tokens = [
-          ["paddingTop", "Padding top", use.paddingTop],
-          ["paddingBottom", "Padding bottom", use.paddingBottom],
-          ["paddingLeft", "Padding left", use.paddingLeft],
-          ["paddingRight", "Padding right", use.paddingRight],
-          ["gap", "Gap", use.gap],
           ["containerTop", "Container top", use.containerTop],
           ["containerBottom", "Container bottom", use.containerBottom],
           ["containerLeft", "Container left", use.containerLeft],
@@ -3910,10 +3905,7 @@ import { el } from "./core/elements.js";
 
         host.innerHTML = `
           <div class="grid grid-cols-2 gap-2">
-            ${tokens.slice(0, 5).map(row).join("")}
-          </div>
-          <div class="mt-3 grid grid-cols-2 gap-2">
-            ${tokens.slice(5).map(row).join("")}
+            ${tokens.map(row).join("")}
           </div>
         `;
 
