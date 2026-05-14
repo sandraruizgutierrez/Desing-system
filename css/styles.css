@@ -650,8 +650,26 @@ details[open] .mft-collapsible-chevron {
 }
 
 #previewCanvas .btn-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+  width: 100%;
+}
+
+.btn-grid > button,
+.btn-grid > .elementor-button {
+  padding: 12px 20px;
+  font-size: 12px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  border: 1px solid #F7DFE1;
+}
+
+.btn-grid > button:hover,
+.btn-grid > .elementor-button:hover {
+  border-color: #C71827;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(199, 24, 39, 0.15);
 }
 
 #previewCanvas {
