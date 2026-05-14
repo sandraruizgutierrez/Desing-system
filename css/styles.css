@@ -415,25 +415,58 @@ details[open] .mft-collapsible-chevron {
 
 .space-row {
   display: grid;
-  grid-template-columns: minmax(140px, 140px) minmax(0, 1fr) 65px;
+  grid-template-columns: 120px 1fr 70px;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   min-width: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #F7DFE1;
+}
+
+.space-row:last-child {
+  border-bottom: none;
 }
 
 .space-copy {
   white-space: nowrap;
   min-width: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: #333333;
+  word-break: break-word;
 }
 
 .space-edit {
   min-width: 56px;
+  text-align: right;
+}
+
+.space-edit button {
+  padding: 4px 8px;
+  font-size: 10px;
+  color: #475569;
+  background: #F8EAEB;
+  border: 1px solid #F7DFE1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.space-edit button:hover {
+  color: #C71827;
+  border-color: #C71827;
+  background: #FFFFFF;
 }
 
 .space-track {
-  padding: 3px;
+  padding: 0;
   min-width: 0;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  border-radius: 12px;
+  background: #F8EAEB;
 }
 
 .space-fill {
