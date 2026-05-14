@@ -1128,8 +1128,8 @@ import { el } from "./core/elements.js";
           paddingLeft: read(rootVars, "container-default-padding-left", "0", "desktop"),
           paddingRight: read(rootVars, "container-default-padding-right", "0", "desktop"),
           gap: read(rootVars, "widgets-spacing-row", rootVars["--widgets-spacing-row"] || "0", "desktop"),
-          containerTop: read(rootVars, "mft-space-section-t", "32px", "desktop"),
-          containerBottom: read(rootVars, "mft-space-section-b", "32px", "desktop"),
+          containerTop: read(rootVars, "mft-space-4xl", "48px", "desktop"),
+          containerBottom: read(rootVars, "mft-space-4xl", "48px", "desktop"),
           containerLeft: read(rootVars, "mft-space-s", "24px", "desktop"),
           containerRight: read(rootVars, "mft-space-s", "24px", "desktop"),
         };
@@ -1140,8 +1140,8 @@ import { el } from "./core/elements.js";
           paddingLeft: read(tabletVars, "container-default-padding-left", base.paddingLeft, "tablet"),
           paddingRight: read(tabletVars, "container-default-padding-right", base.paddingRight, "tablet"),
           gap: read(tabletVars, "widgets-spacing-row", base.gap, "tablet"),
-          containerTop: read(tabletVars, "mft-space-section-t", base.containerTop, "tablet"),
-          containerBottom: read(tabletVars, "mft-space-section-b", base.containerBottom, "tablet"),
+          containerTop: read(tabletVars, "mft-space-4xl", base.containerTop, "tablet"),
+          containerBottom: read(tabletVars, "mft-space-4xl", base.containerBottom, "tablet"),
           containerLeft: read(tabletVars, "mft-space-s", base.containerLeft, "tablet"),
           containerRight: read(tabletVars, "mft-space-s", base.containerRight, "tablet"),
         };
@@ -1152,8 +1152,8 @@ import { el } from "./core/elements.js";
           paddingLeft: read(mobileVars, "container-default-padding-left", base.paddingLeft, "mobile"),
           paddingRight: read(mobileVars, "container-default-padding-right", base.paddingRight, "mobile"),
           gap: read(mobileVars, "widgets-spacing-row", base.gap, "mobile"),
-          containerTop: read(mobileVars, "mft-space-section-t", base.containerTop, "mobile"),
-          containerBottom: read(mobileVars, "mft-space-section-b", base.containerBottom, "mobile"),
+          containerTop: read(mobileVars, "mft-space-4xl", base.containerTop, "mobile"),
+          containerBottom: read(mobileVars, "mft-space-4xl", base.containerBottom, "mobile"),
           containerLeft: read(mobileVars, "mft-space-s", base.containerLeft, "mobile"),
           containerRight: read(mobileVars, "mft-space-s", base.containerRight, "mobile"),
         };
