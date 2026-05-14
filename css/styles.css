@@ -636,28 +636,30 @@ details[open] .mft-collapsible-chevron {
 }
 
 .swatch-edit-label-btn {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  padding: 4px;
-  border: none;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #333333;
+  border: 1px solid #F7DFE1;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: all 0.2s ease;
 }
 
 .swatch-edit-label-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  color: #C71827;
+  border-color: #C71827;
+  background: #F7DFE1;
 }
 
 .swatch-edit-label-btn svg {
-  width: 16px;
-  height: 16px;
-  color: inherit;
+  width: 12px;
+  height: 12px;
+  display: block;
 }
 
 .swatch-copy-btn {
