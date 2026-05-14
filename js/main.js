@@ -3796,17 +3796,24 @@ import { el } from "./core/elements.js";
         const thumbnails = document.getElementById("imageThumbnails");
         if (thumbnails) {
           const thumbRadius = String(img.radius || "").trim().toLowerCase() === "none" ? "0px" : img.radius;
-          thumbnails.innerHTML = `
-            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
-              <p class="text-xs font-semibold text-slate-600">1200x1200</p>
+          const images = [
+            { label: "Full", width: 1900, height: 700, idx: 0 },
+            { label: "Thumbnail 1", width: 1200, height: 1200, idx: 1 },
+            { label: "Thumbnail 2", width: 1080, height: 1920, idx: 2 },
+            { label: "Thumbnail 3", width: 1200, height: 1200, idx: 3 },
+          ];
+
+          thumbnails.innerHTML = images.map((img, i) => `
+            <div class="space-y-2">
+              <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center group" style="border-radius: ${thumbRadius};">
+                <p class="text-xs font-semibold text-slate-600">${img.width}x${img.height}</p>
+                <button type="button" data-img-edit="${i}" class="absolute top-2 right-2 hidden group-hover:flex rounded-full bg-white/90 p-2 ring-1 ring-slate-200 hover:ring-slate-300">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+              <p class="text-xs font-semibold text-slate-700">${img.label}</p>
             </div>
-            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
-              <p class="text-xs font-semibold text-slate-600">1080x1920</p>
-            </div>
-            <div class="relative overflow-hidden rounded-lg bg-slate-200 aspect-video flex items-center justify-center" style="border-radius: ${thumbRadius};">
-              <p class="text-xs font-semibold text-slate-600">1200x1200</p>
-            </div>
-          `;
+          `).join('');
         }
       }
 
@@ -4269,6 +4276,51 @@ import { el } from "./core/elements.js";
           if (!next) return;
           setImageForDevice(state.device, "box", next);
           renderAll();
+        });
+
+        document.getElementById("imageThumbnails").addEventListener("click", async (e) => {
+          const editBtn = e.target.closest("[data-img-edit]");
+          if (!editBtn) return;
+          const idx = parseInt(editBtn.dataset.imgEdit, 10);
+          const images = [
+            { label: "Full", width: 1900, height: 700 },
+            { label: "Thumbnail 1", width: 1200, height: 1200 },
+            { label: "Thumbnail 2", width: 1080, height: 1920 },
+            { label: "Thumbnail 3", width: 1200, height: 1200 },
+          ];
+          const img = images[idx];
+          if (!img) return;
+
+          const width = await openEditor({
+            kicker: "Imagen",
+            title: `Ancho: ${img.label}`,
+            description: "Tamaño interno en píxeles",
+            kind: "text",
+            value: String(img.width),
+            validate: (raw) => {
+              const n = Number(String(raw || "").trim());
+              if (!Number.isFinite(n) || n <= 0) return { ok: false, message: "Introduce un número válido (> 0)." };
+              return { ok: true, value: String(Math.round(n)) };
+            },
+          });
+          if (width === null) return;
+
+          const height = await openEditor({
+            kicker: "Imagen",
+            title: `Alto: ${img.label}`,
+            description: "Tamaño interno en píxeles",
+            kind: "text",
+            value: String(img.height),
+            validate: (raw) => {
+              const n = Number(String(raw || "").trim());
+              if (!Number.isFinite(n) || n <= 0) return { ok: false, message: "Introduce un número válido (> 0)." };
+              return { ok: true, value: String(Math.round(n)) };
+            },
+          });
+          if (height === null) return;
+
+          images[idx] = { ...img, width: Number(width), height: Number(height) };
+          renderImagePreview();
         });
 
         document.getElementById("spaceModeLabel").addEventListener("click", async () => {
