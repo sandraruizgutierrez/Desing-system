@@ -4056,11 +4056,9 @@ import { el } from "./core/elements.js";
                                   .map(([abbr, value, variableName, field]) => {
                                     const isEditable = String(field || "").includes(":");
                                     return `
-                                      <div class="flex items-center gap-1" style="padding: 3px 8px; background: #F8EAEB; border: 1px solid #F7DFE1; border-radius: 6px;">
-                                        <span class="font-mono text-[11px] font-normal text-slate-700">${value}</span>
-                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="space-copy-btn" title="${variableName ? `Copiar ${variableName}` : 'Copiar valor'}" aria-label="Copiar">
-                                          ${copyIconSvg()}
-                                        </button>
+                                      <div class="flex items-center gap-1" style="padding: 5px 12px; background: #F8EAEB; border: 1px solid #F7DFE1; border-radius: 6px;">
+                                        <button type="button" ${variableName ? `data-type-copy-var="${variableName}"` : ""} class="text-[13px] font-semibold text-slate-500 hover:text-slate-900" title="${variableName ? `Copiar ${variableName}` : 'Clic para copiar'}">${abbr}</button>
+                                        <span class="font-mono text-[13px] font-semibold text-slate-700 cursor-pointer" ${variableName ? `data-type-copy-value="${variableName}"` : ""} title="${variableName ? `Copiar ${variableName}` : ''}">${value}</span>
                                       </div>
                                     `;
                                   })
@@ -4068,7 +4066,7 @@ import { el } from "./core/elements.js";
                               </div>
                             </div>
                           </div>
-                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-3 block w-full text-left font-mono text-[10px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
+                          ${clampDecl ? `<button type="button" data-type-copy-clamp="${key}" class="mt-1.5 block w-full text-left font-mono text-[10px] leading-tight tracking-[0.02em] text-slate-500 hover:text-slate-700" title="${clampDecl}">${clampDecl}</button>` : ""}
                         </div>
                       `;
                     })
@@ -4735,6 +4733,12 @@ import { el } from "./core/elements.js";
           const copyVar = event.target.closest("[data-type-copy-var]");
           if (copyVar) {
             copyText(copyVar.dataset.typeCopyVar || "");
+            return;
+          }
+
+          const copyValue = event.target.closest("[data-type-copy-value]");
+          if (copyValue) {
+            copyText(copyValue.dataset.typeCopyValue || "");
             return;
           }
 
