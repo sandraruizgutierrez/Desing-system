@@ -3675,7 +3675,7 @@ import { el } from "./core/elements.js";
                       </button>
                     </div>
                     <div class="swatch-info">
-                      <span data-color-copy="${varLower.replace(/\"/g, "&quot;")}" class="swatch-var" aria-label="Copiar ID" title="Copiar ${varLower}">
+                      <span data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="swatch-var" aria-label="Copiar ID" title="Copiar ${copyValue}">
                         ${varLower}
                       </span>
                       <button type="button" data-color-hex="${value}" class="swatch-hex">${value}</button>
