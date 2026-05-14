@@ -1128,10 +1128,10 @@ import { el } from "./core/elements.js";
           paddingLeft: read(rootVars, "container-default-padding-left", "0", "desktop"),
           paddingRight: read(rootVars, "container-default-padding-right", "0", "desktop"),
           gap: read(rootVars, "widgets-spacing-row", rootVars["--widgets-spacing-row"] || "0", "desktop"),
-          containerTop: read(rootVars, "container-default-padding-top", "0", "desktop"),
-          containerBottom: read(rootVars, "container-default-padding-bottom", "0", "desktop"),
-          containerLeft: read(rootVars, "container-default-padding-left", "0", "desktop"),
-          containerRight: read(rootVars, "container-default-padding-right", "0", "desktop"),
+          containerTop: read(rootVars, "mft-space-section-t", "32px", "desktop"),
+          containerBottom: read(rootVars, "mft-space-section-b", "32px", "desktop"),
+          containerLeft: read(rootVars, "mft-space-s", "24px", "desktop"),
+          containerRight: read(rootVars, "mft-space-s", "24px", "desktop"),
         };
         const tablet = {
           ...base,
@@ -1140,10 +1140,10 @@ import { el } from "./core/elements.js";
           paddingLeft: read(tabletVars, "container-default-padding-left", base.paddingLeft, "tablet"),
           paddingRight: read(tabletVars, "container-default-padding-right", base.paddingRight, "tablet"),
           gap: read(tabletVars, "widgets-spacing-row", base.gap, "tablet"),
-          containerTop: read(tabletVars, "container-default-padding-top", base.containerTop, "tablet"),
-          containerBottom: read(tabletVars, "container-default-padding-bottom", base.containerBottom, "tablet"),
-          containerLeft: read(tabletVars, "container-default-padding-left", base.containerLeft, "tablet"),
-          containerRight: read(tabletVars, "container-default-padding-right", base.containerRight, "tablet"),
+          containerTop: read(tabletVars, "mft-space-section-t", base.containerTop, "tablet"),
+          containerBottom: read(tabletVars, "mft-space-section-b", base.containerBottom, "tablet"),
+          containerLeft: read(tabletVars, "mft-space-s", base.containerLeft, "tablet"),
+          containerRight: read(tabletVars, "mft-space-s", base.containerRight, "tablet"),
         };
         const mobile = {
           ...base,
@@ -1152,10 +1152,10 @@ import { el } from "./core/elements.js";
           paddingLeft: read(mobileVars, "container-default-padding-left", base.paddingLeft, "mobile"),
           paddingRight: read(mobileVars, "container-default-padding-right", base.paddingRight, "mobile"),
           gap: read(mobileVars, "widgets-spacing-row", base.gap, "mobile"),
-          containerTop: read(mobileVars, "container-default-padding-top", base.containerTop, "mobile"),
-          containerBottom: read(mobileVars, "container-default-padding-bottom", base.containerBottom, "mobile"),
-          containerLeft: read(mobileVars, "container-default-padding-left", base.containerLeft, "mobile"),
-          containerRight: read(mobileVars, "container-default-padding-right", base.containerRight, "mobile"),
+          containerTop: read(mobileVars, "mft-space-section-t", base.containerTop, "mobile"),
+          containerBottom: read(mobileVars, "mft-space-section-b", base.containerBottom, "mobile"),
+          containerLeft: read(mobileVars, "mft-space-s", base.containerLeft, "mobile"),
+          containerRight: read(mobileVars, "mft-space-s", base.containerRight, "mobile"),
         };
         return { desktop: base, tablet, mobile };
       }
