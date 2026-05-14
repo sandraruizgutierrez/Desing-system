@@ -136,6 +136,7 @@ import { el } from "./core/elements.js";
       }
 
       function buildKitColorCards() {
+        const paletteKeyAllowList = Array.isArray(state.kitPaletteKeysPresent) && state.kitPaletteKeysPresent.length ? new Set(state.kitPaletteKeysPresent) : null;
         const paletteIds = new Set(
           (state.paletteLabels || [])
             .map((item) => String(item.varId || item.displayVarId || "").trim().toLowerCase())
@@ -152,6 +153,7 @@ import { el } from "./core/elements.js";
 
         kitColorDisplayOrder.forEach((entry) => {
           if (entry.kind === "palette") {
+            if (paletteKeyAllowList && !paletteKeyAllowList.has(entry.key)) return;
             const value = state.palette?.[entry.key];
             if (!value) return;
             const label = state.paletteLabels?.find((item) => item.key === entry.key)?.label || entry.label;
@@ -260,7 +262,7 @@ import { el } from "./core/elements.js";
         if (!value) return value;
         const aliasMap = {
           "--e-global-color-primary-dark": "--e-global-color-13f4851a",
-          "--e-global-color-primary-light": "--e-global-color-accent",
+          "--e-global-color-primary-light": "--e-global-color-6cb047a",
         };
         const aliasMatch = value.match(/^var\((--e-global-color-[^)]+)\)$/i);
         if (aliasMatch) {
@@ -307,7 +309,7 @@ import { el } from "./core/elements.js";
         return [...base, ...custom, ...fromState].filter((key) => {
           if (!key || seen.has(key)) return false;
           seen.add(key);
-          if (!spaceOrder.includes(key) && !Object.prototype.hasOwnProperty.call(state?.spaces || {}, key)) return false;
+          if (!Object.prototype.hasOwnProperty.call(state?.spaces || {}, key)) return false;
           return true;
         });
       }
@@ -322,6 +324,7 @@ import { el } from "./core/elements.js";
       }
 
       function getPaddingOrderList() {
+        if (!state?.paddingSpaces || !Object.keys(state.paddingSpaces).length) return [];
         const base = Array.isArray(state?.paddingBaseOrder) && state.paddingBaseOrder.length ? state.paddingBaseOrder.slice() : defaultPaddingOrder.slice();
         const custom = Array.isArray(state?.paddingCustomOrder) ? state.paddingCustomOrder : [];
         const fromState = Object.keys(state?.paddingSpaces || {}).filter((key) => !base.includes(key) && !custom.includes(key));
@@ -367,6 +370,7 @@ import { el } from "./core/elements.js";
         palette: { ...defaultPalette },
         paletteLabels: defaultPaletteLabels.map((item) => ({ ...item })),
         extraColors: defaultExtraColors.map((c) => ({ ...c })),
+        kitPaletteKeysPresent: Object.keys(defaultPalette),
         spaceClamp: { from: 1180, to: 1920 },
         spaceCustomOrder: [],
         spaceHidden: [],
@@ -386,24 +390,9 @@ import { el } from "./core/elements.js";
           "5xl": { type: "fluid", min: 48, max: 160 }, // 160 --- 48
         },
         paddingCustomOrder: [],
-        paddingBaseOrder: [...defaultPaddingOrder],
+        paddingBaseOrder: [],
         paddingHidden: [],
-        paddingSpaces: {
-          xxs: { type: "fluid", min: 4, max: 8 },
-          xs: { type: "fluid", min: 8, max: 12 },
-          s: { type: "fluid", min: 16, max: 32 },
-          ms: { type: "fluid", min: 24, max: 32 },
-          m: { type: "fluid", min: 24, max: 40 },
-          lxs: { type: "fluid", min: 24, max: 72 },
-          ls: { type: "fluid", min: 40, max: 72 },
-          l: { type: "fluid", min: 48, max: 80 },
-          xl: { type: "fluid", min: 24, max: 96 }, // 96 --- 24
-          "2xl": { type: "fluid", min: 48, max: 96 },
-          "3xl": { type: "fluid", min: 72, max: 96 },
-          "4xl": { type: "fluid", min: 24, max: 96 },
-          "5xl": { type: "fluid", min: 72, max: 120 },
-          "6xl": { type: "fluid", min: 72, max: 160 },
-        },
+        paddingSpaces: {},
         typographyClamp: { from: 1180, to: 1920 },
         imageByDevice: {
           desktop: { radius: "var(--mft-space-2xs)", box: "500px" },
@@ -924,13 +913,24 @@ import { el } from "./core/elements.js";
       function importSpaceScaleFromCss(cssText) {
         const text = String(cssText || "");
         const matcher = /--mft-space-([a-z0-9-]+)\s*:\s*([^;]+);/gi;
+        const nextSpaces = {};
+        const nextCustomOrder = [];
+        const seen = new Set();
         let match = matcher.exec(text);
         while (match) {
           const key = sanitizeSpaceKey(match[1]);
           const parsed = parseScaleCssValue(match[2]);
-          if (key && parsed) upsertScaleToken(state.spaces, state.spaceCustomOrder, key, parsed);
+          if (key && parsed) {
+            upsertScaleToken(nextSpaces, null, key, parsed);
+            if (!spaceOrder.includes(key) && !seen.has(key)) nextCustomOrder.push(key);
+            if (!seen.has(key)) seen.add(key);
+          }
           match = matcher.exec(text);
         }
+        if (!Object.keys(nextSpaces).length) return;
+        state.spaces = nextSpaces;
+        state.spaceCustomOrder = nextCustomOrder;
+        state.spaceHidden = [];
       }
 
       function importPaddingScaleFromCss(cssText) {
@@ -949,7 +949,13 @@ import { el } from "./core/elements.js";
           }
           match = matcher.exec(text);
         }
-        if (!nextBaseOrder.length) return;
+        if (!nextBaseOrder.length) {
+          state.paddingSpaces = {};
+          state.paddingBaseOrder = [];
+          state.paddingCustomOrder = [];
+          state.paddingHidden = [];
+          return;
+        }
         state.paddingSpaces = nextSpaces;
         state.paddingBaseOrder = nextBaseOrder;
         state.paddingCustomOrder = [];
@@ -1252,6 +1258,19 @@ import { el } from "./core/elements.js";
       }
 
       function applyKitCssText(cssText) {
+        // Reset kit-derived values so we don't keep leftovers from previous kits.
+        if (factoryDefaultStateSnapshot) {
+          state.palette = cloneData(factoryDefaultStateSnapshot.palette);
+          state.paletteLabels = cloneData(factoryDefaultStateSnapshot.paletteLabels);
+          state.extraColors = [];
+          state.kitPaletteKeysPresent = [];
+          state.typographyClamp = cloneData(factoryDefaultStateSnapshot.typographyClamp);
+          state.typographyByDevice = cloneData(factoryDefaultStateSnapshot.typographyByDevice);
+          state.sectionUseByDevice = cloneData(factoryDefaultStateSnapshot.sectionUseByDevice);
+          state.imageByDevice = cloneData(factoryDefaultStateSnapshot.imageByDevice);
+          state.btn = cloneData(factoryDefaultStateSnapshot.btn);
+        }
+
         const rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)") || cssText;
         const vars = parseCssVarMap(rootChunk);
         const mainColorIds = new Set([
@@ -1260,7 +1279,6 @@ import { el } from "./core/elements.js";
           "--e-global-color-accent",
           "--e-global-color-text",
           "--e-global-color-13f4851a",
-          "--e-global-color-6cb047a",
           "--e-global-color-47eea86e",
           "--e-global-color-bd9d5b8",
         ]);
@@ -1270,14 +1288,19 @@ import { el } from "./core/elements.js";
           accent: "--e-global-color-accent",
           text: "--e-global-color-text",
           primaryDark: "--e-global-color-13f4851a",
-          primaryLight: "--e-global-color-accent",
+          primaryLight: "--e-global-color-6cb047a",
           light: "--e-global-color-47eea86e",
           dark: "--e-global-color-bd9d5b8",
         };
+        const presentPaletteKeys = [];
         Object.entries(colorMap).forEach(([key, varName]) => {
           const value = clampHex(vars[varName]);
-          if (value) state.palette[key] = value;
+          if (value) {
+            state.palette[key] = value;
+            presentPaletteKeys.push(key);
+          }
         });
+        state.kitPaletteKeysPresent = presentPaletteKeys;
 
         const discoveredExtraColors = Object.entries(vars)
           .filter(([name, value]) => /^--e-global-color-/i.test(name) && clampHex(value))
@@ -1292,20 +1315,12 @@ import { el } from "./core/elements.js";
               value: clampHex(value),
             };
           });
-
-        const extraColorById = new Map();
-        defaultExtraColors.forEach((item) => {
-          const id = String(item.id || "").toLowerCase();
-          const value = clampHex(vars[item.id]) || item.value;
-          extraColorById.set(id, { ...item, value, label: buildExtraColorLabel(item.id, value) });
-        });
-        discoveredExtraColors.forEach((item) => {
-          extraColorById.set(String(item.id || "").toLowerCase(), {
+        state.extraColors = discoveredExtraColors
+          .map((item) => ({
             ...item,
             label: buildExtraColorLabel(item.id, item.value),
-          });
-        });
-        state.extraColors = Array.from(extraColorById.values());
+          }))
+          .sort((a, b) => String(a.id || "").localeCompare(String(b.id || ""), "en", { sensitivity: "base" }));
 
         const families = {
           heading: vars["--e-global-typography-primary-font-family"] || state.typographyByDevice.desktop.families.heading,
@@ -1342,6 +1357,7 @@ import { el } from "./core/elements.js";
         state.palette = cloneData(snapshot.palette);
         state.paletteLabels = cloneData(snapshot.paletteLabels);
         state.extraColors = cloneData(snapshot.extraColors);
+        state.kitPaletteKeysPresent = cloneData(snapshot.kitPaletteKeysPresent);
         state.spaceClamp = cloneData(snapshot.spaceClamp);
         state.spaces = cloneData(snapshot.spaces);
         state.typographyClamp = cloneData(snapshot.typographyClamp);
@@ -1576,13 +1592,13 @@ import { el } from "./core/elements.js";
         root.style.setProperty("--e-global-color-bd9d5b8", state.palette.dark);
         root.style.setProperty("--e-global-color-13f4851a", state.palette.primaryDark);
         root.style.setProperty("--e-global-color-primary-dark", state.palette.primaryDark);
-        root.style.setProperty("--e-global-color-primary-light", state.palette.accent);
+        root.style.setProperty("--e-global-color-primary-light", state.palette.primaryLight);
         root.style.setProperty("--e-global-color-21f8c9b7", state.palette.text);
         root.style.setProperty("--mirai-wp-primary", state.palette.primary);
         root.style.setProperty("--mirai-wp-secondary", state.palette.secondary);
         root.style.setProperty("--mirai-ui-content", state.palette.text);
         root.style.setProperty("--mirai-wp-primary-dark", state.palette.primaryDark);
-        root.style.setProperty("--mirai-wp-primary-light", state.palette.accent);
+        root.style.setProperty("--mirai-wp-primary-light", state.palette.primaryLight);
         root.style.setProperty("--mirai-ui-button-background", state.btn.btn1.bg);
         root.style.setProperty("--mirai-ui-button-background-active", state.btn.btn1.hoverBg || state.palette.primary);
         root.style.setProperty("--mirai-ui-button-color", state.btn.btn1.color);
@@ -1749,7 +1765,6 @@ import { el } from "./core/elements.js";
                     <div class="mt-2 flex items-center justify-between gap-4">
                       <h3 class="text-xl font-semibold tracking-tight text-slate-950">Escala de espacios</h3>
                       <div class="flex items-center gap-2">
-                        <button type="button" data-space-import class="rounded-full bg-slate-950 px-3 py-1 text-sm font-semibold text-white hover:bg-slate-800">Pegar lista</button>
                         <span id="spaceModeLabel" class="hidden rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"></span>
                       </div>
                     </div>
@@ -3318,11 +3333,12 @@ import { el } from "./core/elements.js";
 
       function getSerializableState() {
         return {
-            v: 5,
+            v: 6,
           device: state.device,
           palette: state.palette,
           paletteLabels: state.paletteLabels,
           extraColors: state.extraColors,
+          kitPaletteKeysPresent: state.kitPaletteKeysPresent,
           spaceClamp: state.spaceClamp,
           spaceCustomOrder: state.spaceCustomOrder,
           spaceHidden: state.spaceHidden,
@@ -3341,10 +3357,12 @@ import { el } from "./core/elements.js";
 
       function applyImportedState(data) {
         if (!data || typeof data !== "object") return false;
+        const incomingVersion = Number(data.v || 0);
         ensureSectionUseByDevice();
         ensureImageByDevice();
         ensureTypographyByDevice();
         if (data.palette && typeof data.palette === "object") state.palette = { ...state.palette, ...data.palette };
+        if (Array.isArray(data.kitPaletteKeysPresent)) state.kitPaletteKeysPresent = data.kitPaletteKeysPresent.map((k) => String(k || "").trim()).filter(Boolean);
         if (Array.isArray(data.paletteLabels)) {
           const next = [];
           data.paletteLabels.forEach((item) => {
@@ -3385,14 +3403,21 @@ import { el } from "./core/elements.js";
         if (Array.isArray(data.spaceHidden)) {
           state.spaceHidden = data.spaceHidden.map((key) => sanitizeSpaceKey(key)).filter(Boolean);
         }
-        if (Array.isArray(data.paddingCustomOrder)) {
-          state.paddingCustomOrder = data.paddingCustomOrder.map((key) => sanitizePaddingKey(key)).filter(Boolean);
-        }
-        if (Array.isArray(data.paddingBaseOrder)) {
-          state.paddingBaseOrder = data.paddingBaseOrder.map((key) => sanitizePaddingKey(key)).filter(Boolean);
-        }
-        if (Array.isArray(data.paddingHidden)) {
-          state.paddingHidden = data.paddingHidden.map((key) => sanitizePaddingKey(key)).filter(Boolean);
+        if (incomingVersion >= 6) {
+          if (Array.isArray(data.paddingCustomOrder)) {
+            state.paddingCustomOrder = data.paddingCustomOrder.map((key) => sanitizePaddingKey(key)).filter(Boolean);
+          }
+          if (Array.isArray(data.paddingBaseOrder)) {
+            state.paddingBaseOrder = data.paddingBaseOrder.map((key) => sanitizePaddingKey(key)).filter(Boolean);
+          }
+          if (Array.isArray(data.paddingHidden)) {
+            state.paddingHidden = data.paddingHidden.map((key) => sanitizePaddingKey(key)).filter(Boolean);
+          }
+        } else {
+          state.paddingCustomOrder = [];
+          state.paddingBaseOrder = [];
+          state.paddingHidden = [];
+          state.paddingSpaces = {};
         }
         if (data.spaces && typeof data.spaces === "object") {
           Object.entries(data.spaces).forEach(([keyRaw, incoming]) => {
@@ -3413,7 +3438,7 @@ import { el } from "./core/elements.js";
               if (!state.spaceCustomOrder.includes(key)) state.spaceCustomOrder.push(key);
             });
         }
-        if (data.paddingSpaces && typeof data.paddingSpaces === "object") {
+        if (incomingVersion >= 6 && data.paddingSpaces && typeof data.paddingSpaces === "object") {
           Object.entries(data.paddingSpaces).forEach(([keyRaw, incoming]) => {
             const key = sanitizePaddingKey(keyRaw);
             if (!key || !incoming || typeof incoming !== "object") return;
@@ -3566,7 +3591,7 @@ import { el } from "./core/elements.js";
                 return `
                   <div class="rounded-[18px] border border-slate-200/80 bg-white p-3">
                     <div class="mb-3 flex items-center gap-3">
-                      <button type="button" ${editAttr} class="flex h-12 w-full items-end rounded-[14px] p-2.5 text-left" style="background:${value}; color:${textColor}">
+                      <button type="button" ${editAttr} class="flex h-12 w-full items-center rounded-[14px] p-2.5 text-left" style="background:${value}; color:${textColor}">
                         <span ${labelAttr} class="rounded-full px-2 py-0.5 text-[9px] font-semibold backdrop-blur" style="color:${textColor}; background:${badgeBg}">${card.label}</span>
                       </button>
                       <button type="button" data-color-copy="${copyValue.replace(/\"/g, "&quot;")}" class="mft-icon-btn" aria-label="Copiar variable" title="Copiar variable">
@@ -3605,7 +3630,7 @@ import { el } from "./core/elements.js";
             return `
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
-                  <span class="min-w-0 truncate text-left font-mono text-[12px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
+                  <span class="min-w-0 truncate text-left font-mono text-[14px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
                   <button type="button" data-space-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-space-${entry.key})">
                     ${copyIconSvg()}
                   </button>
@@ -3650,7 +3675,7 @@ import { el } from "./core/elements.js";
             return `
               <div class="space-row">
                 <div class="flex min-w-0 items-center gap-2">
-                  <span class="min-w-0 truncate text-left font-mono text-[12px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
+                  <span class="min-w-0 truncate text-left font-mono text-[14px] font-semibold text-slate-900" title="--${entry.key}">--${entry.key}</span>
                   <button type="button" data-padding-copy="${entry.key}" class="mft-icon-btn mft-icon-btn--xs" aria-label="Copiar variable" title="Copiar var(--mft-padding-${entry.key})">
                     ${copyIconSvg()}
                   </button>
@@ -3989,6 +4014,8 @@ import { el } from "./core/elements.js";
         renderColorSwatches();
         renderSpaceScale();
         renderPaddingScale();
+        const paddingSection = document.querySelector('details[data-collapsible=\"padding-scale\"]');
+        if (paddingSection) paddingSection.hidden = getPaddingOrderList().length === 0;
         renderImagePreview();
         renderButtonTokens();
         renderSectionUse();
@@ -4641,22 +4668,6 @@ import { el } from "./core/elements.js";
         });
 
       document.getElementById("previewCanvas").addEventListener("click", async (event) => {
-          const importSpaceBtn = event.target.closest("[data-space-import]");
-          if (importSpaceBtn) {
-            event.preventDefault();
-            event.stopPropagation();
-            const cssText = await openClipboardImportEditor({
-              kicker: "Espacios",
-              title: "Pegar escala de espacios",
-              description: "Si el navegador lo permite, se cargará lo último copiado. Si no, pega las variables CSS `--mft-space-*` manualmente.",
-              emptyMessage: "Pega primero el CSS de espacios.",
-            });
-            if (cssText === null) return;
-            importSpaceScaleFromCss(String(cssText));
-            renderAll();
-            return;
-          }
-
           const importPaddingBtn = event.target.closest("[data-padding-import]");
           if (importPaddingBtn) {
             event.preventDefault();
