@@ -3639,7 +3639,6 @@ import { el } from "./core/elements.js";
                   <div class="space-chip space-fill" style="width:${width}%;"></div>
                 </div>
                 <div class="space-value-group">
-                  <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
                   <span class="space-edit">${valueDisplay}</span>
                 </div>
               </div>
@@ -3687,7 +3686,6 @@ import { el } from "./core/elements.js";
                   <div class="space-chip space-fill" style="width:${width}%;"></div>
                 </div>
                 <div class="space-value-group">
-                  <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
                   <span class="space-edit">${valueDisplay}</span>
                 </div>
               </div>
