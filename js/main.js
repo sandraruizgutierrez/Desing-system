@@ -3637,7 +3637,7 @@ import { el } from "./core/elements.js";
                 </div>
                 <div class="space-value-group">
                   <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
-                  <button type="button" data-space-edit="${entry.key}" class="space-edit">${entry.current}px</button>
+                  <span class="space-edit">${entry.current}px</span>
                 </div>
               </div>
             `;
@@ -3682,7 +3682,7 @@ import { el } from "./core/elements.js";
                 </div>
                 <div class="space-value-group">
                   <span class="space-detail" title="Desktop/Tablet/Mobile (px)">${entry.detail}</span>
-                  <button type="button" data-padding-edit="${entry.key}" class="space-edit">${entry.current}px</button>
+                  <span class="space-edit">${entry.current}px</span>
                 </div>
               </div>
             `;
@@ -4209,95 +4209,6 @@ import { el } from "./core/elements.js";
             return;
           }
 
-          const editBtn = event.target.closest("[data-space-edit]");
-          if (!editBtn) return;
-          const key = editBtn.dataset.spaceEdit;
-          const token = state.spaces[key];
-          if (!token) return;
-
-          const openSpaceEditor = async () => {
-            if (token.type === "fixed") {
-              const raw = await openEditor({
-                kicker: "Espacios",
-                title: `--mft-space-${key}`,
-                description: "Valor fijo en px.",
-                kind: "text",
-                value: String(token.value),
-                validate: (val) => {
-                  const n = Number(String(val || "").trim());
-                  if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-                  return { ok: true, value: n };
-                },
-                deleteLabel: "Eliminar",
-                deleteConfirm: `¿Eliminar --mft-space-${key}?`,
-                onDelete: () => {
-                  if (isBaseSpaceKey(key)) {
-                    state.spaceHidden = Array.isArray(state.spaceHidden) ? state.spaceHidden : [];
-                    if (!state.spaceHidden.includes(key)) state.spaceHidden.push(key);
-                  } else {
-                    delete state.spaces[key];
-                    state.spaceCustomOrder = Array.isArray(state.spaceCustomOrder) ? state.spaceCustomOrder.filter((item) => item !== key) : [];
-                    state.spaceHidden = Array.isArray(state.spaceHidden) ? state.spaceHidden.filter((item) => item !== key) : [];
-                  }
-                  renderAll();
-                },
-              });
-              if (raw === null) return;
-              const next = Math.max(0, Number(raw));
-              token.value = next;
-              renderAll();
-              return;
-            }
-
-            const minRaw = await openEditor({
-            kicker: "Espacios",
-            title: `--mft-space-${key} (min)`,
-            description: "Mínimo (px).",
-            kind: "text",
-            value: String(token.min),
-            validate: (val) => {
-              const n = Number(String(val || "").trim());
-              if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-              return { ok: true, value: n };
-              },
-              deleteLabel: "Eliminar",
-              deleteConfirm: `¿Eliminar --mft-space-${key}?`,
-              onDelete: () => {
-                if (isBaseSpaceKey(key)) {
-                  state.spaceHidden = Array.isArray(state.spaceHidden) ? state.spaceHidden : [];
-                  if (!state.spaceHidden.includes(key)) state.spaceHidden.push(key);
-                } else {
-                  delete state.spaces[key];
-                  state.spaceCustomOrder = Array.isArray(state.spaceCustomOrder) ? state.spaceCustomOrder.filter((item) => item !== key) : [];
-                  state.spaceHidden = Array.isArray(state.spaceHidden) ? state.spaceHidden.filter((item) => item !== key) : [];
-                }
-                renderAll();
-              },
-            });
-            if (minRaw === null) return;
-
-            const maxRaw = await openEditor({
-            kicker: "Espacios",
-            title: `--mft-space-${key} (max)`,
-            description: "Máximo (px).",
-            kind: "text",
-            value: String(token.max),
-            validate: (val) => {
-              const n = Number(String(val || "").trim());
-              if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-              return { ok: true, value: n };
-            },
-          });
-          if (maxRaw === null) return;
-            const min = Math.max(0, Number(minRaw));
-            const max = Math.max(min, Number(maxRaw));
-            if (Number.isNaN(min) || Number.isNaN(max)) return;
-            token.min = min;
-            token.max = max;
-            renderAll();
-          };
-
-          await openSpaceEditor();
         });
 
         document.getElementById("btnTokens").addEventListener("click", async (event) => {
@@ -4686,95 +4597,6 @@ import { el } from "./core/elements.js";
             return;
           }
 
-          const editPaddingBtn = event.target.closest("[data-padding-edit]");
-          if (editPaddingBtn) {
-            const key = String(editPaddingBtn.dataset.paddingEdit || "").trim();
-            const token = state.paddingSpaces[key];
-            if (!token) return;
-
-            const openPaddingEditor = async () => {
-              if (token.type === "fixed") {
-                const raw = await openEditor({
-                  kicker: "Paddings",
-                  title: `--mft-padding-${key}`,
-                  description: "Valor fijo en px.",
-                  kind: "text",
-                  value: String(token.value),
-                  validate: (val) => {
-                    const n = Number(String(val || "").trim());
-                    if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-                    return { ok: true, value: n };
-                  },
-                  deleteLabel: "Eliminar",
-                  deleteConfirm: `¿Eliminar --mft-padding-${key}?`,
-                  onDelete: () => {
-                    if (isBasePaddingKey(key)) {
-                      state.paddingHidden = Array.isArray(state.paddingHidden) ? state.paddingHidden : [];
-                      if (!state.paddingHidden.includes(key)) state.paddingHidden.push(key);
-                    } else {
-                      delete state.paddingSpaces[key];
-                      state.paddingCustomOrder = Array.isArray(state.paddingCustomOrder) ? state.paddingCustomOrder.filter((item) => item !== key) : [];
-                      state.paddingHidden = Array.isArray(state.paddingHidden) ? state.paddingHidden.filter((item) => item !== key) : [];
-                    }
-                    renderAll();
-                  },
-                });
-                if (raw === null) return;
-                token.value = Math.max(0, Number(raw));
-                renderAll();
-                return;
-              }
-
-              const minRaw = await openEditor({
-                kicker: "Paddings",
-                title: `--mft-padding-${key} (min)`,
-                description: "Mínimo (px).",
-                kind: "text",
-                value: String(token.min),
-                validate: (val) => {
-                  const n = Number(String(val || "").trim());
-                  if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-                  return { ok: true, value: n };
-                },
-                deleteLabel: "Eliminar",
-                deleteConfirm: `¿Eliminar --mft-padding-${key}?`,
-                onDelete: () => {
-                  if (isBasePaddingKey(key)) {
-                    state.paddingHidden = Array.isArray(state.paddingHidden) ? state.paddingHidden : [];
-                    if (!state.paddingHidden.includes(key)) state.paddingHidden.push(key);
-                  } else {
-                    delete state.paddingSpaces[key];
-                    state.paddingCustomOrder = Array.isArray(state.paddingCustomOrder) ? state.paddingCustomOrder.filter((item) => item !== key) : [];
-                    state.paddingHidden = Array.isArray(state.paddingHidden) ? state.paddingHidden.filter((item) => item !== key) : [];
-                  }
-                  renderAll();
-                },
-              });
-              if (minRaw === null) return;
-              const maxRaw = await openEditor({
-                kicker: "Paddings",
-                title: `--mft-padding-${key} (max)`,
-                description: "Máximo (px).",
-                kind: "text",
-                value: String(token.max),
-                validate: (val) => {
-                  const n = Number(String(val || "").trim());
-                  if (!Number.isFinite(n) || n < 0) return { ok: false, message: "Introduce un número válido (>= 0)." };
-                  return { ok: true, value: n };
-                },
-              });
-              if (maxRaw === null) return;
-              const min = Math.max(0, Number(minRaw));
-              const max = Math.max(min, Number(maxRaw));
-              if (Number.isNaN(min) || Number.isNaN(max)) return;
-              token.min = min;
-              token.max = max;
-              renderAll();
-            };
-
-            await openPaddingEditor();
-            return;
-          }
 
           const editLabel = event.target.closest("[data-color-label-key]");
           if (editLabel) {

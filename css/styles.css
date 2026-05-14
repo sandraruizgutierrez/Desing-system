@@ -508,16 +508,9 @@ details[open] .mft-collapsible-chevron {
   background: #F8EAEB;
   border: 1px solid #F7DFE1;
   border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  cursor: default;
   white-space: nowrap;
   font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
-}
-
-.space-edit:hover {
-  color: #C71827;
-  border-color: #C71827;
-  background: #FFFFFF;
 }
 
 .space-fill {
