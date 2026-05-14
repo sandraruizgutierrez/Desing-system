@@ -852,6 +852,16 @@ tbody tr:hover {
   background-color: #F8EAEB;
 }
 
+/* ===== EDITOR MODAL BUTTON ===== */
+
+.editor-ok-btn {
+  background-color: #C71827;
+}
+
+.editor-ok-btn:hover {
+  background-color: #A61620;
+}
+
 
 /* ===== RESPONSIVO ===== */
 
