@@ -2622,12 +2622,12 @@ import { el } from "./core/elements.js";
           const deviceLabel = devices[ctx.device].label;
           const groupLabel =
             ctx.groupKey === "heading"
-              ? "Titulares"
+              ? "Heading"
               : ctx.groupKey === "links"
-                ? "Navegación"
+                ? "Body / Links"
                 : ctx.groupKey === "ui"
                   ? "UI"
-                  : "Cuerpo";
+                  : "Body";
 
           title.textContent = `${groupLabel} | ${deviceLabel}`;
           desc.textContent = "Ajusta la familia y la escala visual. Los nombres visibles se editan en la tabla.";
@@ -4038,9 +4038,9 @@ import { el } from "./core/elements.js";
 
           return `
             <div class="space-y-3">
-              ${groupCard("heading", "Titulares", heading)}
-              ${groupCard("links", "Navegación", links)}
-              ${groupCard("body", "Cuerpo", body)}
+              ${groupCard("heading", "Heading", heading)}
+              ${groupCard("links", "Body / Links", links)}
+              ${groupCard("body", "Body", body)}
             </div>
           `;
         };
