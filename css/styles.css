@@ -567,15 +567,17 @@ details[open] .mft-collapsible-chevron {
 
 #previewCanvas .preview-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
+  width: 100%;
 }
 
 #previewCanvas .preview-column {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  width: 100%;
 }
 
 #previewCanvas .swatch-grid {
