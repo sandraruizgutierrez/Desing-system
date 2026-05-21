@@ -912,3 +912,7 @@ tbody tr:hover {
     grid-template-columns: 1fr;
   }
 }
+/* Hide buttons modals Kit and CSS */
+/* :is(#kitBtn, #sheetBtn, #editorModal), :is(#importBtn+span, #kitBtn+span) {
+    display: none;
+} */

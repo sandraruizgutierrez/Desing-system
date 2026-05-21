@@ -22,6 +22,7 @@ export function setupEditorModal() {
   const rowTextarea = document.getElementById("editorRowTextarea");
   const inputTextarea = document.getElementById("editorTextarea");
 
+
   let activeResolve = null;
   let activeOpts = null;
   let lastFocus = null;
@@ -121,6 +122,7 @@ export function setupEditorModal() {
   }
 
   ok.addEventListener("click", validateAndResolve);
+
   del.addEventListener("click", async () => {
     if (!activeOpts || typeof activeOpts.onDelete !== "function") return;
     const confirmed = typeof activeOpts.deleteConfirm === "string" ? window.confirm(activeOpts.deleteConfirm) : true;
@@ -166,4 +168,3 @@ export function setupEditorModal() {
 
   return { show };
 }
-
