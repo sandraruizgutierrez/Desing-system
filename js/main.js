@@ -4866,9 +4866,12 @@ function displayElementorKitAndStyleCSS() {
       inputTextarea.textContent = event.data.elementorKit;
       // Apply Elementor Kit      
       applyKitCssText(String(event.data.elementorKit));
-      // Apply Style.css
-      // applyStylesheetCssText(String(event.data.elementorKit));
-      console.log('[MIRAI] Data', event.data)
+      // Use a `setTimeout` because the textarea input is the same for both Elementor Kit CSS and style.css
+      setTimeout(()=>{
+        inputTextarea.value = event.data.styleCSS;
+        inputTextarea.textContent = event.data.styleCSS;
+        applyStylesheetCssText(String(event.data.styleCSS));        
+      },300);
     }
   });
 }

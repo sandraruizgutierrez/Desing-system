@@ -10,8 +10,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-reg.ttf")
-    format("truetype");
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-reg.ttf") format("truetype");
 }
 
 @font-face {
@@ -19,8 +18,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-lt.ttf")
-    format("truetype");
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-lt.ttf") format("truetype");
 }
 
 @font-face {
@@ -28,8 +26,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-bd.ttf")
-    format("truetype");
+  src: url("https://static-resources-elementor.mirai.com/wp-content/uploads/sites/2120/Fontspring-DEMO-theseasons-bd.ttf") format("truetype");
 }
 
 
@@ -41,31 +38,54 @@
   --mft-space-4xs: 8px;
   --mft-space-3xs: 12px;
   --mft-space-2xs: 16px;
-  --mft-space-xs:  clamp(16px, calc(16px + (24 - 16) * ((100vw - 1180px) / (1920 - 1180))), 24px);   /* 24 → 16 */
-  --mft-space-s:   clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px);   /* 32 → 24 */
-  --mft-space-m:   clamp(32px, calc(32px + (40 - 32) * ((100vw - 1180px) / (1920 - 1180))), 40px);   /* 40 → 32 */
-  --mft-space-l:   clamp(32px, calc(32px + (48 - 32) * ((100vw - 1180px) / (1920 - 1180))), 48px);   /* 48 → 32 */
-  --mft-space-xl:  clamp(32px, calc(32px + (56 - 32) * ((100vw - 1180px) / (1920 - 1180))), 56px);   /* 56 → 32 */
-  --mft-space-2xl: clamp(48px, calc(48px + (64 - 48) * ((100vw - 1180px) / (1920 - 1180))), 64px);   /* 64 → 48 */
-  --mft-space-3xl: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px);   /* 80 → 48 */
-  --mft-space-4xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px);   /* 96 → 48 */
-  --mft-space-5xl: clamp(48px, calc(48px + (160 - 48) * ((100vw - 1180px) / (1920 - 1180))), 160px); /* 160 → 48 */
+  --mft-space-xs: clamp(16px, calc(16px + (24 - 16) * ((100vw - 1180px) / (1920 - 1180))), 24px);
+  /* 24 → 16 */
+  --mft-space-s: clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px);
+  /* 32 → 24 */
+  --mft-space-m: clamp(32px, calc(32px + (40 - 32) * ((100vw - 1180px) / (1920 - 1180))), 40px);
+  /* 40 → 32 */
+  --mft-space-l: clamp(32px, calc(32px + (48 - 32) * ((100vw - 1180px) / (1920 - 1180))), 48px);
+  /* 48 → 32 */
+  --mft-space-xl: clamp(32px, calc(32px + (56 - 32) * ((100vw - 1180px) / (1920 - 1180))), 56px);
+  /* 56 → 32 */
+  --mft-space-2xl: clamp(48px, calc(48px + (64 - 48) * ((100vw - 1180px) / (1920 - 1180))), 64px);
+  /* 64 → 48 */
+  --mft-space-3xl: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px);
+  /* 80 → 48 */
+  --mft-space-4xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+  /* 96 → 48 */
+  --mft-space-5xl: clamp(48px, calc(48px + (160 - 48) * ((100vw - 1180px) / (1920 - 1180))), 160px);
+  /* 160 → 48 */
 
   /* — Escala de paddings — */
-  --mft-padding-xxs: clamp(4px,  calc(4px  + (8   - 4)   * ((100vw - 1180px) / (1920 - 1180))), 8px);   /* 8 → 4 */
-  --mft-padding-xs:  clamp(8px,  calc(8px  + (12  - 8)   * ((100vw - 1180px) / (1920 - 1180))), 12px);  /* 12 → 8 */
-  --mft-padding-s:   clamp(16px, calc(16px + (32  - 16)  * ((100vw - 1180px) / (1920 - 1180))), 32px);  /* 32 → 16 */
-  --mft-padding-ms:  clamp(24px, calc(24px + (32  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 32px);  /* 32 → 24 */
-  --mft-padding-m:   clamp(24px, calc(24px + (40  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 40px);  /* 40 → 24 */
-  --mft-padding-lxs: clamp(24px, calc(24px + (72  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 72px);  /* 72 → 24 */
-  --mft-padding-ls:  clamp(40px, calc(40px + (72  - 40)  * ((100vw - 1180px) / (1920 - 1180))), 72px);  /* 72 → 40 */
-  --mft-padding-l:   clamp(48px, calc(48px + (80  - 48)  * ((100vw - 1180px) / (1920 - 1180))), 80px);  /* 80 → 48 */
-  --mft-padding-xl:  clamp(24px, calc(24px + (96  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 24 */
-  --mft-padding-2xl: clamp(48px, calc(48px + (96  - 48)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 48 */
-  --mft-padding-3xl: clamp(72px, calc(72px + (96  - 72)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 72 */
-  --mft-padding-4xl: clamp(24px, calc(24px + (96  - 24)  * ((100vw - 1180px) / (1920 - 1180))), 96px);  /* 96 → 24 */
-  --mft-padding-5xl: clamp(72px, calc(72px + (120 - 72)  * ((100vw - 1180px) / (1920 - 1180))), 120px); /* 120 → 72 */
-  --mft-padding-6xl: clamp(72px, calc(72px + (160 - 72)  * ((100vw - 1180px) / (1920 - 1180))), 160px); /* 160 → 72 */
+  --mft-padding-xxs: clamp(4px, calc(4px + (8 - 4) * ((100vw - 1180px) / (1920 - 1180))), 8px);
+  /* 8 → 4 */
+  --mft-padding-xs: clamp(8px, calc(8px + (12 - 8) * ((100vw - 1180px) / (1920 - 1180))), 12px);
+  /* 12 → 8 */
+  --mft-padding-s: clamp(16px, calc(16px + (32 - 16) * ((100vw - 1180px) / (1920 - 1180))), 32px);
+  /* 32 → 16 */
+  --mft-padding-ms: clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px);
+  /* 32 → 24 */
+  --mft-padding-m: clamp(24px, calc(24px + (40 - 24) * ((100vw - 1180px) / (1920 - 1180))), 40px);
+  /* 40 → 24 */
+  --mft-padding-lxs: clamp(24px, calc(24px + (72 - 24) * ((100vw - 1180px) / (1920 - 1180))), 72px);
+  /* 72 → 24 */
+  --mft-padding-ls: clamp(40px, calc(40px + (72 - 40) * ((100vw - 1180px) / (1920 - 1180))), 72px);
+  /* 72 → 40 */
+  --mft-padding-l: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px);
+  /* 80 → 48 */
+  --mft-padding-xl: clamp(24px, calc(24px + (96 - 24) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+  /* 96 → 24 */
+  --mft-padding-2xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+  /* 96 → 48 */
+  --mft-padding-3xl: clamp(72px, calc(72px + (96 - 72) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+  /* 96 → 72 */
+  --mft-padding-4xl: clamp(24px, calc(24px + (96 - 24) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+  /* 96 → 24 */
+  --mft-padding-5xl: clamp(72px, calc(72px + (120 - 72) * ((100vw - 1180px) / (1920 - 1180))), 120px);
+  /* 120 → 72 */
+  --mft-padding-6xl: clamp(72px, calc(72px + (160 - 72) * ((100vw - 1180px) / (1920 - 1180))), 160px);
+  /* 160 → 72 */
 
   /* — Anchos de layout — */
   --width-s: 700px;
@@ -77,46 +97,46 @@
   --min-height-l: 600px;
 
   /* — Colores del kit Elementor 1397 — */
-  --e-global-color-primary:    #d09e5c;
-  --e-global-color-secondary:  #32505c;
-  --e-global-color-accent:     #e0bf93;
-  --e-global-color-text:       #202020;
-  --e-global-color-52235058:   #45341e;
-  --e-global-color-13f4851a:   #89683d;
-  --e-global-color-6cb047a:    #f1e5d9;
-  --e-global-color-c192f6c:    #faf6f2;
-  --e-global-color-d2ec73e:    #111a1e;
-  --e-global-color-cde7fbb:    #21353d;
-  --e-global-color-ca1687a:    #788b93;
-  --e-global-color-9c3eef3:    #bbc5c9;
-  --e-global-color-f79e654:    #eaedef;
-  --e-global-color-21f8c9b7:   #202020;
-  --e-global-color-d9f1a36:    #484848;
-  --e-global-color-485e56c:    #737373;
-  --e-global-color-610777e:    #e4e4e4;
-  --e-global-color-15b9b07:    #f6f6f6;
-  --e-global-color-47eea86e:   #fff;
-  --e-global-color-bd9d5b8:    #1c3042;
-  --e-global-color-fc842eb:    #89683d;
-  --e-global-color-e0ef2e7:    #1c3042;
+  --e-global-color-primary: #d09e5c;
+  --e-global-color-secondary: #32505c;
+  --e-global-color-accent: #e0bf93;
+  --e-global-color-text: #202020;
+  --e-global-color-52235058: #45341e;
+  --e-global-color-13f4851a: #89683d;
+  --e-global-color-6cb047a: #f1e5d9;
+  --e-global-color-c192f6c: #faf6f2;
+  --e-global-color-d2ec73e: #111a1e;
+  --e-global-color-cde7fbb: #21353d;
+  --e-global-color-ca1687a: #788b93;
+  --e-global-color-9c3eef3: #bbc5c9;
+  --e-global-color-f79e654: #eaedef;
+  --e-global-color-21f8c9b7: #202020;
+  --e-global-color-d9f1a36: #484848;
+  --e-global-color-485e56c: #737373;
+  --e-global-color-610777e: #e4e4e4;
+  --e-global-color-15b9b07: #f6f6f6;
+  --e-global-color-47eea86e: #fff;
+  --e-global-color-bd9d5b8: #1c3042;
+  --e-global-color-fc842eb: #89683d;
+  --e-global-color-e0ef2e7: #1c3042;
 
   /* — Alias de conveniencia Mirai — */
-  --mirai-wp-primary:                    #d09e5c;
-  --mirai-wp-secondary:                  #32505c;
-  --mirai-wp-primary-light:              #e0bf93;
-  --mirai-ui-content:                    #202020;
-  --mirai-wp-primary-dark:               #89683d;
-  --mirai-ui-button-color:               #ffffff;
-  --mirai-ui-button-background:          #202020;
-  --mirai-ui-button-color-active:        #ffffff;
-  --mirai-ui-button-background-active:   #d09e5c;
+  --mirai-wp-primary: #d09e5c;
+  --mirai-wp-secondary: #32505c;
+  --mirai-wp-primary-light: #e0bf93;
+  --mirai-ui-content: #202020;
+  --mirai-wp-primary-dark: #89683d;
+  --mirai-ui-button-color: #ffffff;
+  --mirai-ui-button-background: #202020;
+  --mirai-ui-button-color-active: #ffffff;
+  --mirai-ui-button-background-active: #d09e5c;
 
   /* — Tipografía del kit (botones y UI) — */
-  --e-global-typography-6d2edf1-font-family:    "Lato", sans-serif;
-  --e-global-typography-6d2edf1-font-size:      18px;
-  --e-global-typography-6d2edf1-font-weight:    600;
+  --e-global-typography-6d2edf1-font-family: "Lato", sans-serif;
+  --e-global-typography-6d2edf1-font-size: 18px;
+  --e-global-typography-6d2edf1-font-weight: 600;
   --e-global-typography-6d2edf1-text-transform: none;
-  --e-global-typography-6d2edf1-line-height:    1.1;
+  --e-global-typography-6d2edf1-line-height: 1.1;
   --e-global-typography-6d2edf1-letter-spacing: 0em;
 }
 
@@ -170,19 +190,19 @@ body {
 
 /* ===== COLLAPSIBLES (DETAILS / SUMMARY) ===== */
 
-details.reference-card > summary {
+details.reference-card>summary {
   list-style: none;
 }
 
-details.reference-card > summary::-webkit-details-marker {
+details.reference-card>summary::-webkit-details-marker {
   display: none;
 }
 
-#buttonFields details > summary {
+#buttonFields details>summary {
   list-style: none;
 }
 
-#buttonFields details > summary::-webkit-details-marker {
+#buttonFields details>summary::-webkit-details-marker {
   display: none;
 }
 
@@ -280,6 +300,7 @@ details[open] .mft-collapsible-chevron {
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .elementor-button.mft-btn-2:hover::after,
   .elementor-button.mft-btn-4:hover::after,
   .elementor-button.mft-btn-5:hover::after {
@@ -288,82 +309,82 @@ details[open] .mft-collapsible-chevron {
 }
 
 .elementor-button.mft-btn-2 {
-  font-family:   var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size:     var(--mft-btn-2-font-size,   var(--e-global-typography-6d2edf1-font-size));
-  font-weight:   var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color:            var(--mft-btn-2-color);
+  font-family: var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size: var(--mft-btn-2-font-size, var(--e-global-typography-6d2edf1-font-size));
+  font-weight: var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color: var(--mft-btn-2-color);
   background-color: var(--mft-btn-2-bg);
-  border:           var(--mft-btn-2-border);
-  border-radius:    var(--mft-btn-2-radius);
-  padding:          var(--mft-btn-2-pad-y) var(--mft-btn-2-pad-x);
+  border: var(--mft-btn-2-border);
+  border-radius: var(--mft-btn-2-radius);
+  padding: var(--mft-btn-2-pad-y) var(--mft-btn-2-pad-x);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .elementor-button.mft-btn-2:hover {
-    color:            var(--mft-btn-2-hover-color, var(--mft-btn-2-color));
+    color: var(--mft-btn-2-hover-color, var(--mft-btn-2-color));
     background-color: var(--mft-btn-2-hover-bg);
-    border:           var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
-    border-radius:    var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
+    border: var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
+    border-radius: var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
   }
 }
 
 .elementor-button.mft-btn-3 {
-  font-family:   var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size:     var(--mft-btn-3-font-size,   var(--e-global-typography-6d2edf1-font-size));
-  font-weight:   var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color:            var(--mft-btn-3-color);
+  font-family: var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size: var(--mft-btn-3-font-size, var(--e-global-typography-6d2edf1-font-size));
+  font-weight: var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color: var(--mft-btn-3-color);
   background-color: var(--mft-btn-3-bg);
-  border:           var(--mft-btn-3-border);
-  border-radius:    var(--mft-btn-3-radius);
-  padding:          var(--mft-btn-3-pad-y) var(--mft-btn-3-pad-x);
+  border: var(--mft-btn-3-border);
+  border-radius: var(--mft-btn-3-radius);
+  padding: var(--mft-btn-3-pad-y) var(--mft-btn-3-pad-x);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .elementor-button.mft-btn-3:hover {
-    color:            var(--mft-btn-3-hover-color, var(--mft-btn-3-color));
+    color: var(--mft-btn-3-hover-color, var(--mft-btn-3-color));
     background-color: var(--mft-btn-3-hover-bg);
-    border:           var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
-    border-radius:    var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
+    border: var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
+    border-radius: var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
   }
 }
 
 .elementor-button.mft-btn-4 {
-  font-family:   var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size:     var(--mft-btn-4-font-size,   var(--e-global-typography-6d2edf1-font-size));
-  font-weight:   var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color:            var(--mft-btn-4-color);
+  font-family: var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size: var(--mft-btn-4-font-size, var(--e-global-typography-6d2edf1-font-size));
+  font-weight: var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color: var(--mft-btn-4-color);
   background-color: var(--mft-btn-4-bg);
-  border:           var(--mft-btn-4-border);
-  border-radius:    var(--mft-btn-4-radius);
-  padding:          var(--mft-btn-4-pad-y) var(--mft-btn-4-pad-x);
+  border: var(--mft-btn-4-border);
+  border-radius: var(--mft-btn-4-radius);
+  padding: var(--mft-btn-4-pad-y) var(--mft-btn-4-pad-x);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .elementor-button.mft-btn-4:hover {
-    color:            var(--mft-btn-4-hover-color, var(--mft-btn-4-color));
+    color: var(--mft-btn-4-hover-color, var(--mft-btn-4-color));
     background-color: var(--mft-btn-4-hover-bg);
-    border:           var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
-    border-radius:    var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
+    border: var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
+    border-radius: var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
   }
 }
 
 .elementor-button.mft-btn-5 {
-  font-family:   var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size:     var(--mft-btn-5-font-size,   var(--e-global-typography-6d2edf1-font-size));
-  font-weight:   var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color:            var(--mft-btn-5-color);
+  font-family: var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
+  font-size: var(--mft-btn-5-font-size, var(--e-global-typography-6d2edf1-font-size));
+  font-weight: var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
+  color: var(--mft-btn-5-color);
   background-color: var(--mft-btn-5-bg);
-  border:           var(--mft-btn-5-border);
-  border-radius:    var(--mft-btn-5-radius);
-  padding:          var(--mft-btn-5-pad-y) var(--mft-btn-5-pad-x);
+  border: var(--mft-btn-5-border);
+  border-radius: var(--mft-btn-5-radius);
+  padding: var(--mft-btn-5-pad-y) var(--mft-btn-5-pad-x);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .elementor-button.mft-btn-5:hover {
-    color:            var(--mft-btn-5-hover-color, var(--mft-btn-5-color));
+    color: var(--mft-btn-5-hover-color, var(--mft-btn-5-color));
     background-color: var(--mft-btn-5-hover-bg);
-    border:           var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
-    border-radius:    var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
+    border: var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
+    border-radius: var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
   }
 }
 
@@ -746,8 +767,8 @@ details[open] .mft-collapsible-chevron {
   width: 100%;
 }
 
-.btn-grid > button,
-.btn-grid > .elementor-button {
+.btn-grid>button,
+.btn-grid>.elementor-button {
   padding: 12px 20px;
   font-size: 12px;
   border-radius: 16px;
@@ -755,8 +776,8 @@ details[open] .mft-collapsible-chevron {
   border: 1px solid #F7DFE1;
 }
 
-.btn-grid > button:hover,
-.btn-grid > .elementor-button:hover {
+.btn-grid>button:hover,
+.btn-grid>.elementor-button:hover {
   border-color: #C71827;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(199, 24, 39, 0.15);
@@ -778,7 +799,12 @@ details[open] .mft-collapsible-chevron {
 }
 
 /* Mejoras de tipografía */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Aptos", "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
   font-weight: 500;
   color: #333333;
@@ -833,26 +859,61 @@ h3 {
 }
 
 /* Todos los kickers con rojo consistente */
-.kicker-color { color: #C71827; }
-.kicker-color .section-kicker-dot { background-color: #C71827; }
+.kicker-color {
+  color: #C71827;
+}
 
-.kicker-space { color: #C71827; }
-.kicker-space .section-kicker-dot { background-color: #C71827; }
+.kicker-color .section-kicker-dot {
+  background-color: #C71827;
+}
 
-.kicker-padding { color: #C71827; }
-.kicker-padding .section-kicker-dot { background-color: #C71827; }
+.kicker-space {
+  color: #C71827;
+}
 
-.kicker-type { color: #C71827; }
-.kicker-type .section-kicker-dot { background-color: #C71827; }
+.kicker-space .section-kicker-dot {
+  background-color: #C71827;
+}
 
-.kicker-image { color: #C71827; }
-.kicker-image .section-kicker-dot { background-color: #C71827; }
+.kicker-padding {
+  color: #C71827;
+}
 
-.kicker-context { color: #C71827; }
-.kicker-context .section-kicker-dot { background-color: #C71827; }
+.kicker-padding .section-kicker-dot {
+  background-color: #C71827;
+}
 
-.kicker-buttons { color: #C71827; }
-.kicker-buttons .section-kicker-dot { background-color: #C71827; }
+.kicker-type {
+  color: #C71827;
+}
+
+.kicker-type .section-kicker-dot {
+  background-color: #C71827;
+}
+
+.kicker-image {
+  color: #C71827;
+}
+
+.kicker-image .section-kicker-dot {
+  background-color: #C71827;
+}
+
+.kicker-context {
+  color: #C71827;
+}
+
+.kicker-context .section-kicker-dot {
+  background-color: #C71827;
+}
+
+.kicker-buttons {
+  color: #C71827;
+}
+
+.kicker-buttons .section-kicker-dot {
+  background-color: #C71827;
+}
 
 
 /* ===== TABLAS ===== */
@@ -912,7 +973,9 @@ tbody tr:hover {
     grid-template-columns: 1fr;
   }
 }
+
 /* Hide buttons modals Kit and CSS */
-/* :is(#kitBtn, #sheetBtn, #editorModal), :is(#importBtn+span, #kitBtn+span) {
-    display: none;
-} */
+:is(#kitBtn, #sheetBtn, #editorModal),
+:is(#importBtn+span, #kitBtn+span) {
+  display: none;
+}
