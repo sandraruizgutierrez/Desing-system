@@ -3006,28 +3006,39 @@ function setupButtonModal() {
       })
       .join("");
 
-    const padYActive = selectedLabel(padYValue, spaceOptions, "space") || "Pad Y";
-    const padXActive = selectedLabel(padXValue, spaceOptions, "space") || "Pad X";
+    const padYCurrentOpt = spaceOptions.find((o) => String(o.value) === String(padYValue));
+    const padYCurrentLabel = padYCurrentOpt?.label || selectedLabel(padYValue, spaceOptions, "space") || "Pad Y";
+    const padYCurrentResolved = resolveSpaceLikeForDevice(state.device, padYValue);
+    const padYCurrentPx = String(Math.max(0, Math.round(Number(padYCurrentResolved.px || 0))));
 
-    const padYPills = spaceOptions
+    const padXCurrentOpt = spaceOptions.find((o) => String(o.value) === String(padXValue));
+    const padXCurrentLabel = padXCurrentOpt?.label || selectedLabel(padXValue, spaceOptions, "space") || "Pad X";
+    const padXCurrentResolved = resolveSpaceLikeForDevice(state.device, padXValue);
+    const padXCurrentPx = String(Math.max(0, Math.round(Number(padXCurrentResolved.px || 0))));
+
+    const padYOptions = spaceOptions
       .map((opt) => {
-        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
         const isActive = String(opt.value) === String(padYValue);
+        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
+        const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
         return `
-          <button type="button" data-button-field="padY" data-button-value="${opt.value}" title="${escapeHtml(opt.label)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
-            ${opt.label}
+          <button type="button" data-button-field="padY" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <span class="flex-1 font-semibold">${opt.label}</span>
+            <span class="shrink-0 font-mono text-[8px] opacity-60">${pxValue}px</span>
           </button>
         `;
       })
       .join("");
 
-    const padXPills = spaceOptions
+    const padXOptions = spaceOptions
       .map((opt) => {
-        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
         const isActive = String(opt.value) === String(padXValue);
+        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
+        const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
         return `
-          <button type="button" data-button-field="padX" data-button-value="${opt.value}" title="${escapeHtml(opt.label)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
-            ${opt.label}
+          <button type="button" data-button-field="padX" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <span class="flex-1 font-semibold">${opt.label}</span>
+            <span class="shrink-0 font-mono text-[8px] opacity-60">${pxValue}px</span>
           </button>
         `;
       })
@@ -3068,17 +3079,38 @@ function setupButtonModal() {
           </details>
 
           <!-- Pad Y Row -->
-          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
-            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad Y</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${padYPills}</div>
-            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${padYActive}</span>
-          </div>
+          <details class="border-b border-slate-100">
+            <summary class="flex cursor-pointer list-none items-center gap-2 py-1.5">
+              <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad Y</span>
+              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+                ${padYCurrentLabel}
+              </span>
+              <span class="font-mono text-[9px] text-slate-400">${padYCurrentPx}px</span>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <div class="mb-1.5 max-h-56 space-y-0.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-1 scrollbar-none">
+              ${padYOptions}
+            </div>
+          </details>
 
           <!-- Pad X Row -->
-          <div class="flex items-center gap-2 py-1.5">
-            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad X</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${padXPills}</div>
-            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${padXActive}</span>
+          <details>
+            <summary class="flex cursor-pointer list-none items-center gap-2 py-1.5">
+              <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad X</span>
+              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+                ${padXCurrentLabel}
+              </span>
+              <span class="font-mono text-[9px] text-slate-400">${padXCurrentPx}px</span>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <div class="mb-1.5 max-h-56 space-y-0.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-1 scrollbar-none">
+              ${padXOptions}
+            </div>
+          </details>
           </div>
         </div>
       </div>
@@ -3269,82 +3301,109 @@ function setupButtonModal() {
     else if (type === "font") activeValue = normalizeFontFamily(active);
     else if (type === "preset") activeValue = String(active || "");
     else activeValue = active;
-    const optionGridClass =
-      layout ||
-      (type === "color" || type === "border"
-        ? "grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7"
-        : type === "space"
-          ? "grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          : "flex flex-wrap gap-1.5");
+
     const containerClass = compact ? "rounded-2xl border border-slate-200/80 bg-white p-2" : "rounded-2xl border border-slate-200/80 bg-white p-2.5";
-    const headerGapClass = compact ? "flex items-center justify-between gap-1.5" : "flex items-center justify-between gap-2";
     const labelClass = compact ? "text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500" : "text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500";
-    const valueClass = compact ? "mt-0.5 text-[11px] font-medium text-slate-500" : "mt-0.5 text-xs font-medium text-slate-500";
-    const badgeClass = compact
-      ? "rounded-full bg-slate-50 px-2 py-0.5 font-mono text-[9px] font-semibold text-slate-500 ring-1 ring-slate-200/80"
-      : "rounded-full bg-slate-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200/80";
-    const buttonClass = compact
-      ? "inline-flex min-h-7 min-w-0 items-center gap-1.5 rounded-full px-2 py-[3px] text-left text-[9px] ring-1 transition"
-      : "inline-flex min-h-8 min-w-0 items-center gap-2 rounded-full px-2.5 py-1 text-left text-[10px] ring-1 transition";
-    const optionLabelClass = compact ? "truncate font-semibold tracking-[0.02em]" : "truncate font-semibold tracking-[0.03em]";
-    const optionHexClass = compact ? "mt-0.5 truncate text-[8px] font-medium opacity-75" : "mt-0.5 truncate text-[9px] font-medium opacity-75";
 
-    const pillsHtml = `<div class="mt-2 ${optionGridClass}">
-                ${options
-        .map((option) => {
-          let isActive = false;
-          if (type === "color") isActive = normalizeColorTokenValue(option.value) === activeValue;
-          else if (type === "font") isActive = normalizeFontFamily(option.value) === activeValue;
-          else if (type === "preset") isActive = String(option.value) === activeValue;
-          else isActive = option.value === activeValue;
-          const style =
-            type === "color"
-              ? `style="--swatch:${option.swatch}; background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0)); background-color: ${option.swatch}; color: ${getReadableTextColor(option.swatch)};"`
-              : "";
-          const colorHex = type === "color" ? String(option.swatch || "").toLowerCase() : "";
-          const optionTitle = type === "color" ? `${option.label} · ${colorHex}` : String(option.label || option.value || "");
-          return `
-                      <button type="button" data-button-field="${field}" data-button-value="${option.value}" title="${escapeHtml(optionTitle)}" aria-label="${escapeHtml(optionTitle)}" class="${buttonClass} ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}" ${style}>
-                        <span class="flex min-w-0 flex-col leading-none">
-                          <span class="${optionLabelClass}">${option.label}</span>
-                          ${type === "color" ? `<span class="${optionHexClass}">${colorHex}</span>` : ""}
-                        </span>
-                      </button>
-                    `;
-        })
-        .join("")}
-              </div>`;
+    const currentOption = options.find((o) => {
+      if (type === "color") return normalizeColorTokenValue(o.value) === activeValue;
+      else if (type === "preset") return String(o.value) === activeValue;
+      else if (type === "space") return String(o.value) === activeValue;
+      else return o.value === activeValue;
+    });
 
-    const headerHtml = `<div class="${headerGapClass}">
-                <div>
-                  <p class="${labelClass}">${label}</p>
-                  <p class="${valueClass}">${selectedLabel(active, options, type)}</p>
-                </div>
-                <span class="${badgeClass}">${describeCssValue(active)}</span>
-              </div>`;
+    const currentLabel = currentOption?.label || selectedLabel(active, options, type);
+    const currentValue = currentOption?.value || active;
 
+    let summaryContent = "";
     if (type === "color") {
-      return `
-            <details class="${containerClass}">
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-2">
-                ${headerHtml}
-                <span class="mft-collapsible-chevron inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-                  <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-              </summary>
-              ${pillsHtml}
-            </details>
+      const swatch = currentOption?.swatch || "#cccccc";
+      summaryContent = `
+        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] text-slate-700">
+          <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${swatch};"></span>
+          <span class="truncate font-semibold">${currentLabel}</span>
+        </span>
+        <span class="font-mono text-[9px] text-slate-400">${String(swatch).toLowerCase()}</span>
+      `;
+    } else if (type === "space") {
+      const resolved = resolveSpaceLikeForDevice(state.device, currentValue);
+      const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
+      summaryContent = `
+        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+          ${currentLabel}
+        </span>
+        <span class="font-mono text-[9px] text-slate-400">${pxValue}px</span>
+      `;
+    } else {
+      summaryContent = `
+        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+          ${currentLabel}
+        </span>
+      `;
+    }
+
+    let optionsListHtml = "";
+    if (type === "color") {
+      optionsListHtml = options
+        .map((opt) => {
+          const isActive = normalizeColorTokenValue(opt.value) === activeValue;
+          const colorHex = String(opt.swatch || "").toLowerCase();
+          return `
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+              <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold">${opt.label}</div>
+                <div class="text-[8px] opacity-60 font-mono">${colorHex}</div>
+              </div>
+            </button>
           `;
+        })
+        .join("");
+    } else if (type === "space") {
+      optionsListHtml = options
+        .map((opt) => {
+          const isActive = String(opt.value) === String(activeValue);
+          const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
+          const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
+          return `
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+              <span class="flex-1 font-semibold">${opt.label}</span>
+              <span class="shrink-0 font-mono text-[8px] opacity-60">${pxValue}px</span>
+            </button>
+          `;
+        })
+        .join("");
+    } else {
+      optionsListHtml = options
+        .map((opt) => {
+          let isActive = false;
+          if (type === "preset") isActive = String(opt.value) === activeValue;
+          else isActive = opt.value === activeValue;
+          return `
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+              <span class="flex-1 font-semibold">${opt.label}</span>
+            </button>
+          `;
+        })
+        .join("");
     }
 
     return `
-            <div class="${containerClass}">
-              ${headerHtml}
-              ${pillsHtml}
-            </div>
-          `;
+      <details class="${containerClass}">
+        <summary class="flex cursor-pointer list-none items-center gap-2 py-1.5">
+          ${summaryContent}
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200">
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+          </svg>
+        </summary>
+        <div class="mb-1.5 max-h-56 space-y-0.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-1 scrollbar-none">
+          ${optionsListHtml}
+        </div>
+      </details>
+    `;
   }
 
   function renderPreviewButton(label, cfg, className) {
@@ -3437,21 +3496,6 @@ function setupButtonModal() {
     const typographySection = [
       renderChooserRow("Preset tipográfico", "typographyPreset", typographyOptions, cfg.typographyPreset || "button", "preset"),
     ].join("");
-    const paddingSection = `
-            <div class="rounded-2xl border border-slate-200/80 bg-white p-2.5">
-              <div class="flex items-center justify-between gap-2">
-                <div>
-                  <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Padding</p>
-                  <p class="mt-0.5 text-xs font-medium text-slate-500">Pad Y y Pad X juntos</p>
-                </div>
-                <span class="rounded-full bg-slate-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200/80">2 bloques</span>
-              </div>
-              <div class="mt-2 grid gap-2 lg:grid-cols-2">
-                ${renderChooserRow("Pad Y (Top / Bottom)", "padY", spaceOptions, cfg.padY, "space", "grid grid-cols-2 gap-1 sm:grid-cols-3 xl:grid-cols-4", true)}
-                ${renderChooserRow("Pad X (Left / Right)", "padX", spaceOptions, cfg.padX, "space", "grid grid-cols-2 gap-1 sm:grid-cols-3 xl:grid-cols-4", true)}
-              </div>
-            </div>
-          `;
     const boxSection = renderShapeSection(cfg, colorOptions, spaceOptions);
     return `
             <div class="space-y-2">
