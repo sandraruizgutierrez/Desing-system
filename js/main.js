@@ -3508,7 +3508,7 @@ function setupButtonModal() {
       "Color",
       "Texto y fondo",
       `
-                      <div class="grid gap-2 lg:grid-cols-2">
+                      <div class="space-y-2">
                         ${renderChooserRow("Text color", "color", colorOptions, cfg.color, "color")}
                         ${renderChooserRow("Background", "bg", colorOptions, cfg.bg, "color")}
                       </div>
@@ -3527,7 +3527,7 @@ function setupButtonModal() {
   function renderHoverTab(cfg) {
     const colorOptions = getColorTokenOptions();
     const hoverColorSection = `
-            <div class="grid gap-2 lg:grid-cols-2">
+            <div class="space-y-2">
               ${renderChooserRow("Hover bg", "hoverBg", colorOptions, cfg.hoverBg, "color")}
               ${renderChooserRow("Hover text", "hoverColor", colorOptions, cfg.hoverColor, "color")}
             </div>
