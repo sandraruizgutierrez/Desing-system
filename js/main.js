@@ -2618,15 +2618,8 @@ async function openClipboardImportEditor({ kicker, title, description, emptyMess
 
 const editor = setupEditorModal();
 async function openEditor(opts) {
-  console.log("openEditor called with opts:", opts);
-  if (!editor) {
-    console.log("editor is null!");
-    return null;
-  }
-  console.log("Calling editor.show()");
-  const result = await editor.show(opts);
-  console.log("editor.show() returned:", result);
-  return result;
+  if (!editor) return null;
+  return editor.show(opts);
 }
 
 function setupTypeModal() {
@@ -4141,15 +4134,11 @@ function renderAll() {
 }
 
 function bindInputs() {
-  console.log("bindInputs called, colorSwatches element:", document.getElementById("colorSwatches"));
   document.addEventListener("click", async (event) => {
     if (!event.target.closest("#colorSwatches")) return;
-    console.log("Click detected in colorSwatches");
     const editLabel = event.target.closest("[data-color-label-key]");
     const editMain = event.target.closest("[data-color-edit-key]");
-    console.log("editLabel:", editLabel, "editMain:", editMain, "target:", event.target);
     if (editLabel) {
-      console.log("Handling label edit");
       const key = String(editLabel.dataset.colorLabelKey || "").trim();
       const entry = state.paletteLabels.find((item) => item.key === key);
       if (!entry) return;
