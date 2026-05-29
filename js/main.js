@@ -2816,6 +2816,7 @@ function setupButtonModal() {
   const desc = document.getElementById("buttonDesc");
   const preview = document.getElementById("buttonPreview");
   const fields = document.getElementById("buttonFields");
+  const css = document.getElementById("buttonCss");
   const activeValue = document.getElementById("buttonActiveValue");
   const resetDraft = document.getElementById("buttonResetDraft");
   const error = document.getElementById("buttonError");
@@ -3556,6 +3557,8 @@ function setupButtonModal() {
     fields.innerHTML = [
       renderTabBar(),
       activeTab === "normal" ? renderNormalTab(cfg) : renderHoverTab(cfg),
+    ].join("");
+    css.innerHTML = [
       renderButtonSection(
         "CSS listo",
         "Pega este bloque en tu hoja",
