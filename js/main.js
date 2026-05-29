@@ -2986,14 +2986,19 @@ function setupButtonModal() {
       )
       .join("");
 
-    const colorPills = colorOptions
+    const borderColorCurrentOpt = colorOptions.find((o) => normalizeColorTokenValue(o.value) === normalizeColorTokenValue(borderColorValue));
+    const borderColorCurrentSwatch = borderColorCurrentOpt?.swatch || "#cccccc";
+    const borderColorCurrentLabel = borderColorCurrentOpt?.label || "Color";
+
+    const colorList = colorOptions
       .map((opt) => {
         const isActive = normalizeColorTokenValue(opt.value) === normalizeColorTokenValue(borderColorValue);
         const colorHex = String(opt.swatch || "").toLowerCase();
         return `
-          <button type="button" data-button-field="borderColor" data-button-value="${opt.value}" title="${escapeHtml(opt.label + " · " + colorHex)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap flex items-center gap-1 ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}" style="--swatch:${opt.swatch}; background-color: ${isActive ? opt.swatch : "white"}; color: ${isActive ? getReadableTextColor(opt.swatch) : "inherit"};">
-            <span class="inline-block w-3 h-3 rounded-full" style="background-color: ${opt.swatch}; border: 1px solid rgba(0,0,0,0.1);"></span>
-            ${opt.label}
+          <button type="button" data-button-field="borderColor" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
+            <span class="flex-1 font-semibold">${opt.label}</span>
+            <span class="shrink-0 font-mono text-[8px] opacity-60">${colorHex}</span>
           </button>
         `;
       })
@@ -3043,12 +3048,22 @@ function setupButtonModal() {
             <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${radiusValue}px</span>
           </div>
 
-          <!-- Border Color Row -->
-          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
-            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${colorPills}</div>
-            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${selectedLabel(borderColorValue, colorOptions, "color")}</span>
-          </div>
+          <!-- Border Color Row with Details Dropdown -->
+          <details class="border-b border-slate-100">
+            <summary class="flex cursor-pointer list-none items-center gap-2 py-1.5">
+              <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
+              <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] text-slate-700">
+                <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${borderColorCurrentSwatch};"></span>
+                <span class="truncate font-semibold">${borderColorCurrentLabel}</span>
+              </span>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <div class="mb-1.5 max-h-56 space-y-0.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-1 scrollbar-none">
+              ${colorList}
+            </div>
+          </details>
 
           <!-- Pad Y Row -->
           <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
@@ -3091,14 +3106,19 @@ function setupButtonModal() {
       )
       .join("");
 
-    const colorPills = colorOptions
+    const hoverBorderColorCurrentOpt = colorOptions.find((o) => normalizeColorTokenValue(o.value) === normalizeColorTokenValue(hoverBorderColorValue));
+    const hoverBorderColorCurrentSwatch = hoverBorderColorCurrentOpt?.swatch || "#cccccc";
+    const hoverBorderColorCurrentLabel = hoverBorderColorCurrentOpt?.label || "Color";
+
+    const colorList = colorOptions
       .map((opt) => {
         const isActive = normalizeColorTokenValue(opt.value) === normalizeColorTokenValue(hoverBorderColorValue);
         const colorHex = String(opt.swatch || "").toLowerCase();
         return `
-          <button type="button" data-button-field="hoverBorderColor" data-button-value="${opt.value}" title="${escapeHtml(opt.label + " · " + colorHex)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap flex items-center gap-1 ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}" style="--swatch:${opt.swatch}; background-color: ${isActive ? opt.swatch : "white"}; color: ${isActive ? getReadableTextColor(opt.swatch) : "inherit"};">
-            <span class="inline-block w-3 h-3 rounded-full" style="background-color: ${opt.swatch}; border: 1px solid rgba(0,0,0,0.1);"></span>
-            ${opt.label}
+          <button type="button" data-button-field="hoverBorderColor" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
+            <span class="flex-1 font-semibold">${opt.label}</span>
+            <span class="shrink-0 font-mono text-[8px] opacity-60">${colorHex}</span>
           </button>
         `;
       })
@@ -3121,11 +3141,22 @@ function setupButtonModal() {
             <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${hoverRadiusValue}px</span>
           </div>
 
-          <!-- Hover Border Color Row -->
-          <div class="flex items-center gap-2 py-1.5">
-            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${colorPills}</div>
-            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${selectedLabel(hoverBorderColorValue, colorOptions, "color")}</span>
+          <!-- Hover Border Color Row with Details Dropdown -->
+          <details class="border-b border-slate-100">
+            <summary class="flex cursor-pointer list-none items-center gap-2 py-1.5">
+              <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
+              <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] text-slate-700">
+                <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${hoverBorderColorCurrentSwatch};"></span>
+                <span class="truncate font-semibold">${hoverBorderColorCurrentLabel}</span>
+              </span>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <div class="mb-1.5 max-h-56 space-y-0.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-1 scrollbar-none">
+              ${colorList}
+            </div>
+          </details>
           </div>
         </div>
       </div>
