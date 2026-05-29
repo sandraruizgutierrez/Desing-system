@@ -3291,8 +3291,8 @@ function setupButtonModal() {
     else if (type === "preset") activeValue = String(active || "");
     else activeValue = active;
 
-    const containerClass = compact ? "rounded-2xl border border-slate-200/80 bg-white p-2" : "rounded-2xl border border-slate-200/80 bg-white p-2.5";
-    const labelClass = compact ? "text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500" : "text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500";
+    const containerClass = compact ? "rounded-2xl border border-slate-200/80 bg-white p-2" : "rounded-2xl border border-slate-200/80 bg-white p-3";
+    const labelClass = compact ? "text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500" : "text-xs font-semibold uppercase tracking-[0.16em] text-slate-400";
 
     const currentOption = options.find((o) => {
       if (type === "color") return normalizeColorTokenValue(o.value) === activeValue;
@@ -3341,11 +3341,11 @@ function setupButtonModal() {
           const isActive = normalizeColorTokenValue(opt.value) === activeValue;
           const colorHex = String(opt.swatch || "").toLowerCase();
           return `
-            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
-              <span class="h-5 w-5 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+              <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
               <div class="flex-1 min-w-0">
                 <div class="font-semibold">${opt.label}</div>
-                <div class="text-xs opacity-60 font-mono">${colorHex}</div>
+                <div class="text-[8px] opacity-60 font-mono">${colorHex}</div>
               </div>
             </button>
           `;
@@ -3358,9 +3358,9 @@ function setupButtonModal() {
           const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
           const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
           return `
-            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
               <span class="flex-1 font-semibold">${opt.label}</span>
-              <span class="shrink-0 font-mono text-xs opacity-60">${pxValue}px</span>
+              <span class="shrink-0 font-mono text-[8px] opacity-60">${pxValue}px</span>
             </button>
           `;
         })
@@ -3372,7 +3372,7 @@ function setupButtonModal() {
           if (type === "preset") isActive = String(opt.value) === activeValue;
           else isActive = opt.value === activeValue;
           return `
-            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            <button type="button" data-button-field="${field}" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
               <span class="flex-1 font-semibold">${opt.label}</span>
             </button>
           `;
@@ -3382,13 +3382,13 @@ function setupButtonModal() {
 
     return `
       <details class="${containerClass}">
-        <summary class="flex cursor-pointer list-none items-center gap-2 py-2.5">
+        <summary class="flex cursor-pointer list-none items-center gap-2 py-2">
           ${summaryContent}
-          <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200">
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
           </svg>
         </summary>
-        <div class="relative z-50 mb-2 max-h-72 space-y-1.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-2.5 scrollbar-none">
+        <div class="relative z-50 mb-2 max-h-64 space-y-1 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-2 scrollbar-none">
           ${optionsListHtml}
         </div>
       </details>
