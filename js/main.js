@@ -2925,12 +2925,8 @@ function setupButtonModal() {
                         data-button-tab="${tab.key}"
                         aria-selected="${activeTab === tab.key ? "true" : "false"}"
                         class="rounded-xl px-3 py-2 text-left transition ${activeTab === tab.key
-              ? tab.key === "normal"
-                ? "bg-sky-600 text-white shadow-sm ring-1 ring-sky-600"
-                : "bg-amber-500 text-white shadow-sm ring-1 ring-amber-500"
-              : tab.key === "normal"
-                ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100 hover:bg-sky-100 hover:text-sky-800"
-                : "bg-amber-50 text-amber-700 ring-1 ring-amber-100 hover:bg-amber-100 hover:text-amber-800"
+              ? "bg-red-600 text-white shadow-sm ring-1 ring-red-600"
+              : "bg-red-50 text-red-700 ring-1 ring-red-100 hover:bg-red-100 hover:text-red-800"
             }"
                       >
                         <span class="block text-sm font-semibold">${tab.label}</span>
@@ -3399,7 +3395,7 @@ function setupButtonModal() {
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
           </svg>
         </summary>
-        <div class="mb-2 max-h-72 space-y-1.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-2.5 scrollbar-none">
+        <div class="relative z-10 mb-2 max-h-72 space-y-1.5 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-2.5 scrollbar-none">
           ${optionsListHtml}
         </div>
       </details>
