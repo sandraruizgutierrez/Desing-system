@@ -980,3 +980,11 @@ tbody tr:hover {
 :is(#importBtn+span, #kitBtn+span) {
   display: none;
 }
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

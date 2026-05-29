@@ -2961,6 +2961,177 @@ function setupButtonModal() {
           `;
   }
 
+  function renderShapeSection(cfg, colorOptions, spaceOptions) {
+    const borderWidthValue = String(cfg.borderWidth || 0).trim() || "0";
+    const radiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.radius || "0px").px || 0))));
+    const borderColorValue = cfg.borderColor || cfg.color;
+    const padYValue = cfg.padY;
+    const padXValue = cfg.padX;
+
+    const borderWidthOptions = [
+      { label: "None", value: "0" },
+      { label: "1px", value: "1" },
+      { label: "2px", value: "2" },
+      { label: "3px", value: "3" },
+      { label: "4px", value: "4" },
+    ];
+
+    const borderWidthPills = borderWidthOptions
+      .map(
+        (opt) => `
+          <button type="button" data-button-field="borderWidth" data-button-value="${opt.value}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${String(opt.value) === borderWidthValue ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            ${opt.label}
+          </button>
+        `,
+      )
+      .join("");
+
+    const colorPills = colorOptions
+      .map((opt) => {
+        const isActive = normalizeColorTokenValue(opt.value) === normalizeColorTokenValue(borderColorValue);
+        const colorHex = String(opt.swatch || "").toLowerCase();
+        return `
+          <button type="button" data-button-field="borderColor" data-button-value="${opt.value}" title="${escapeHtml(opt.label + " · " + colorHex)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap flex items-center gap-1 ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}" style="--swatch:${opt.swatch}; background-color: ${isActive ? opt.swatch : "white"}; color: ${isActive ? getReadableTextColor(opt.swatch) : "inherit"};">
+            <span class="inline-block w-3 h-3 rounded-full" style="background-color: ${opt.swatch}; border: 1px solid rgba(0,0,0,0.1);"></span>
+            ${opt.label}
+          </button>
+        `;
+      })
+      .join("");
+
+    const padYActive = selectedLabel(padYValue, spaceOptions, "space") || "Pad Y";
+    const padXActive = selectedLabel(padXValue, spaceOptions, "space") || "Pad X";
+
+    const padYPills = spaceOptions
+      .map((opt) => {
+        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
+        const isActive = String(opt.value) === String(padYValue);
+        return `
+          <button type="button" data-button-field="padY" data-button-value="${opt.value}" title="${escapeHtml(opt.label)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            ${opt.label}
+          </button>
+        `;
+      })
+      .join("");
+
+    const padXPills = spaceOptions
+      .map((opt) => {
+        const resolved = resolveSpaceLikeForDevice(state.device, opt.value);
+        const isActive = String(opt.value) === String(padXValue);
+        return `
+          <button type="button" data-button-field="padX" data-button-value="${opt.value}" title="${escapeHtml(opt.label)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            ${opt.label}
+          </button>
+        `;
+      })
+      .join("");
+
+    return `
+      <div class="rounded-2xl border border-slate-200/80 bg-white p-3">
+        <div class="space-y-2">
+          <!-- Border Width Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${borderWidthPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${borderWidthValue === "0" ? "None" : borderWidthValue + "px"}</span>
+          </div>
+
+          <!-- Radius Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
+            <input type="number" min="0" step="1" data-button-field="radius" value="${radiusValue}" class="w-20 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 font-mono text-[9px] font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${radiusValue}px</span>
+          </div>
+
+          <!-- Border Color Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${colorPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${selectedLabel(borderColorValue, colorOptions, "color")}</span>
+          </div>
+
+          <!-- Pad Y Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad Y</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${padYPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${padYActive}</span>
+          </div>
+
+          <!-- Pad X Row -->
+          <div class="flex items-center gap-2 py-1.5">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Pad X</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${padXPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${padXActive}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderHoverShapeSection(cfg, colorOptions) {
+    const hoverBorderWidthValue = String(cfg.hoverBorderWidth || cfg.borderWidth || 0).trim() || "0";
+    const hoverRadiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.hoverRadius || cfg.radius || "0px").px || 0))));
+    const hoverBorderColorValue = cfg.hoverBorderColor || cfg.borderColor || cfg.color;
+
+    const borderWidthOptions = [
+      { label: "None", value: "0" },
+      { label: "1px", value: "1" },
+      { label: "2px", value: "2" },
+      { label: "3px", value: "3" },
+      { label: "4px", value: "4" },
+    ];
+
+    const borderWidthPills = borderWidthOptions
+      .map(
+        (opt) => `
+          <button type="button" data-button-field="hoverBorderWidth" data-button-value="${opt.value}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap ${String(opt.value) === hoverBorderWidthValue ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+            ${opt.label}
+          </button>
+        `,
+      )
+      .join("");
+
+    const colorPills = colorOptions
+      .map((opt) => {
+        const isActive = normalizeColorTokenValue(opt.value) === normalizeColorTokenValue(hoverBorderColorValue);
+        const colorHex = String(opt.swatch || "").toLowerCase();
+        return `
+          <button type="button" data-button-field="hoverBorderColor" data-button-value="${opt.value}" title="${escapeHtml(opt.label + " · " + colorHex)}" class="rounded-full px-2 py-[3px] text-[9px] font-semibold ring-1 transition whitespace-nowrap flex items-center gap-1 ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}" style="--swatch:${opt.swatch}; background-color: ${isActive ? opt.swatch : "white"}; color: ${isActive ? getReadableTextColor(opt.swatch) : "inherit"};">
+            <span class="inline-block w-3 h-3 rounded-full" style="background-color: ${opt.swatch}; border: 1px solid rgba(0,0,0,0.1);"></span>
+            ${opt.label}
+          </button>
+        `;
+      })
+      .join("");
+
+    return `
+      <div class="rounded-2xl border border-slate-200/80 bg-white p-3">
+        <div class="space-y-2">
+          <!-- Hover Border Width Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${borderWidthPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${hoverBorderWidthValue === "0" ? "None" : hoverBorderWidthValue + "px"}</span>
+          </div>
+
+          <!-- Hover Radius Row -->
+          <div class="flex items-center gap-2 py-1.5 border-b border-slate-100">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
+            <input type="number" min="0" step="1" data-button-field="hoverRadius" value="${hoverRadiusValue}" class="w-20 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 font-mono text-[9px] font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${hoverRadiusValue}px</span>
+          </div>
+
+          <!-- Hover Border Color Row -->
+          <div class="flex items-center gap-2 py-1.5">
+            <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
+            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${colorPills}</div>
+            <span class="ml-auto shrink-0 font-mono text-[9px] text-slate-400 whitespace-nowrap">${selectedLabel(hoverBorderColorValue, colorOptions, "color")}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderBorderWidthRow(label, field, value, compact = false) {
     const activeValue = String(value || 0).trim() || "0";
     const options = [
@@ -3246,16 +3417,7 @@ function setupButtonModal() {
               </div>
             </div>
           `;
-    const boxSection = [
-      `<div class="grid gap-2 lg:grid-cols-[max-content_minmax(0,1fr)]">
-              <div class="grid gap-2 justify-items-start">
-                ${renderBorderWidthRow("Border width", "borderWidth", cfg.borderWidth || 0, true)}
-                ${renderManualPxRow("Radius", "radius", cfg.radius || "0px", true)}
-              </div>
-              ${renderChooserRow("Border color", "borderColor", colorOptions, cfg.borderColor || cfg.color, "color", "", false)}
-            </div>`,
-      paddingSection,
-    ].join("");
+    const boxSection = renderShapeSection(cfg, colorOptions, spaceOptions);
     return `
             <div class="space-y-2">
               <div>
@@ -3280,7 +3442,7 @@ function setupButtonModal() {
                 </div>
               </div>
               <div>
-                ${renderButtonSection("Shape", "Borde, radio y espaciado", boxSection, false)}
+                ${renderButtonSection("Shape", "Borde, radio y espaciado", boxSection, false, true)}
               </div>
             </div>
           `;
@@ -3294,18 +3456,10 @@ function setupButtonModal() {
               ${renderChooserRow("Hover text", "hoverColor", colorOptions, cfg.hoverColor, "color")}
             </div>
           `;
-    const hoverShapeSection = `
-            <div class="grid gap-2 lg:grid-cols-[max-content_minmax(0,1fr)]">
-              <div class="grid gap-2 justify-items-start">
-                ${renderBorderWidthRow("Hover border width", "hoverBorderWidth", cfg.hoverBorderWidth || cfg.borderWidth || 0, true)}
-                ${renderManualPxRow("Hover radius", "hoverRadius", cfg.hoverRadius || cfg.radius || "0px", true)}
-              </div>
-              ${renderChooserRow("Hover border color", "hoverBorderColor", colorOptions, cfg.hoverBorderColor || cfg.hoverColor || cfg.color, "color", "", false)}
-            </div>
-          `;
+    const hoverShapeSection = renderHoverShapeSection(cfg, colorOptions);
     return `
             <div class="space-y-2">
-              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, false)}
+              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, false, true)}
             </div>
           `;
   }
