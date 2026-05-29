@@ -4176,7 +4176,6 @@ function bindInputs() {
       return;
     }
 
-    const editMain = event.target.closest("[data-color-edit-key]");
     if (editMain) {
       const key = editMain.dataset.colorEditKey;
       const current = state.palette[key];
