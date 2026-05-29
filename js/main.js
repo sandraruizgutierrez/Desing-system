@@ -4134,8 +4134,10 @@ function renderAll() {
 }
 
 function bindInputs() {
+  console.log("bindInputs called, colorSwatches element:", document.getElementById("colorSwatches"));
   document.addEventListener("click", async (event) => {
     if (!event.target.closest("#colorSwatches")) return;
+    console.log("Click detected in colorSwatches");
     const editLabel = event.target.closest("[data-color-label-key]");
     if (editLabel) {
       const key = String(editLabel.dataset.colorLabelKey || "").trim();
