@@ -3041,9 +3041,7 @@ function setupButtonModal() {
       })
       .join("");
 
-    return `
-      <div class="rounded-2xl border border-slate-200/80 bg-white p-3">
-        <div class="space-y-2">
+    const shapeContent = `
           <!-- Border Width Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
             <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
@@ -3108,10 +3106,8 @@ function setupButtonModal() {
               ${padXOptions}
             </div>
           </details>
-          </div>
-        </div>
-      </div>
     `;
+    return shapeContent;
   }
 
   function renderHoverShapeSection(cfg, colorOptions) {
@@ -3157,9 +3153,7 @@ function setupButtonModal() {
       })
       .join("");
 
-    return `
-      <div class="rounded-2xl border border-slate-200/80 bg-white p-3">
-        <div class="space-y-2">
+    const hoverShapeContent = `
           <!-- Hover Border Width Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
             <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
@@ -3190,10 +3184,8 @@ function setupButtonModal() {
               ${colorList}
             </div>
           </details>
-          </div>
-        </div>
-      </div>
     `;
+    return hoverShapeContent;
   }
 
   function renderBorderWidthRow(label, field, value, compact = false) {
@@ -3494,17 +3486,19 @@ function setupButtonModal() {
       renderChooserRow("Preset tipográfico", "typographyPreset", typographyOptions, cfg.typographyPreset || "button", "preset"),
     ].join("");
     const boxSection = renderShapeSection(cfg, colorOptions, spaceOptions);
+    const shapeContentWithTypography = `
+                      <div class="space-y-2">
+                        ${typographySection}
+                        ${boxSection}
+                      </div>
+                    `;
     return `
             <div class="space-y-2">
               <div>
                 ${renderButtonSection("Identidad", "Nombre visible y técnico", identitySection, false)}
               </div>
-              <div class="grid gap-2">
-                <div>
-                  ${renderButtonSection("Typography", "Preset del kit", typographySection, false)}
-                </div>
-                <div>
-                  ${renderButtonSection(
+              <div>
+                ${renderButtonSection(
       "Color",
       "Texto y fondo",
       `
@@ -3515,10 +3509,9 @@ function setupButtonModal() {
                     `,
       false,
     )}
-                </div>
               </div>
               <div>
-                ${renderButtonSection("Shape", "Borde, radio y espaciado", boxSection, false, true)}
+                ${renderButtonSection("Shape", "Tipografía, borde, radio y espaciado", shapeContentWithTypography, false, true)}
               </div>
             </div>
           `;
