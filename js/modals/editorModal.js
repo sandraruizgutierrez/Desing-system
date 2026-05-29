@@ -83,8 +83,14 @@ export function setupEditorModal() {
     }
 
     console.log("About to show modal, current classes:", modal.className);
+    console.log("Modal element:", modal);
+    console.log("Modal position:", modal.getBoundingClientRect());
+    console.log("Modal computed style display:", window.getComputedStyle(modal).display);
+    console.log("Modal computed style visibility:", window.getComputedStyle(modal).visibility);
     modal.classList.remove("hidden");
     console.log("Modal classes after remove hidden:", modal.className);
+    console.log("Modal position after remove hidden:", modal.getBoundingClientRect());
+    console.log("Modal computed style display after:", window.getComputedStyle(modal).display);
     return new Promise((resolve) => {
       console.log("Returning promise from show()");
       activeResolve = resolve;
