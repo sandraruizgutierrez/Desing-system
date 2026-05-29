@@ -2995,7 +2995,7 @@ function setupButtonModal() {
           <button type="button" data-button-field="borderColor" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
             <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
             <div class="flex-1 min-w-0">
-              <div class="text-[9px] font-semibold">${opt.label}</div>
+              <div class="text-xs font-semibold">${opt.label}</div>
               <div class="text-[10px] opacity-60 font-mono">${colorHex}</div>
             </div>
           </button>
@@ -3142,10 +3142,10 @@ function setupButtonModal() {
         const isActive = normalizeColorTokenValue(opt.value) === normalizeColorTokenValue(hoverBorderColorValue);
         const colorHex = String(opt.swatch || "").toLowerCase();
         return `
-          <button type="button" data-button-field="hoverBorderColor" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[9px] ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
+          <button type="button" data-button-field="hoverBorderColor" data-button-value="${opt.value}" class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs ring-1 transition ${isActive ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
             <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${opt.swatch};"></span>
             <div class="flex-1 min-w-0">
-              <div class="text-[9px] font-semibold">${opt.label}</div>
+              <div class="text-xs font-semibold">${opt.label}</div>
               <div class="text-[10px] opacity-60 font-mono">${colorHex}</div>
             </div>
           </button>
