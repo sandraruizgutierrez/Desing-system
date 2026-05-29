@@ -3921,14 +3921,12 @@ function renderSectionUse() {
   const row = ([key, label, value]) => {
     const resolved = resolveSpaceLikeForDevice(state.device, value);
     const dRaw = getSectionUseForDevice("desktop")?.[key];
-    const tRaw = getSectionUseForDevice("tablet")?.[key];
     const mRaw = getSectionUseForDevice("mobile")?.[key];
     const dPx = resolveSpaceLikeForDevice("desktop", dRaw).px;
-    const tPx = resolveSpaceLikeForDevice("tablet", tRaw).px;
     const mPx = resolveSpaceLikeForDevice("mobile", mRaw).px;
     const glance =
-      Number.isFinite(dPx) && Number.isFinite(tPx) && Number.isFinite(mPx)
-        ? `${Math.round(dPx)}/${Math.round(tPx)}/${Math.round(mPx)}`
+      Number.isFinite(dPx) && Number.isFinite(mPx)
+        ? `${Math.round(dPx)}/${Math.round(mPx)}`
         : "";
     return `
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -3939,8 +3937,8 @@ function renderSectionUse() {
                 </button>
               </div>
               <div class="flex items-center gap-2">
-                <button type="button" data-secuse-edit="${key}" class="secuse-prop rounded-full bg-white px-3 py-1 font-mono text-xs font-semibold text-slate-800 ring-1 ring-slate-200 hover:ring-slate-300">${value}</button>
-                ${glance ? `<span class="rounded-full bg-white px-2 py-1 font-mono text-[10px] font-semibold text-slate-400 ring-1 ring-slate-200" title="Desktop/iPad/Mobile (px)">${glance}</span>` : ""}
+                <button type="button" data-secuse-edit="${key}" class="secuse-prop space-edit">${value}</button>
+                ${glance ? `<span class="space-edit" title="Desktop/Mobile (px)">${glance}</span>` : ""}
               </div>
             </div>
           `;
