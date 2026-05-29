@@ -3316,27 +3316,27 @@ function setupButtonModal() {
     if (type === "color") {
       const swatch = currentOption?.swatch || "#cccccc";
       summaryContent = `
-        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] text-slate-700">
-          <span class="h-3 w-3 shrink-0 rounded-full border border-black/10" style="background-color: ${swatch};"></span>
+        <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700">
+          <span class="h-4 w-4 shrink-0 rounded-full border border-black/10" style="background-color: ${swatch};"></span>
           <span class="truncate font-semibold">${currentLabel}</span>
         </span>
-        <span class="font-mono text-[9px] text-slate-400">${String(swatch).toLowerCase()}</span>
+        <span class="font-mono text-xs text-slate-400">${String(swatch).toLowerCase()}</span>
       `;
     } else if (type === "space") {
       const resolved = resolveSpaceLikeForDevice(state.device, currentValue);
       const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
       summaryContent = `
-        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+        <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
           ${currentLabel}
         </span>
-        <span class="font-mono text-[9px] text-slate-400">${pxValue}px</span>
+        <span class="font-mono text-xs text-slate-400">${pxValue}px</span>
       `;
     } else {
       summaryContent = `
-        <span class="w-28 shrink-0 text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1 text-[9px] font-semibold text-slate-700">
+        <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
           ${currentLabel}
         </span>
       `;
