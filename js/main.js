@@ -3062,7 +3062,7 @@ function setupButtonModal() {
           <details class="border-b border-slate-100">
             <summary class="flex cursor-pointer list-none items-center gap-2 py-2">
               <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
-              <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700">
+              <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700">
                 <span class="h-4 w-4 shrink-0 rounded-full border border-black/10" style="background-color: ${borderColorCurrentSwatch};"></span>
                 <span class="truncate font-semibold">${borderColorCurrentLabel}</span>
               </span>
@@ -3079,7 +3079,7 @@ function setupButtonModal() {
           <details class="border-b border-slate-100">
             <summary class="flex cursor-pointer list-none items-center gap-2 py-2">
               <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Pad Y</span>
-              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-700">
+              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
                 ${padYCurrentLabel}
               </span>
               <span class="font-mono text-xs text-slate-400">${padYCurrentPx}px</span>
@@ -3096,7 +3096,7 @@ function setupButtonModal() {
           <details>
             <summary class="flex cursor-pointer list-none items-center gap-2 py-2">
               <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Pad X</span>
-              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-700">
+              <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
                 ${padXCurrentLabel}
               </span>
               <span class="font-mono text-xs text-slate-400">${padXCurrentPx}px</span>
@@ -3620,14 +3620,17 @@ function setupButtonModal() {
       return;
     }
     const fieldBtn = event.target.closest("[data-button-field][data-button-value]");
-    if (!fieldBtn || !draft) return;
-    const field = String(fieldBtn.dataset.buttonField || "");
-    const value = String(fieldBtn.dataset.buttonValue || "");
-    draft =
-      field === "typographyPreset"
-        ? applyButtonTypographyPreset(draft, value)
-        : { ...draft, [field]: value };
-    rerender();
+    if (fieldBtn && draft) {
+      event.stopPropagation();
+      const field = String(fieldBtn.dataset.buttonField || "");
+      const value = String(fieldBtn.dataset.buttonValue || "");
+      draft =
+        field === "typographyPreset"
+          ? applyButtonTypographyPreset(draft, value)
+          : { ...draft, [field]: value };
+      rerender();
+      return;
+    }
   });
 
   fields.addEventListener("click", async (event) => {
