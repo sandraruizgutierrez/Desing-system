@@ -2618,8 +2618,15 @@ async function openClipboardImportEditor({ kicker, title, description, emptyMess
 
 const editor = setupEditorModal();
 async function openEditor(opts) {
-  if (!editor) return null;
-  return editor.show(opts);
+  console.log("openEditor called with opts:", opts);
+  if (!editor) {
+    console.log("editor is null!");
+    return null;
+  }
+  console.log("Calling editor.show()");
+  const result = await editor.show(opts);
+  console.log("editor.show() returned:", result);
+  return result;
 }
 
 function setupTypeModal() {
