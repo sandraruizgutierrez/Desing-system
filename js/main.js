@@ -4139,7 +4139,10 @@ function bindInputs() {
     if (!event.target.closest("#colorSwatches")) return;
     console.log("Click detected in colorSwatches");
     const editLabel = event.target.closest("[data-color-label-key]");
+    const editMain = event.target.closest("[data-color-edit-key]");
+    console.log("editLabel:", editLabel, "editMain:", editMain, "target:", event.target);
     if (editLabel) {
+      console.log("Handling label edit");
       const key = String(editLabel.dataset.colorLabelKey || "").trim();
       const entry = state.paletteLabels.find((item) => item.key === key);
       if (!entry) return;
