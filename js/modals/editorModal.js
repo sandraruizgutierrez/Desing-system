@@ -43,7 +43,11 @@ export function setupEditorModal() {
   }
 
   function show(opts) {
-    if (!modal) return Promise.resolve(null);
+    console.log("show() called, modal exists:", !!modal);
+    if (!modal) {
+      console.log("modal is null, returning null");
+      return Promise.resolve(null);
+    }
     lastFocus = document.activeElement;
     activeOpts = opts;
 
@@ -78,8 +82,11 @@ export function setupEditorModal() {
       setTimeout(() => inputText.focus(), 0);
     }
 
+    console.log("About to show modal, current classes:", modal.className);
     modal.classList.remove("hidden");
+    console.log("Modal classes after remove hidden:", modal.className);
     return new Promise((resolve) => {
+      console.log("Returning promise from show()");
       activeResolve = resolve;
     });
   }
