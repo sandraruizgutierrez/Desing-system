@@ -3082,16 +3082,8 @@ function setupButtonModal() {
       : "inline-flex min-h-8 min-w-0 items-center gap-2 rounded-full px-2.5 py-1 text-left text-[10px] ring-1 transition";
     const optionLabelClass = compact ? "truncate font-semibold tracking-[0.02em]" : "truncate font-semibold tracking-[0.03em]";
     const optionHexClass = compact ? "mt-0.5 truncate text-[8px] font-medium opacity-75" : "mt-0.5 truncate text-[9px] font-medium opacity-75";
-    return `
-            <div class="${containerClass}">
-              <div class="${headerGapClass}">
-                <div>
-                  <p class="${labelClass}">${label}</p>
-                  <p class="${valueClass}">${selectedLabel(active, options, type)}</p>
-                </div>
-                <span class="${badgeClass}">${describeCssValue(active)}</span>
-              </div>
-              <div class="mt-2 ${optionGridClass}">
+
+    const pillsHtml = `<div class="mt-2 ${optionGridClass}">
                 ${options
         .map((option) => {
           let isActive = false;
@@ -3115,7 +3107,36 @@ function setupButtonModal() {
                     `;
         })
         .join("")}
-              </div>
+              </div>`;
+
+    const headerHtml = `<div class="${headerGapClass}">
+                <div>
+                  <p class="${labelClass}">${label}</p>
+                  <p class="${valueClass}">${selectedLabel(active, options, type)}</p>
+                </div>
+                <span class="${badgeClass}">${describeCssValue(active)}</span>
+              </div>`;
+
+    if (type === "color") {
+      return `
+            <details class="${containerClass}">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-2">
+                ${headerHtml}
+                <span class="mft-collapsible-chevron inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                  <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </summary>
+              ${pillsHtml}
+            </details>
+          `;
+    }
+
+    return `
+            <div class="${containerClass}">
+              ${headerHtml}
+              ${pillsHtml}
             </div>
           `;
   }
@@ -3236,13 +3257,13 @@ function setupButtonModal() {
       paddingSection,
     ].join("");
     return `
-            <div class="space-y-3">
+            <div class="space-y-2">
               <div>
-                ${renderButtonSection("Identidad", "Nombre visible y técnico", identitySection, true)}
+                ${renderButtonSection("Identidad", "Nombre visible y técnico", identitySection, false)}
               </div>
-              <div class="grid gap-3">
+              <div class="grid gap-2">
                 <div>
-                  ${renderButtonSection("Typography", "Preset del kit", typographySection, true)}
+                  ${renderButtonSection("Typography", "Preset del kit", typographySection, false)}
                 </div>
                 <div>
                   ${renderButtonSection(
@@ -3254,12 +3275,12 @@ function setupButtonModal() {
                         ${renderChooserRow("Background", "bg", colorOptions, cfg.bg, "color")}
                       </div>
                     `,
-      true,
+      false,
     )}
                 </div>
               </div>
               <div>
-                ${renderButtonSection("Shape", "Borde, radio y espaciado", boxSection, true)}
+                ${renderButtonSection("Shape", "Borde, radio y espaciado", boxSection, false)}
               </div>
             </div>
           `;
@@ -3282,16 +3303,9 @@ function setupButtonModal() {
               ${renderChooserRow("Hover border color", "hoverBorderColor", colorOptions, cfg.hoverBorderColor || cfg.hoverColor || cfg.color, "color", "", false)}
             </div>
           `;
-    const hoverNotes = `
-            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-900">
-              <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-700">Consejo</p>
-              <p class="mt-1 text-xs leading-5 text-sky-900/80">Estos valores solo afectan al estado hover. Si dejas un campo vacío, el preview usa la base como respaldo.</p>
-            </div>
-          `;
     return `
-            <div class="space-y-3">
-              ${hoverNotes}
-              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, true)}
+            <div class="space-y-2">
+              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, false)}
             </div>
           `;
   }
