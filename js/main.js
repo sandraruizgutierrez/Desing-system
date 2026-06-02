@@ -1424,6 +1424,8 @@ function formatImageRadiusTriplet() {
 }
 
 function formatImageRadiusDisplay(device, value) {
+  const raw = String(value || "").trim();
+  if (!raw) return `null`;
   const resolved = resolveSpaceLikeForDevice(device, value);
   if (String(resolved.raw || "").trim().toLowerCase() === "none") return `None`;
   if (Number.isFinite(resolved.px)) return `${Math.round(resolved.px)}px`;
@@ -2078,7 +2080,7 @@ function getBorderPresetOptions() {
 
 function describeCssValue(value) {
   const raw = String(value || "").trim();
-  if (!raw) return "";
+  if (!raw) return "null";
   if (raw === "none") return "None";
   if (/^var\(--/.test(raw)) return raw.replace(/^var\(/, "").replace(/\)$/, "");
   return raw;
@@ -4161,13 +4163,15 @@ function renderSectionUse() {
   ];
 
   const row = ([key, label, value]) => {
+    const raw = String(value || "").trim();
+    const displayValue = raw || "null";
     const resolved = resolveSpaceLikeForDevice(state.device, value);
     const dRaw = getSectionUseForDevice("desktop")?.[key];
     const mRaw = getSectionUseForDevice("mobile")?.[key];
     const dPx = resolveSpaceLikeForDevice("desktop", dRaw).px;
     const mPx = resolveSpaceLikeForDevice("mobile", mRaw).px;
     const glance =
-      Number.isFinite(dPx) && Number.isFinite(mPx)
+      Number.isFinite(dPx) && Number.isFinite(mPx) && raw
         ? `${Math.round(dPx)}/${Math.round(mPx)}`
         : "";
     return `
@@ -4179,7 +4183,7 @@ function renderSectionUse() {
                 </button>
               </div>
               <div class="flex items-center gap-2">
-                <button type="button" data-secuse-edit="${key}" class="secuse-prop space-edit">${value}</button>
+                <button type="button" data-secuse-edit="${key}" class="secuse-prop space-edit">${displayValue}</button>
                 ${glance ? `<span class="space-edit" title="Desktop/Mobile (px)">${glance}</span>` : ""}
               </div>
             </div>
@@ -4294,17 +4298,18 @@ function renderTypographyStudio() {
                   ${items
           .map((key) => {
             const s = t.styles[key];
+            if (!s) return "";
             const css = styleToActualCss(device, groupKey, key);
             const clampDecl = getTypographyClampDeclaration(key);
             const vars = getTypographyVarNames(key);
             const linePct = formatLineHeightPct(s.line);
             const text = getTypographyStyleLabel(device, key);
             const clampValues = getTypographyClampValues(key);
-            const sizeDisplay = clampValues.min && clampValues.max ? `${clampValues.max}px | ${clampValues.min}px` : `${s.size}px`;
+            const sizeDisplay = clampValues.min && clampValues.max ? `${clampValues.max}px | ${clampValues.min}px` : `${s.size || "null"}px`;
             const metricStrip = [
               ["Sz", sizeDisplay, vars?.size, `${key}:size`],
-              ["Wt", `${s.weight}`, vars?.weight, `${key}:weight`],
-              ["Ln", `${linePct || s.line}`, vars?.line, `${key}:line`],
+              ["Wt", `${s.weight || "null"}`, vars?.weight, `${key}:weight`],
+              ["Ln", `${linePct || s.line || "null"}`, vars?.line, `${key}:line`],
             ];
             return `
                         <div class="rounded-xl border border-pink-100 bg-white p-2.5">
