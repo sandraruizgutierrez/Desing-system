@@ -395,9 +395,9 @@ const state = {
   paddingSpaces: {},
   typographyClamp: { from: 1180, to: 1920 },
   imageByDevice: {
-    desktop: { radius: "var(--mft-space-2xs)", box: "500px" },
-    tablet: { radius: "var(--mft-space-2xs)", box: "500px" },
-    mobile: { radius: "var(--mft-space-2xs)", box: "500px" },
+    desktop: {},
+    tablet: {},
+    mobile: {},
   },
   btn: {
     arrowGap: "8px",
@@ -834,17 +834,22 @@ function normalizeSectionUseConfig(input) {
     containerLeft: "s",
     containerRight: "s",
   };
-  const output = { ...base };
+  const output = {};
   Object.keys(base).forEach((key) => {
-    output[key] = normalizeSpaceLikeTokenForDevice("desktop", input?.[key] || base[key]).replace(/^var\(--mft-space-([^)]+)\)$/, "$1");
+    const value = input?.[key];
+    if (value === undefined || value === null || value === "") {
+      output[key] = "";
+    } else {
+      output[key] = normalizeSpaceLikeTokenForDevice("desktop", value).replace(/^var\(--mft-space-([^)]+)\)$/, "$1");
+    }
   });
   return output;
 }
 
 function normalizeImageConfig(input) {
   return {
-    radius: normalizeSpaceLikeToken(input?.radius || "var(--mft-space-2xs)"),
-    box: normalizePx(input?.box, "500px"),
+    radius: input?.radius ? normalizeSpaceLikeToken(input.radius) : "",
+    box: input?.box ? normalizePx(input.box, "") : "",
   };
 }
 
@@ -965,15 +970,34 @@ function importPaddingScaleFromCss(cssText) {
 function importSectionUseFromCss(cssText) {
   const text = String(cssText || "");
   const rules = [
-    ["paddingTop", ".mft-space-section-t", "padding-top"],
-    ["paddingBottom", ".mft-space-section-b", "padding-bottom"],
+    ["containerTop", ".mft-space-section-t", "padding-top"],
+    ["containerBottom", ".mft-space-section-b", "padding-bottom"],
+    ["containerLeft", ".mft-space-section-l", "padding-left"],
+    ["containerRight", ".mft-space-section-r", "padding-right"],
   ];
   const next = {};
 
   rules.forEach(([key, selector, prop]) => {
     const block = parseCssDeclarations(findCssBlockBySelector(text, selector));
     const raw = String(block[prop] || "").trim();
-    if (raw) next[key] = normalizePaddingLikeTokenForDevice("desktop", raw);
+    if (!raw) return;
+
+    // Extract space name from var(--mft-space-4xl) format
+    const spaceMatch = raw.match(/var\(--mft-space-([^)]+)\)/i);
+    if (spaceMatch) {
+      next[key] = spaceMatch[1];
+      return;
+    }
+
+    // Extract padding name from var(--mft-padding-3xl) format
+    const paddingMatch = raw.match(/var\(--mft-padding-([^)]+)\)/i);
+    if (paddingMatch) {
+      next[key] = paddingMatch[1];
+      return;
+    }
+
+    // Fall back to normalizing as padding
+    next[key] = normalizePaddingLikeTokenForDevice("desktop", raw);
   });
 
   if (!Object.keys(next).length) return;
@@ -1164,43 +1188,94 @@ function extractSpaceValueFromClass(selector, property) {
 }
 
 function buildSectionUseFromKit(cssText) {
-  const rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)") || cssText;
+  const emptyResult = { desktop: {}, tablet: {}, mobile: {} };
+
+  const extractSpaceOrPaddingName = (value) => {
+    const spaceMatch = String(value || "").match(/var\(--mft-space-([^)]+)\)/i);
+    if (spaceMatch) return spaceMatch[1];
+
+    const paddingMatch = String(value || "").match(/var\(--mft-padding-([^)]+)\)/i);
+    if (paddingMatch) return paddingMatch[1];
+
+    return "";
+  };
+
+  // Try to extract from .elementor-kit- block first, then fall back to full CSS
+  let rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)");
+  if (!rootChunk) {
+    // If no elementor-kit block, search in the full CSS
+    const containerTopBlock = findCssBlockBySelector(cssText, ".mft-space-section-t");
+    const containerBottomBlock = findCssBlockBySelector(cssText, ".mft-space-section-b");
+    const containerLeftBlock = findCssBlockBySelector(cssText, ".mft-space-section-l");
+    const containerRightBlock = findCssBlockBySelector(cssText, ".mft-space-section-r");
+
+    // Build a virtual chunk with the found values
+    rootChunk = (containerTopBlock ? `.mft-space-section-t { ${containerTopBlock} }` : "") +
+                (containerBottomBlock ? `.mft-space-section-b { ${containerBottomBlock} }` : "") +
+                (containerLeftBlock ? `.mft-space-section-l { ${containerLeftBlock} }` : "") +
+                (containerRightBlock ? `.mft-space-section-r { ${containerRightBlock} }` : "");
+
+    if (!rootChunk) return emptyResult;
+  }
+
   const rootVars = parseCssVarMap(rootChunk);
   const desktopChunk = extractCssSlice(cssText, "@media(max-width: 1024px)", "@media(max-width: 767px)");
   const mobileChunk = extractCssSlice(cssText, "@media(max-width: 767px)", "/* Start custom CSS */");
-  const tabletVars = parseCssVarMap(desktopChunk);
-  const mobileVars = parseCssVarMap(mobileChunk);
-  const read = (varMap, name, fallback, device = "desktop") => normalizeSpaceFieldValue(varMap[`--${name}`] || fallback, device);
+  const tabletVars = desktopChunk ? parseCssVarMap(desktopChunk) : {};
+  const mobileVars = mobileChunk ? parseCssVarMap(mobileChunk) : {};
 
-  const containerTop = extractSpaceValueFromClass(".mft-space-section-t", "paddingTop") || "4xl";
-  const containerBottom = extractSpaceValueFromClass(".mft-space-section-b", "paddingBottom") || "4xl";
+  const read = (varMap, name, device = "desktop") => {
+    const value = varMap[`--${name}`];
+    if (value) return normalizeSpaceFieldValue(value, device);
+    return "";
+  };
+
+  const readFromProperty = (cssText, selector, property, device = "desktop") => {
+    const block = findCssBlockBySelector(cssText, selector);
+    const declarations = parseCssDeclarations(block);
+    const value = String(declarations[property] || "").trim();
+    if (!value) return "";
+
+    // Extract space or padding name from var(--mft-space-4xl) or var(--mft-padding-3xl) format
+    const varName = extractSpaceOrPaddingName(value);
+    if (varName) return varName;
+
+    // Otherwise normalize as padding
+    return normalizePaddingLikeTokenForDevice(device, value);
+  };
 
   const base = {
-    paddingTop: read(rootVars, "container-default-padding-top", "0", "desktop"),
-    paddingBottom: read(rootVars, "container-default-padding-bottom", "0", "desktop"),
-    paddingLeft: read(rootVars, "container-default-padding-left", "0", "desktop"),
-    paddingRight: read(rootVars, "container-default-padding-right", "0", "desktop"),
-    gap: read(rootVars, "widgets-spacing-row", rootVars["--widgets-spacing-row"] || "0", "desktop"),
-    containerTop: containerTop,
-    containerBottom: containerBottom,
-    containerLeft: read(rootVars, "container-default-padding-left", "s", "desktop"),
-    containerRight: read(rootVars, "container-default-padding-right", "s", "desktop"),
+    paddingTop: read(rootVars, "container-default-padding-top", "desktop"),
+    paddingBottom: read(rootVars, "container-default-padding-bottom", "desktop"),
+    paddingLeft: read(rootVars, "container-default-padding-left", "desktop"),
+    paddingRight: read(rootVars, "container-default-padding-right", "desktop"),
+    gap: read(rootVars, "widgets-spacing-row", "desktop"),
+    containerTop: readFromProperty(cssText, ".mft-space-section-t", "padding-top", "desktop") || read(rootVars, "mft-space-section-t", "desktop"),
+    containerBottom: readFromProperty(cssText, ".mft-space-section-b", "padding-bottom", "desktop") || read(rootVars, "mft-space-section-b", "desktop"),
+    containerLeft: readFromProperty(cssText, ".mft-space-section-l", "padding-left", "desktop") || read(rootVars, "container-default-padding-left", "desktop"),
+    containerRight: readFromProperty(cssText, ".mft-space-section-r", "padding-right", "desktop") || read(rootVars, "container-default-padding-right", "desktop"),
   };
   const tablet = {
-    ...base,
-    paddingTop: read(tabletVars, "container-default-padding-top", base.paddingTop, "tablet"),
-    paddingBottom: read(tabletVars, "container-default-padding-bottom", base.paddingBottom, "tablet"),
-    paddingLeft: read(tabletVars, "container-default-padding-left", base.paddingLeft, "tablet"),
-    paddingRight: read(tabletVars, "container-default-padding-right", base.paddingRight, "tablet"),
-    gap: read(tabletVars, "widgets-spacing-row", base.gap, "tablet"),
+    paddingTop: read(tabletVars, "container-default-padding-top", "tablet") || base.paddingTop,
+    paddingBottom: read(tabletVars, "container-default-padding-bottom", "tablet") || base.paddingBottom,
+    paddingLeft: read(tabletVars, "container-default-padding-left", "tablet") || base.paddingLeft,
+    paddingRight: read(tabletVars, "container-default-padding-right", "tablet") || base.paddingRight,
+    gap: read(tabletVars, "widgets-spacing-row", "tablet") || base.gap,
+    containerTop: base.containerTop,
+    containerBottom: base.containerBottom,
+    containerLeft: base.containerLeft,
+    containerRight: base.containerRight,
   };
   const mobile = {
-    ...base,
-    paddingTop: read(mobileVars, "container-default-padding-top", base.paddingTop, "mobile"),
-    paddingBottom: read(mobileVars, "container-default-padding-bottom", base.paddingBottom, "mobile"),
-    paddingLeft: read(mobileVars, "container-default-padding-left", base.paddingLeft, "mobile"),
-    paddingRight: read(mobileVars, "container-default-padding-right", base.paddingRight, "mobile"),
-    gap: read(mobileVars, "widgets-spacing-row", base.gap, "mobile"),
+    paddingTop: read(mobileVars, "container-default-padding-top", "mobile") || base.paddingTop,
+    paddingBottom: read(mobileVars, "container-default-padding-bottom", "mobile") || base.paddingBottom,
+    paddingLeft: read(mobileVars, "container-default-padding-left", "mobile") || base.paddingLeft,
+    paddingRight: read(mobileVars, "container-default-padding-right", "mobile") || base.paddingRight,
+    gap: read(mobileVars, "widgets-spacing-row", "mobile") || base.gap,
+    containerTop: base.containerTop,
+    containerBottom: base.containerBottom,
+    containerLeft: base.containerLeft,
+    containerRight: base.containerRight,
   };
   return { desktop: base, tablet, mobile };
 }
@@ -1311,9 +1386,10 @@ function applyKitCssText(cssText) {
     state.kitPaletteKeysPresent = [];
     state.typographyClamp = cloneData(factoryDefaultStateSnapshot.typographyClamp);
     state.typographyByDevice = cloneData(factoryDefaultStateSnapshot.typographyByDevice);
-    state.sectionUseByDevice = cloneData(factoryDefaultStateSnapshot.sectionUseByDevice);
     state.imageByDevice = cloneData(factoryDefaultStateSnapshot.imageByDevice);
-    state.btn = cloneData(factoryDefaultStateSnapshot.btn);
+    // Reset to empty state - will be populated from kit if it has data
+    state.sectionUseByDevice = { desktop: {}, tablet: {}, mobile: {} };
+    state.btn = { arrowGap: "8px", arrowContent: '"\\2192"', hiddenButtons: [], customButtons: [], btn1: {}, btn2: {}, btn3: {}, btn4: {}, btn5: {} };
   }
 
   const rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)") || cssText;
@@ -2518,11 +2594,30 @@ function extractClampValues(clampStr) {
 }
 
 function applyStylesheetCssText(cssText) {
+  // Store current state to preserve what's not in the new CSS
+  const prevSectionUse = cloneData(state.sectionUseByDevice);
+  const prevBtn = cloneData(state.btn);
+  const prevImage = cloneData(state.imageByDevice);
+
+  // Reset image data - will be populated if found in CSS
+  state.imageByDevice = { desktop: {}, tablet: {}, mobile: {} };
+
   importSpaceScaleFromCss(cssText);
   importPaddingScaleFromCss(cssText);
   importSectionUseFromCss(cssText);
   importButtonStylesFromCss(cssText);
   importTypographyFromElementorCss(cssText);
+
+  // If no button data was imported, restore previous state
+  if (!Object.keys(state.btn).some(k => k !== "arrowGap" && k !== "arrowContent" && k !== "hiddenButtons" && k !== "customButtons" && Object.keys(state.btn[k] || {}).length > 0)) {
+    state.btn = prevBtn;
+  }
+
+  // If no image data was imported, restore previous state
+  if (!Object.values(state.imageByDevice).some(d => Object.keys(d || {}).length > 0)) {
+    state.imageByDevice = prevImage;
+  }
+
   applyThemeVariables();
   renderAll();
   saveToLocalStorage();
@@ -3845,10 +3940,10 @@ function applyImportedState(data) {
   if (data.imageByDevice && typeof data.imageByDevice === "object") {
     ["desktop", "tablet", "mobile"].forEach((device) => {
       const incoming = data.imageByDevice?.[device];
-      if (!incoming || typeof incoming !== "object") return;
+      if (!incoming || typeof incoming !== "object" || Object.keys(incoming).length === 0) return;
       state.imageByDevice = {
         ...state.imageByDevice,
-        [device]: normalizeImageConfig({ ...getImageForDevice(device), ...incoming }),
+        [device]: normalizeImageConfig(incoming),
       };
     });
   } else {
@@ -3860,7 +3955,6 @@ function applyImportedState(data) {
         state.imageByDevice = {
           ...state.imageByDevice,
           [device]: normalizeImageConfig({
-            ...getImageForDevice(device),
             ...(legacyRadius ? { radius: legacyRadius } : null),
             ...(legacyBox ? { box: legacyBox } : null),
           }),
@@ -4062,11 +4156,42 @@ function renderPaddingScale() {
 
 function renderImagePreview() {
   const imagePreview = document.getElementById("imagePreview");
+  const radiusRead = document.getElementById("imageRadiusRead");
+
+  // Check if we're in "empty state" - imageByDevice has empty objects
+  const isEmptyState = !state.imageByDevice ||
+    Object.values(state.imageByDevice).every(d => !d || Object.keys(d).length === 0);
+
+  if (isEmptyState) {
+    // Show empty state message
+    imagePreview.innerHTML = `
+      <div class="flex items-center justify-center h-[170px] bg-slate-100 rounded-[20px]">
+        <div class="text-center">
+          <p class="text-sm font-medium text-slate-600">Sin valores de imagen</p>
+          <p class="text-xs text-slate-500 mt-1">Importa un kit o hoja de estilo con datos de imagen</p>
+        </div>
+      </div>
+    `;
+    imagePreview.style.borderRadius = "20px";
+    imagePreview.style.height = "170px";
+    imagePreview.style.width = "100%";
+    if (radiusRead) radiusRead.textContent = "—";
+    return;
+  }
+
+  // Get image data normally
   const img = getImageForDevice(state.device);
+
+  // Render normal preview
+  imagePreview.innerHTML = `
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de imagen de referencia" style="width: 100%; height: 100%; object-fit: cover;" />
+    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/70 to-transparent p-3 text-white">
+      <p class="text-xs font-semibold">Vista previa</p>
+    </div>
+  `;
   imagePreview.style.borderRadius = String(img.radius || "").trim().toLowerCase() === "none" ? "0px" : img.radius;
   imagePreview.style.height = "170px";
   imagePreview.style.width = "100%";
-  const radiusRead = document.getElementById("imageRadiusRead");
   if (radiusRead) radiusRead.textContent = formatImageRadiusDisplay(state.device, img.radius);
 }
 
@@ -4083,7 +4208,7 @@ function renderButtonTokens() {
     ["btn4", "mft-btn-4", state.btn.btn4],
     ["btn5", "mft-btn-5", state.btn.btn5],
     ...customButtons.map((btnKey) => [btnKey, `mft-btn-${getButtonIndex(btnKey)}`, state.btn[btnKey]]),
-  ].filter(([btnKey]) => !hiddenButtons.has(btnKey));
+  ].filter(([btnKey, , cfg]) => !hiddenButtons.has(btnKey) && (Object.keys(cfg || {}).length > 0));
 
   const buttonCard = (btnKey, className, cfg, editable = true, removable = false) => {
     const summary = [
@@ -4160,7 +4285,7 @@ function renderSectionUse() {
     ["containerBottom", "Container bottom", use.containerBottom],
     ["containerLeft", "Container left", use.containerLeft],
     ["containerRight", "Container right", use.containerRight],
-  ];
+  ].filter(([, , value]) => String(value || "").trim() !== "");
 
   const row = ([key, label, value]) => {
     const raw = String(value || "").trim();
@@ -4190,7 +4315,7 @@ function renderSectionUse() {
           `;
   };
 
-  host.innerHTML = `
+  host.innerHTML = tokens.length === 0 ? "" : `
           <div class="grid grid-cols-2 gap-2">
             ${tokens.map(row).join("")}
           </div>

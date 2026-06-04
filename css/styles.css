@@ -974,10 +974,8 @@ tbody tr:hover {
   }
 }
 
-/* Hide buttons modals Kit and CSS */
-/* :is(#kitBtn, #sheetBtn, #editorModal), */
-:is(#kitBtn, #sheetBtn),
-:is(#importBtn+span, #kitBtn+span) {
+/* Hide separators after import button */
+:is(#importBtn+span) {
   display: none;
 }
 
