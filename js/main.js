@@ -3325,7 +3325,7 @@ function setupButtonModal() {
           </div>
 
           <!-- Hover Border Color Row with Details Dropdown -->
-          <details class="border-b border-slate-100">
+          <details class="border-b border-slate-100" open>
             <summary class="flex cursor-pointer list-none items-center gap-2 py-2">
               <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border C.</span>
               <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700">
