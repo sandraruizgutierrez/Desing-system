@@ -3027,6 +3027,7 @@ function setupButtonModal() {
   let draft = null;
   let lastFocus = null;
   let activeTab = "normal";
+  const openSections = new Set();
   const tabs = [
     { key: "normal", label: "Normal", description: "Valores base" },
     { key: "hover", label: "Hover", description: "Al pasar el ratón" },
@@ -3049,6 +3050,7 @@ function setupButtonModal() {
     ctx = null;
     draft = null;
     activeTab = "normal";
+    openSections.clear();
     try {
       if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
     } catch { }
@@ -3095,9 +3097,11 @@ function setupButtonModal() {
     return describeCssValue(value);
   }
 
-  function renderButtonSection(titleText, descriptionText, bodyHtml, open = true) {
+  function renderButtonSection(titleText, descriptionText, bodyHtml, sectionKey = null, open = true) {
+    const shouldOpen = sectionKey ? openSections.has(sectionKey) : open;
+    const detailsId = sectionKey ? `button-section-${sectionKey}` : "";
     return `
-            <details class="rounded-2xl border border-slate-200/80 bg-white/95 p-2.5 shadow-[0_1px_0_rgba(15,23,42,0.02)]" ${open ? "open" : ""}>
+            <details class="rounded-2xl border border-slate-200/80 bg-white/95 p-2.5 shadow-[0_1px_0_rgba(15,23,42,0.02)]" ${shouldOpen ? "open" : ""} ${detailsId ? `id="${detailsId}"` : ""} data-section-key="${sectionKey || ''}">
               <summary class="flex cursor-pointer list-none items-start justify-between gap-2">
                 <div class="min-w-0">
                   <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${titleText}</p>
@@ -3655,11 +3659,12 @@ function setupButtonModal() {
                         ${renderChooserRow("Background", "bg", colorOptions, cfg.bg, "color")}
                       </div>
                     `,
+      "color-normal",
       false,
     )}
               </div>
               <div>
-                ${renderButtonSection("Shape", "Tipografía, borde, radio y espaciado", shapeContentWithTypography, false, true)}
+                ${renderButtonSection("Shape", "Tipografía, borde, radio y espaciado", shapeContentWithTypography, "shape-normal", false)}
               </div>
             </div>
           `;
@@ -3676,7 +3681,7 @@ function setupButtonModal() {
     const hoverShapeSection = renderHoverShapeSection(cfg, colorOptions);
     return `
             <div class="space-y-2">
-              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, false, true)}
+              ${renderButtonSection("Hover", "Estado al pasar el ratón", `${hoverColorSection}${hoverShapeSection}`, "hover-section", false)}
             </div>
           `;
   }
@@ -3702,6 +3707,21 @@ function setupButtonModal() {
       renderTabBar(),
       activeTab === "normal" ? renderNormalTab(cfg) : renderHoverTab(cfg),
     ].join("");
+    setTimeout(() => {
+      const details = fields.querySelectorAll("[data-section-key]");
+      details.forEach((el) => {
+        const key = el.dataset.sectionKey;
+        if (key) {
+          el.addEventListener("toggle", (e) => {
+            if (e.target.open) {
+              openSections.add(key);
+            } else {
+              openSections.delete(key);
+            }
+          }, { once: false });
+        }
+      });
+    }, 0);
     css.innerHTML = [
       renderButtonSection(
         "CSS listo",
@@ -3715,9 +3735,25 @@ function setupButtonModal() {
                 <pre class="mt-2.5 overflow-x-auto whitespace-pre-wrap break-words rounded-xl bg-white p-2.5 font-mono text-[10px] leading-5 text-slate-900">${escapeHtml(cssSnippet)}</pre>
               </div>
             `,
+        "css-output",
         false,
       ),
     ].join("");
+    setTimeout(() => {
+      const details = css.querySelectorAll("[data-section-key]");
+      details.forEach((el) => {
+        const key = el.dataset.sectionKey;
+        if (key) {
+          el.addEventListener("toggle", (e) => {
+            if (e.target.open) {
+              openSections.add(key);
+            } else {
+              openSections.delete(key);
+            }
+          }, { once: false });
+        }
+      });
+    }, 0);
   }
 
   function show(nextCtx) {
