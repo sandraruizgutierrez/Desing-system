@@ -3832,9 +3832,17 @@ function setupButtonModal() {
 
     clearTimeout(inputDebounceTimer);
     inputDebounceTimer = setTimeout(() => {
-      rerender();
+      updatePreviewOnly();
     }, 300);
   });
+
+  function updatePreviewOnly() {
+    if (!ctx || !draft) return;
+    const cfg = draft;
+    preview.innerHTML = [
+      renderPreviewButton("Preview", cfg, ctx.className),
+    ].join("");
+  }
 
   resetDraft.addEventListener("click", () => {
     if (!ctx) return;
