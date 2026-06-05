@@ -4410,7 +4410,7 @@ function renderSectionUse() {
     const glance =
       Number.isFinite(dPx) && Number.isFinite(mPx) && raw
         ? `${Math.round(dPx)}/${Math.round(mPx)}`
-        : "";
+        : (raw ? "" : "-");
     return `
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex min-w-0 items-center gap-2">
