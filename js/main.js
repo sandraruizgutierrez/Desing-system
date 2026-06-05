@@ -3165,7 +3165,6 @@ function setupButtonModal() {
   }
 
   function renderShapeSection(cfg, colorOptions, spaceOptions) {
-    const borderWidthValue = String(cfg.borderWidth || 0).trim() || "0";
     const radiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.radius || "0px").px || 0))));
     const borderColorValue = cfg.borderColor || cfg.color;
     const padYValue = cfg.padY;
@@ -3231,11 +3230,11 @@ function setupButtonModal() {
       .join("");
 
     const shapeContent = `
-          <!-- Border Width Row -->
+          <!-- Radius Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
-            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
-            <input type="number" min="0" step="1" data-button-field="borderWidth" value="${borderWidthValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
-            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${borderWidthValue === "0" ? "None" : borderWidthValue + "px"}</span>
+            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
+            <input type="number" min="0" step="1" data-button-field="radius" value="${radiusValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
+            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${radiusValue}px</span>
           </div>
 
           <!-- Border Color Row with Details Dropdown -->
@@ -3293,7 +3292,6 @@ function setupButtonModal() {
   }
 
   function renderHoverShapeSection(cfg, colorOptions) {
-    const hoverBorderWidthValue = String(cfg.hoverBorderWidth || cfg.borderWidth || 0).trim() || "0";
     const hoverRadiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.hoverRadius || cfg.radius || "0px").px || 0))));
     const hoverBorderColorValue = cfg.hoverBorderColor || cfg.borderColor || cfg.color;
 
@@ -3319,11 +3317,11 @@ function setupButtonModal() {
       .join("");
 
     const hoverShapeContent = `
-          <!-- Hover Border Width Row -->
+          <!-- Hover Radius Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
-            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
-            <input type="number" min="0" step="1" data-button-field="hoverBorderWidth" value="${hoverBorderWidthValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
-            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${hoverBorderWidthValue === "0" ? "None" : hoverBorderWidthValue + "px"}</span>
+            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
+            <input type="number" min="0" step="1" data-button-field="hoverRadius" value="${hoverRadiusValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
+            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${hoverRadiusValue}px</span>
           </div>
 
           <!-- Hover Border Color Row with Details Dropdown -->
