@@ -409,7 +409,7 @@ const state = {
       color: "var(--e-global-color-47eea86e)",
       bg: "var(--e-global-color-bd9d5b8)",
       border: "2px solid var(--e-global-color-bd9d5b8)",
-      radius: "var(--mft-space-5xs)",
+      radius: "0px",
       padY: "var(--mft-space-2xs)",
       padX: "var(--mft-space-xs)",
       hoverBg: "var(--e-global-color-primary)",
@@ -421,7 +421,7 @@ const state = {
       color: "var(--e-global-color-47eea86e)",
       bg: "var(--e-global-color-primary)",
       border: "2px solid var(--e-global-color-primary)",
-      radius: "var(--mft-space-5xs)",
+      radius: "0px",
       padY: "var(--mft-space-2xs)",
       padX: "var(--mft-space-xs)",
       hoverBg: "var(--e-global-color-13f4851a)",
@@ -433,7 +433,7 @@ const state = {
       color: "var(--e-global-color-primary)",
       bg: "transparent",
       border: "2px solid var(--e-global-color-primary)",
-      radius: "var(--mft-space-5xs)",
+      radius: "0px",
       padY: "var(--mft-space-2xs)",
       padX: "var(--mft-space-xs)",
       hoverBg: "var(--e-global-color-primary)",
@@ -457,7 +457,7 @@ const state = {
       color: "var(--e-global-color-text)",
       bg: "transparent",
       border: "2px solid var(--e-global-color-text)",
-      radius: "var(--mft-space-5xs)",
+      radius: "0px",
       padY: "var(--mft-space-2xs)",
       padX: "var(--mft-space-xs)",
       hoverColor: "var(--e-global-color-47eea86e)",
@@ -1366,12 +1366,12 @@ function applyKitDerivedButtonDefaults() {
     color: light,
     bg: header,
     border: `2px solid ${header}`,
-    radius: "4px",
+    radius: "0px",
     padY: "var(--mft-space-2xs)",
     padX: "var(--mft-space-xs)",
     hoverBg: primary,
     hoverColor: light,
-    hoverRadius: "4px",
+    hoverRadius: "0px",
   };
   state.btn.btn2 = {
     label: "CTA sólido",
@@ -1382,12 +1382,12 @@ function applyKitDerivedButtonDefaults() {
     color: light,
     bg: primary,
     border: `2px solid ${primary}`,
-    radius: "4px",
+    radius: "0px",
     padY: "var(--mft-space-2xs)",
     padX: "var(--mft-space-xs)",
     hoverBg: primaryDark,
     hoverColor: light,
-    hoverRadius: "4px",
+    hoverRadius: "0px",
   };
   state.btn.btn3 = {
     label: "CTA destacado",
@@ -1398,12 +1398,12 @@ function applyKitDerivedButtonDefaults() {
     color: primary,
     bg: "transparent",
     border: `2px solid ${primary}`,
-    radius: "4px",
+    radius: "0px",
     padY: "var(--mft-space-2xs)",
     padX: "var(--mft-space-xs)",
     hoverBg: primary,
     hoverColor: light,
-    hoverRadius: "4px",
+    hoverRadius: "0px",
   };
   state.btn.btn4 = {
     label: "CTA claro",
@@ -1430,12 +1430,12 @@ function applyKitDerivedButtonDefaults() {
     color: text,
     bg: "transparent",
     border: `2px solid ${text}`,
-    radius: "4px",
+    radius: "0px",
     padY: "var(--mft-space-2xs)",
     padX: "var(--mft-space-xs)",
     hoverColor: light,
     hoverBg: text,
-    hoverRadius: "4px",
+    hoverRadius: "0px",
   };
   if (!Array.isArray(state.btn.customButtons)) state.btn.customButtons = [];
   if (!Array.isArray(state.btn.hiddenButtons)) state.btn.hiddenButtons = [];
@@ -3100,7 +3100,7 @@ function setupButtonModal() {
             <details class="rounded-2xl border border-slate-200/80 bg-white/95 p-2.5 shadow-[0_1px_0_rgba(15,23,42,0.02)]" ${open ? "open" : ""}>
               <summary class="flex cursor-pointer list-none items-start justify-between gap-2">
                 <div class="min-w-0">
-                  <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">${titleText}</p>
+                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${titleText}</p>
                   <p class="mt-0.5 text-xs font-medium leading-5 text-slate-500">${descriptionText}</p>
                 </div>
                 <span class="mft-collapsible-chevron inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100/90 text-slate-600">
@@ -3167,23 +3167,6 @@ function setupButtonModal() {
     const padYValue = cfg.padY;
     const padXValue = cfg.padX;
 
-    const borderWidthOptions = [
-      { label: "None", value: "0" },
-      { label: "1px", value: "1" },
-      { label: "2px", value: "2" },
-      { label: "3px", value: "3" },
-      { label: "4px", value: "4" },
-    ];
-
-    const borderWidthPills = borderWidthOptions
-      .map(
-        (opt) => `
-          <button type="button" data-button-field="borderWidth" data-button-value="${opt.value}" class="rounded-full px-3 py-2 text-sm font-semibold ring-1 transition whitespace-nowrap ${String(opt.value) === borderWidthValue ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
-            ${opt.label}
-          </button>
-        `,
-      )
-      .join("");
 
     const borderColorCurrentOpt = colorOptions.find((o) => normalizeColorTokenValue(o.value) === normalizeColorTokenValue(borderColorValue));
     const borderColorCurrentSwatch = borderColorCurrentOpt?.swatch || "#cccccc";
@@ -3247,15 +3230,8 @@ function setupButtonModal() {
           <!-- Border Width Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
             <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${borderWidthPills}</div>
+            <input type="number" min="0" step="1" data-button-field="borderWidth" value="${borderWidthValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
             <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${borderWidthValue === "0" ? "None" : borderWidthValue + "px"}</span>
-          </div>
-
-          <!-- Radius Row -->
-          <div class="flex items-center gap-2 py-2 border-b border-slate-100">
-            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
-            <input type="number" min="0" step="1" data-button-field="radius" value="${radiusValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
-            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${radiusValue}px</span>
           </div>
 
           <!-- Border Color Row with Details Dropdown -->
@@ -3317,23 +3293,6 @@ function setupButtonModal() {
     const hoverRadiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.hoverRadius || cfg.radius || "0px").px || 0))));
     const hoverBorderColorValue = cfg.hoverBorderColor || cfg.borderColor || cfg.color;
 
-    const borderWidthOptions = [
-      { label: "None", value: "0" },
-      { label: "1px", value: "1" },
-      { label: "2px", value: "2" },
-      { label: "3px", value: "3" },
-      { label: "4px", value: "4" },
-    ];
-
-    const borderWidthPills = borderWidthOptions
-      .map(
-        (opt) => `
-          <button type="button" data-button-field="hoverBorderWidth" data-button-value="${opt.value}" class="rounded-full px-3 py-2 text-sm font-semibold ring-1 transition whitespace-nowrap ${String(opt.value) === hoverBorderWidthValue ? "bg-slate-950 text-white ring-slate-950" : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-100"}">
-            ${opt.label}
-          </button>
-        `,
-      )
-      .join("");
 
     const hoverBorderColorCurrentOpt = colorOptions.find((o) => normalizeColorTokenValue(o.value) === normalizeColorTokenValue(hoverBorderColorValue));
     const hoverBorderColorCurrentSwatch = hoverBorderColorCurrentOpt?.swatch || "#cccccc";
@@ -3359,15 +3318,8 @@ function setupButtonModal() {
           <!-- Hover Border Width Row -->
           <div class="flex items-center gap-2 py-2 border-b border-slate-100">
             <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Border W.</span>
-            <div class="flex gap-1 overflow-x-auto scrollbar-none min-w-0 flex-1">${borderWidthPills}</div>
+            <input type="number" min="0" step="1" data-button-field="hoverBorderWidth" value="${hoverBorderWidthValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
             <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${hoverBorderWidthValue === "0" ? "None" : hoverBorderWidthValue + "px"}</span>
-          </div>
-
-          <!-- Hover Radius Row -->
-          <div class="flex items-center gap-2 py-2 border-b border-slate-100">
-            <span class="w-32 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Radius</span>
-            <input type="number" min="0" step="1" data-button-field="hoverRadius" value="${hoverRadiusValue}" class="w-24 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 font-mono text-sm font-semibold text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-slate-300" />
-            <span class="ml-auto shrink-0 font-mono text-xs text-slate-400 whitespace-nowrap">${hoverRadiusValue}px</span>
           </div>
 
           <!-- Hover Border Color Row with Details Dropdown -->
@@ -3511,7 +3463,7 @@ function setupButtonModal() {
       const swatch = currentOption?.swatch || "#cccccc";
       summaryContent = `
         <span class="min-w-24 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700">
+        <span class="inline-flex flex-1 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-700">
           <span class="h-4 w-4 shrink-0 rounded-full border border-black/10" style="background-color: ${swatch};"></span>
           <span class="truncate font-semibold">${currentLabel}</span>
         </span>
@@ -3522,7 +3474,7 @@ function setupButtonModal() {
       const pxValue = String(Math.max(0, Math.round(Number(resolved.px || 0))));
       summaryContent = `
         <span class="min-w-24 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-700">
           ${currentLabel}
         </span>
         <span class="font-mono text-xs text-slate-400">${pxValue}px</span>
@@ -3530,7 +3482,7 @@ function setupButtonModal() {
     } else {
       summaryContent = `
         <span class="min-w-24 shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">${label}</span>
-        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-sm font-semibold text-slate-700">
+        <span class="inline-flex flex-1 items-center rounded-full border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-700">
           ${currentLabel}
         </span>
       `;
