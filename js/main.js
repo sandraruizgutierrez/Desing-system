@@ -3817,6 +3817,7 @@ function setupButtonModal() {
     await copyText(buildButtonCssSnippet(ctx.className, draft));
   });
 
+  let inputDebounceTimer = null;
   fields.addEventListener("input", (event) => {
     const input = event.target.closest("[data-button-field]");
     if (!input || !draft) return;
@@ -3828,7 +3829,11 @@ function setupButtonModal() {
       [field]: field === "radius" || field === "hoverRadius" ? `${rawValue || "0"}px` : rawValue,
     };
     if (field === "label") title.textContent = draft.label || getButtonDraftLabel(ctx.btnKey);
-    rerender();
+
+    clearTimeout(inputDebounceTimer);
+    inputDebounceTimer = setTimeout(() => {
+      rerender();
+    }, 300);
   });
 
   resetDraft.addEventListener("click", () => {
