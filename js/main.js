@@ -4356,8 +4356,8 @@ function renderSectionUse() {
 
   const row = ([key, label, value]) => {
     const raw = String(value || "").trim();
-    const displayValue = raw || "null";
     const resolved = resolveSpaceLikeForDevice(state.device, value);
+    const displayValue = resolved.kind === "token" ? resolved.token : (raw || "null");
     const dRaw = getSectionUseForDevice("desktop")?.[key];
     const mRaw = getSectionUseForDevice("mobile")?.[key];
     const dPx = resolveSpaceLikeForDevice("desktop", dRaw).px;
