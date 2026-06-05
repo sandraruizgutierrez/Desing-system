@@ -1445,6 +1445,9 @@ function applyKitDerivedButtonDefaults() {
 }
 
 function applyKitCssText(cssText) {
+  // Preserve stylesheet values that shouldn't be reset
+  const prevSectionUseByDevice = cloneData(state.sectionUseByDevice);
+
   // Reset kit-derived values so we don't keep leftovers from previous kits.
   if (factoryDefaultStateSnapshot) {
     state.palette = cloneData(factoryDefaultStateSnapshot.palette);
@@ -1529,7 +1532,14 @@ function applyKitCssText(cssText) {
     state.typographyByDevice[device].styles = styles[device];
   });
 
-  state.sectionUseByDevice = buildSectionUseFromKit(cssText);
+  const kitSectionUse = buildSectionUseFromKit(cssText);
+  // If kit provided section use values, use them; otherwise preserve stylesheet values
+  if (kitSectionUse && Object.keys(kitSectionUse).length > 0) {
+    state.sectionUseByDevice = kitSectionUse;
+  } else {
+    state.sectionUseByDevice = prevSectionUseByDevice;
+  }
+
   applyKitDerivedButtonDefaults();
   applyThemeVariables();
   renderAll();
