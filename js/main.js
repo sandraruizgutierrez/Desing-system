@@ -3019,6 +3019,9 @@ function setupButtonModal() {
   const activeValue = document.getElementById("buttonActiveValue");
   const resetDraft = document.getElementById("buttonResetDraft");
   const error = document.getElementById("buttonError");
+  const codeNameContainer = document.getElementById("buttonCodeName");
+  const codeNameElement = codeNameContainer?.querySelector("code");
+  const editCodeNameBtn = document.getElementById("buttonEditCodeName");
 
   let ctx = null;
   let draft = null;
@@ -3678,9 +3681,6 @@ function setupButtonModal() {
     const typographyOptions = getButtonTypographyPresetOptions();
     const colorOptions = getColorTokenOptions();
     const spaceOptions = getSpaceTokenOptions();
-    const identitySection = [
-      renderTextRow("Nombre técnico", "codeName", cfg.codeName || ctx.className, ctx.className),
-    ].join("");
     const typographySection = [
       renderChooserRow("Preset tipográfico", "typographyPreset", typographyOptions, cfg.typographyPreset || "button", "preset"),
     ].join("");
@@ -3693,9 +3693,6 @@ function setupButtonModal() {
                     `;
     return `
             <div class="space-y-2">
-              <div>
-                ${renderButtonSection("Identidad", "Nombre visible y técnico", identitySection, false)}
-              </div>
               <div>
                 ${renderButtonSection(
       "Color",
@@ -3735,7 +3732,10 @@ function setupButtonModal() {
   function rerender() {
     if (!ctx || !draft) return;
     const cfg = draft;
-    title.textContent = `${cfg.label || getButtonDraftLabel(ctx.btnKey)} | ${devices[state.device].label}`;
+    title.textContent = cfg.label || getButtonDraftLabel(ctx.btnKey);
+    if (codeNameElement) {
+      codeNameElement.textContent = cfg.codeName || getButtonDefaultClassName(ctx.btnKey);
+    }
     desc.textContent = activeTab === "normal" ? "Edita el estado base del botón." : "Edita el estado hover del botón.";
     const presetLabel = cfg.typographyPreset ? getTypographyStyleLabel(state.device, cfg.typographyPreset) : getFontFamilyDisplayName(cfg.fontFamily);
     activeValue.textContent = activeTab === "normal"
@@ -3841,7 +3841,7 @@ function setupButtonModal() {
       ...draft,
       [field]: field === "radius" || field === "hoverRadius" ? `${rawValue || "0"}px` : rawValue,
     };
-    if (field === "label") title.textContent = `${draft.label || getButtonDraftLabel(ctx.btnKey)} | ${devices[state.device].label}`;
+    if (field === "label") title.textContent = draft.label || getButtonDraftLabel(ctx.btnKey);
     rerender();
   });
 
@@ -3874,6 +3874,17 @@ function setupButtonModal() {
   cancel.addEventListener("click", hide);
   close.addEventListener("click", hide);
   backdrop.addEventListener("click", hide);
+
+  editCodeNameBtn?.addEventListener("click", () => {
+    if (!ctx || !draft) return;
+    const newCodeName = window.prompt("Nombre técnico del botón:", draft.codeName || getButtonDefaultClassName(ctx.btnKey));
+    if (newCodeName !== null) {
+      draft.codeName = String(newCodeName || "").trim() || getButtonDefaultClassName(ctx.btnKey);
+      if (codeNameElement) {
+        codeNameElement.textContent = draft.codeName;
+      }
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     if (!ctx || modal.classList.contains("hidden")) return;
