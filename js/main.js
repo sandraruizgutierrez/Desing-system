@@ -5131,6 +5131,13 @@ function bindInputs() {
     applyStylesheetCssText(String(next));
   });
 
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    if (confirm("¿Estás seguro de que quieres limpiar todos los datos guardados? Esta acción no se puede deshacer.")) {
+      localStorage.clear();
+      location.reload();
+    }
+  });
+
   document.getElementById("importFile").addEventListener("change", async (event) => {
     const file = event.target.files?.[0];
     event.target.value = "";
