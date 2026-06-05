@@ -1320,8 +1320,8 @@ function buildSectionUseFromKit(cssText) {
     // Always search full CSS for section use classes, not just rootChunk (they may be in custom CSS section)
     containerTop: readFromProperty(cssText, ".mft-space-section-t", "padding-top", "desktop") || read(rootVars, "mft-space-section-t", "desktop"),
     containerBottom: readFromProperty(cssText, ".mft-space-section-b", "padding-bottom", "desktop") || read(rootVars, "mft-space-section-b", "desktop"),
-    containerLeft: readFromProperty(cssText, ".e-con", "padding-left", "desktop") || readFromProperty(cssText, ".e-con", "padding-inline-start", "desktop") || read(rootVars, "container-default-padding-left", "desktop"),
-    containerRight: readFromProperty(cssText, ".e-con", "padding-right", "desktop") || readFromProperty(cssText, ".e-con", "padding-inline-end", "desktop") || read(rootVars, "container-default-padding-right", "desktop"),
+    containerLeft: readFromProperty(cssText, ".e-con", "padding-left", "desktop") || readFromProperty(cssText, ".e-con", "padding-inline-start", "desktop") || readFromProperty(cssText, ".e-con", "--container-default-padding-left", "desktop") || read(rootVars, "container-default-padding-left", "desktop"),
+    containerRight: readFromProperty(cssText, ".e-con", "padding-right", "desktop") || readFromProperty(cssText, ".e-con", "padding-inline-end", "desktop") || readFromProperty(cssText, ".e-con", "--container-default-padding-right", "desktop") || read(rootVars, "container-default-padding-right", "desktop"),
   };
   const tablet = {
     paddingTop: read(tabletVars, "container-default-padding-top", "tablet") || base.paddingTop,
