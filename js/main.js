@@ -2675,6 +2675,15 @@ function applyStylesheetCssText(cssText) {
   importButtonStylesFromCss(cssText);
   importTypographyFromElementorCss(cssText);
 
+  // If no section use data was imported, restore previous state (preserve kit values)
+  const hasNewSectionUse = ["desktop", "tablet", "mobile"].some(device => {
+    const current = state.sectionUseByDevice[device] || {};
+    return Object.values(current).some(v => String(v || "").trim());
+  });
+  if (!hasNewSectionUse) {
+    state.sectionUseByDevice = prevSectionUse;
+  }
+
   // If no button data was imported, restore previous state
   if (!Object.keys(state.btn).some(k => k !== "arrowGap" && k !== "arrowContent" && k !== "hiddenButtons" && k !== "customButtons" && Object.keys(state.btn[k] || {}).length > 0)) {
     state.btn = prevBtn;
