@@ -5353,13 +5353,13 @@ function displayElementorKitAndStyleCSS() {
       const inputTextarea = document.getElementById("editorTextarea");
       // Overwrite Kit CSS values
       inputTextarea.value = event.data.elementorKit;
-      inputTextarea.textContent = event.data.elementorKit;
+      // inputTextarea.textContent = event.data.elementorKit;
       // Apply Elementor Kit      
       applyKitCssText(String(event.data.elementorKit));
       // Use a `setTimeout` because the textarea input is the same for both Elementor Kit CSS and style.css
       setTimeout(()=>{
         inputTextarea.value = event.data.styleCSS;
-        inputTextarea.textContent = event.data.styleCSS;
+        // inputTextarea.textContent = event.data.styleCSS;
         applyStylesheetCssText(String(event.data.styleCSS));        
       },300);
     }
