@@ -597,10 +597,33 @@ function findSpaceTokenByPx(px, preferredDevice = null) {
   if (!Number.isFinite(value)) return null;
   const order = [preferredDevice, "desktop", "tablet", "mobile"].filter((device, index, list) => device && list.indexOf(device) === index);
   for (const device of order) {
+    const matches = [];
     for (const key of getSpaceOrderList()) {
-      if (Math.round(getSpaceValueForDevice(device, key)) === Math.round(value)) {
-        return key;
+      const tokenValue = getSpaceValueForDevice(device, key);
+      if (Math.round(tokenValue) === Math.round(value)) {
+        const token = state.spaces[key];
+        matches.push({ key, tokenValue, token });
       }
+    }
+    if (matches.length > 0) {
+      if (matches.length === 1) return matches[0].key;
+      // If multiple matches, prefer tokens where value is at or near the min (start of scale)
+      // This way 24px matches 's' (min=24) instead of 'xs' (max=24)
+      matches.sort((a, b) => {
+        const aIsMin = a.token?.type !== "fixed" && Math.round(a.token.min) === Math.round(value);
+        const bIsMin = b.token?.type !== "fixed" && Math.round(b.token.min) === Math.round(value);
+        if (aIsMin && !bIsMin) return -1;
+        if (!aIsMin && bIsMin) return 1;
+        // If both are min or both are max, prefer fluid over fixed
+        if (a.token?.type !== "fixed" && b.token?.type === "fixed") return -1;
+        if (a.token?.type === "fixed" && b.token?.type !== "fixed") return 1;
+        // If both fluid, prefer higher max values
+        if (a.token?.type !== "fixed" && b.token?.type !== "fixed") {
+          return (b.token?.max || 0) - (a.token?.max || 0);
+        }
+        return 0;
+      });
+      return matches[0].key;
     }
   }
   return null;
@@ -742,8 +765,33 @@ function findPaddingTokenByPx(px, preferredDevice = null) {
   if (!Number.isFinite(value)) return null;
   const order = [preferredDevice, "desktop", "tablet", "mobile"].filter((device, index, list) => device && list.indexOf(device) === index);
   for (const device of order) {
+    const matches = [];
     for (const key of getPaddingOrderList()) {
-      if (Math.round(getPaddingValueForDevice(device, key)) === Math.round(value)) return key;
+      const tokenValue = getPaddingValueForDevice(device, key);
+      if (Math.round(tokenValue) === Math.round(value)) {
+        const token = state.paddingSpaces[key];
+        matches.push({ key, tokenValue, token });
+      }
+    }
+    if (matches.length > 0) {
+      if (matches.length === 1) return matches[0].key;
+      // If multiple matches, prefer tokens where value is at or near the min (start of scale)
+      // This way 24px matches 's' (min=24) instead of 'xs' (max=24)
+      matches.sort((a, b) => {
+        const aIsMin = a.token?.type !== "fixed" && Math.round(a.token.min) === Math.round(value);
+        const bIsMin = b.token?.type !== "fixed" && Math.round(b.token.min) === Math.round(value);
+        if (aIsMin && !bIsMin) return -1;
+        if (!aIsMin && bIsMin) return 1;
+        // If both are min or both are max, prefer fluid over fixed
+        if (a.token?.type !== "fixed" && b.token?.type === "fixed") return -1;
+        if (a.token?.type === "fixed" && b.token?.type !== "fixed") return 1;
+        // If both fluid, prefer higher max values
+        if (a.token?.type !== "fixed" && b.token?.type !== "fixed") {
+          return (b.token?.max || 0) - (a.token?.max || 0);
+        }
+        return 0;
+      });
+      return matches[0].key;
     }
   }
   return null;
