@@ -1317,6 +1317,7 @@ function buildSectionUseFromKit(cssText) {
     paddingLeft: read(rootVars, "container-default-padding-left", "desktop"),
     paddingRight: read(rootVars, "container-default-padding-right", "desktop"),
     gap: read(rootVars, "widgets-spacing-row", "desktop"),
+    // Always search full CSS for section use classes, not just rootChunk (they may be in custom CSS section)
     containerTop: readFromProperty(cssText, ".mft-space-section-t", "padding-top", "desktop") || read(rootVars, "mft-space-section-t", "desktop"),
     containerBottom: readFromProperty(cssText, ".mft-space-section-b", "padding-bottom", "desktop") || read(rootVars, "mft-space-section-b", "desktop"),
     containerLeft: readFromProperty(cssText, ".mft-space-section-l", "padding-left", "desktop") || read(rootVars, "container-default-padding-left", "desktop"),
@@ -1533,16 +1534,16 @@ function applyKitCssText(cssText) {
   });
 
   const kitSectionUse = buildSectionUseFromKit(cssText);
-  // If kit provided section use values (with actual content), use them; otherwise preserve stylesheet values
-  const hasKitSectionUse = kitSectionUse && ["desktop", "tablet", "mobile"].some(device => {
-    const values = kitSectionUse[device] || {};
-    return Object.values(values).some(v => String(v || "").trim());
-  });
-
-  if (hasKitSectionUse) {
-    state.sectionUseByDevice = kitSectionUse;
-  } else {
-    state.sectionUseByDevice = prevSectionUseByDevice;
+  // Merge kit values with previous stylesheet values: kit values take priority, but preserve stylesheet values when kit has none
+  if (kitSectionUse) {
+    ["desktop", "tablet", "mobile"].forEach((device) => {
+      state.sectionUseByDevice[device] = {
+        ...prevSectionUseByDevice[device],
+        ...Object.fromEntries(
+          Object.entries(kitSectionUse[device] || {}).filter(([, v]) => String(v || "").trim())
+        )
+      };
+    });
   }
 
   applyKitDerivedButtonDefaults();
