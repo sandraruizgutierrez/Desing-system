@@ -1448,6 +1448,7 @@ function applyKitDerivedButtonDefaults() {
 function applyKitCssText(cssText) {
   // Preserve stylesheet values that shouldn't be reset
   const prevSectionUseByDevice = cloneData(state.sectionUseByDevice);
+  const prevSpaces = cloneData(state.spaces);
 
   // Reset kit-derived values so we don't keep leftovers from previous kits.
   if (factoryDefaultStateSnapshot) {
@@ -1460,6 +1461,7 @@ function applyKitCssText(cssText) {
     state.imageByDevice = cloneData(factoryDefaultStateSnapshot.imageByDevice);
     // Reset to empty state - will be populated from kit if it has data
     state.sectionUseByDevice = { desktop: {}, tablet: {}, mobile: {} };
+    state.spaces = cloneData(factoryDefaultStateSnapshot.spaces);
     state.btn = { arrowGap: "8px", arrowContent: '"\\2192"', hiddenButtons: [], customButtons: [], btn1: {}, btn2: {}, btn3: {}, btn4: {}, btn5: {} };
   }
 
@@ -1544,6 +1546,14 @@ function applyKitCssText(cssText) {
         )
       };
     });
+  }
+
+  // Check if kit provided any spacing values - if not, restore stylesheet spacing
+  const hasKitSpaces = Object.keys(state.spaces).some(key =>
+    state.spaces[key] !== prevSpaces[key]
+  );
+  if (!hasKitSpaces) {
+    state.spaces = prevSpaces;
   }
 
   applyKitDerivedButtonDefaults();
