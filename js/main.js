@@ -4542,11 +4542,11 @@ function renderTypographyStudio() {
             const linePct = formatLineHeightPct(s.line);
             const text = getTypographyStyleLabel(device, key);
             const clampValues = getTypographyClampValues(key);
-            const sizeDisplay = clampValues.min && clampValues.max ? `${clampValues.max}px | ${clampValues.min}px` : `${s.size || "null"}px`;
+            const sizeDisplay = clampValues.min && clampValues.max ? `${clampValues.max}px | ${clampValues.min}px` : `${s.size || "-"}px`;
             const metricStrip = [
               ["Sz", sizeDisplay, vars?.size, `${key}:size`],
-              ["Wt", `${s.weight || "null"}`, vars?.weight, `${key}:weight`],
-              ["Ln", `${linePct || s.line || "null"}`, vars?.line, `${key}:line`],
+              ["Wt", `${s.weight || "-"}`, vars?.weight, `${key}:weight`],
+              ["Ln", `${linePct || s.line || "-"}`, vars?.line, `${key}:line`],
             ];
             return `
                         <div class="rounded-xl border border-pink-100 bg-white p-2.5">
