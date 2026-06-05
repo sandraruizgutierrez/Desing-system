@@ -892,10 +892,19 @@ function parseScaleCssValue(raw) {
   if (!value) return null;
   const fixedMatch = value.match(/^(\d+(?:\.\d+)?)px$/i);
   if (fixedMatch) return { type: "fixed", value: Number(fixedMatch[1]) };
-  const clampMatch = value.match(/^clamp\(\s*(\d+(?:\.\d+)?)px\s*,[\s\S]*?,\s*(\d+(?:\.\d+)?)px\s*\)$/i);
+  const fixedRemMatch = value.match(/^(\d+(?:\.\d+)?)rem$/i);
+  if (fixedRemMatch) {
+    const remValue = Number(fixedRemMatch[1]);
+    return { type: "fixed", value: Math.round(remValue * 16) };
+  }
+  const clampMatch = value.match(/^clamp\(\s*(\d+(?:\.\d+)?)(px|rem)\s*,[\s\S]*?,\s*(\d+(?:\.\d+)?)(px|rem)\s*\)$/i);
   if (clampMatch) {
-    const min = Number(clampMatch[1]);
-    const max = Number(clampMatch[2]);
+    const minValue = Number(clampMatch[1]);
+    const minUnit = String(clampMatch[2]).toLowerCase();
+    const maxValue = Number(clampMatch[3]);
+    const maxUnit = String(clampMatch[4]).toLowerCase();
+    const min = minUnit === "rem" ? Math.round(minValue * 16) : minValue;
+    const max = maxUnit === "rem" ? Math.round(maxValue * 16) : maxValue;
     if (Number.isFinite(min) && Number.isFinite(max)) return { type: "fluid", min, max };
   }
   const numMatch = value.match(/^(\d+(?:\.\d+)?)$/);
@@ -1041,15 +1050,23 @@ function parseClampFontSize(raw, width) {
   const text = String(raw || "").trim();
   if (!text) return null;
   const clampMatch = text.match(
-    /^clamp\(\s*([0-9.]+)px\s*,\s*calc\(\s*([0-9.]+)px\s*\+\s*\(\s*([0-9.]+)\s*-\s*\2\s*\)\s*\*\s*\(\(\s*100vw\s*-\s*([0-9.]+)px\s*\)\s*\/\s*\(\s*([0-9.]+)\s*-\s*\4\s*\)\)\s*\)\s*,\s*([0-9.]+)px\s*\)$/i,
+    /^clamp\(\s*([0-9.]+)(px|rem)\s*,\s*calc\(\s*([0-9.]+)(px|rem)\s*\+\s*\(\s*([0-9.]+)\s*-\s*\3\s*\)\s*\*\s*\(\(\s*100vw\s*-\s*([0-9.]+)(px|rem)\s*\)\s*\/\s*\(\s*([0-9.]+)\s*-\s*\6\s*\)\)\s*\)\s*,\s*([0-9.]+)(px|rem)\s*\)$/i,
   );
   if (clampMatch) {
-    const min = Number(clampMatch[1]);
-    const base = Number(clampMatch[2]);
-    const maxDelta = Number(clampMatch[3]);
-    const from = Number(clampMatch[4]);
-    const to = Number(clampMatch[5]);
-    const max = Number(clampMatch[6]);
+    const minValue = Number(clampMatch[1]);
+    const minUnit = String(clampMatch[2]).toLowerCase();
+    const baseValue = Number(clampMatch[3]);
+    const baseUnit = String(clampMatch[4]).toLowerCase();
+    const maxDelta = Number(clampMatch[5]);
+    const fromValue = Number(clampMatch[6]);
+    const fromUnit = String(clampMatch[7]).toLowerCase();
+    const to = Number(clampMatch[8]);
+    const maxValue = Number(clampMatch[9]);
+    const maxUnit = String(clampMatch[10]).toLowerCase();
+    const min = minUnit === "rem" ? minValue * 16 : minValue;
+    const base = baseUnit === "rem" ? baseValue * 16 : baseValue;
+    const from = fromUnit === "rem" ? fromValue * 16 : fromValue;
+    const max = maxUnit === "rem" ? maxValue * 16 : maxValue;
     if ([min, base, maxDelta, from, to, max].every(Number.isFinite)) {
       const interpolated = clampBetween(min, max, width, from, to);
       return Number(interpolated.toFixed(2));
@@ -1057,6 +1074,8 @@ function parseClampFontSize(raw, width) {
   }
   const pxMatch = text.match(/^([0-9.]+)px$/i);
   if (pxMatch) return Number(pxMatch[1]);
+  const remMatch = text.match(/^([0-9.]+)rem$/i);
+  if (remMatch) return Number((Number(remMatch[1]) * 16).toFixed(2));
   const num = Number(text);
   return Number.isFinite(num) ? num : null;
 }
