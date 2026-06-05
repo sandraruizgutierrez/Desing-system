@@ -1533,8 +1533,13 @@ function applyKitCssText(cssText) {
   });
 
   const kitSectionUse = buildSectionUseFromKit(cssText);
-  // If kit provided section use values, use them; otherwise preserve stylesheet values
-  if (kitSectionUse && Object.keys(kitSectionUse).length > 0) {
+  // If kit provided section use values (with actual content), use them; otherwise preserve stylesheet values
+  const hasKitSectionUse = kitSectionUse && ["desktop", "tablet", "mobile"].some(device => {
+    const values = kitSectionUse[device] || {};
+    return Object.values(values).some(v => String(v || "").trim());
+  });
+
+  if (hasKitSectionUse) {
     state.sectionUseByDevice = kitSectionUse;
   } else {
     state.sectionUseByDevice = prevSectionUseByDevice;
