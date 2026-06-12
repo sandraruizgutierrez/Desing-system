@@ -1940,7 +1940,8 @@ function applyThemeVariables() {
 
   const dynamicButtonStyles = document.getElementById("dynamicButtonStyles");
   if (dynamicButtonStyles) {
-    dynamicButtonStyles.textContent = customButtons
+    const allButtons = ["btn1", "btn2", "btn3", "btn4", "btn5", ...customButtons];
+    dynamicButtonStyles.textContent = allButtons
       .map((btnKey) => {
         const cfg = state.btn[btnKey];
         const className = `mft-btn-${getButtonIndex(btnKey)}`;
