@@ -2406,26 +2406,6 @@ function buildButtonCssSnippet(className, cfg) {
   const fontFamily = String(cfg.fontFamily || preset.fontFamily);
   const fontSize = String(cfg.fontSize || preset.fontSize);
   const fontWeight = String(cfg.fontWeight || preset.fontWeight);
-  const hoverCss = [
-    `color: ${hoverColor};`,
-    `fill: ${hoverColor};`,
-    `background-color: ${hoverBg};`,
-  ];
-
-  // Only include border if it's explicitly different from base
-  if (cfg.hoverBorder && cfg.hoverBorder !== cfg.border) {
-    hoverCss.push(`border: ${hoverBorder};`);
-  } else if (cfg.hoverBorderWidth && cfg.hoverBorderWidth !== cfg.borderWidth) {
-    hoverCss.push(`border: ${hoverBorder};`);
-  } else if (cfg.hoverBorderColor && cfg.hoverBorderColor !== cfg.borderColor) {
-    hoverCss.push(`border: ${hoverBorder};`);
-  }
-
-  // Only include border-radius if it's explicitly different from base
-  if (cfg.hoverRadius && cfg.hoverRadius !== cfg.radius) {
-    hoverCss.push(`border-radius: ${hoverRadius};`);
-  }
-
   return [
     `/* BTN - ${className.replace("mft-btn-", "")} */`,
     `.elementor-button.${className} {`,
@@ -2447,7 +2427,11 @@ function buildButtonCssSnippet(className, cfg) {
     ``,
     `@media (hover: hover) and (pointer: fine) {`,
     `    .elementor-button.${className}:hover {`,
-    ...hoverCss.map(prop => `        ${prop}`),
+    `        color: ${hoverColor};`,
+    `        fill: ${hoverColor};`,
+    `        background-color: ${hoverBg};`,
+    `        border: ${hoverBorder};`,
+    `        border-radius: ${hoverRadius};`,
     `    }`,
     `}`,
   ].join("\n");
@@ -2492,34 +2476,53 @@ function applyButtonStyleFromCss(cssText, btnKey, className) {
   const hoverBlock = parseCssDeclarations(findButtonCssBlock(cssText, className, ":hover"));
   const index = getButtonIndex(btnKey);
   const existing = state.btn[btnKey] && typeof state.btn[btnKey] === "object" ? state.btn[btnKey] : null;
-  const fallback = Number.isFinite(index) && index >= 6 ? createCustomButtonConfig(getButtonDefaultLabel(btnKey), btnKey) : (existing || {});
-  const next = { ...fallback };
+
+  // Start with existing config to preserve label and other metadata
+  const next = existing ? { ...existing } : {};
+
+  // Only update properties that are explicitly defined in the CSS
   if (baseBlock["font-family"]) next.fontFamily = normalizeFontFamily(baseBlock["font-family"]);
   if (baseBlock["font-size"]) next.fontSize = normalizePx(baseBlock["font-size"], next.fontSize || "");
   if (baseBlock["font-weight"]) next.fontWeight = String(baseBlock["font-weight"]);
   if (baseBlock.color) next.color = normalizeColorTokenValue(baseBlock.color);
   if (baseBlock["background-color"]) next.bg = normalizeColorTokenValue(baseBlock["background-color"]);
+
+  // Only set border if explicitly in CSS, don't add defaults
   if (baseBlock.border) {
     next.border = String(baseBlock.border);
     const parsed = parseBorderToken(next.border, next.color || next.bg || "");
-    next.borderWidth = String(parsed.width || next.borderWidth || 0);
-    next.borderColor = normalizeColorTokenValue(parsed.color || next.borderColor || next.color || "");
+    next.borderWidth = String(parsed.width || 0);
+    next.borderColor = normalizeColorTokenValue(parsed.color || next.color || "");
+  } else {
+    // If no border in CSS, explicitly clear it
+    next.border = "none";
+    next.borderWidth = "0";
+    next.borderColor = "";
   }
+
   if (baseBlock["border-radius"]) next.radius = normalizeRadiusValue(baseBlock["border-radius"]);
   if (baseBlock.padding) {
     const pad = parseButtonPaddingShorthand(baseBlock.padding);
     if (pad.padY) next.padY = pad.padY;
     if (pad.padX) next.padX = pad.padX;
   }
+
+  // Hover properties - only set if explicitly in CSS
   if (hoverBlock.color) next.hoverColor = normalizeColorTokenValue(hoverBlock.color);
   if (hoverBlock["background-color"]) next.hoverBg = normalizeColorTokenValue(hoverBlock["background-color"]);
   if (hoverBlock.border) {
     next.hoverBorder = String(hoverBlock.border);
     const parsed = parseBorderToken(next.hoverBorder, next.hoverColor || next.hoverBg || next.color || "");
-    next.hoverBorderWidth = String(parsed.width || next.hoverBorderWidth || next.borderWidth || 0);
-    next.hoverBorderColor = normalizeColorTokenValue(parsed.color || next.hoverBorderColor || next.hoverColor || next.color || "");
+    next.hoverBorderWidth = String(parsed.width || 0);
+    next.hoverBorderColor = normalizeColorTokenValue(parsed.color || next.hoverColor || next.color || "");
+  } else if (baseBlock.border) {
+    // If base has border but hover doesn't, explicitly set hover border to none
+    next.hoverBorder = "none";
+    next.hoverBorderWidth = "0";
+    next.hoverBorderColor = "";
   }
   if (hoverBlock["border-radius"]) next.hoverRadius = normalizeRadiusValue(hoverBlock["border-radius"]);
+
   state.btn[btnKey] = normalizeButtonConfig({ ...next, label: String(next.label || getButtonDefaultLabel(btnKey)) }, btnKey);
 }
 
