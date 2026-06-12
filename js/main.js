@@ -2406,6 +2406,35 @@ function buildButtonCssSnippet(className, cfg) {
   const fontFamily = String(cfg.fontFamily || preset.fontFamily);
   const fontSize = String(cfg.fontSize || preset.fontSize);
   const fontWeight = String(cfg.fontWeight || preset.fontWeight);
+  const hoverProps = [];
+
+  // Only include hover properties that are different from base
+  if (hoverColor !== color || hoverColor !== normalizeColorTokenValue(cfg.color)) {
+    hoverProps.push(`        color: ${hoverColor};`);
+    hoverProps.push(`        fill: ${hoverColor};`);
+  }
+
+  if (hoverBg !== bg) {
+    hoverProps.push(`        background-color: ${hoverBg};`);
+  }
+
+  if (hoverBorder !== border) {
+    hoverProps.push(`        border: ${hoverBorder};`);
+  }
+
+  if (hoverRadius !== radius) {
+    hoverProps.push(`        border-radius: ${hoverRadius};`);
+  }
+
+  const hoverBlock = hoverProps.length > 0 ? [
+    ``,
+    `@media (hover: hover) and (pointer: fine) {`,
+    `    .elementor-button.${className}:hover {`,
+    ...hoverProps,
+    `    }`,
+    `}`,
+  ] : [];
+
   return [
     `/* BTN - ${className.replace("mft-btn-", "")} */`,
     `.elementor-button.${className} {`,
@@ -2424,16 +2453,7 @@ function buildButtonCssSnippet(className, cfg) {
     `    border-radius: ${radius};`,
     `    padding: ${String(cfg.padY || "")} ${String(cfg.padX || "")};`,
     `}`,
-    ``,
-    `@media (hover: hover) and (pointer: fine) {`,
-    `    .elementor-button.${className}:hover {`,
-    `        color: ${hoverColor};`,
-    `        fill: ${hoverColor};`,
-    `        background-color: ${hoverBg};`,
-    `        border: ${hoverBorder};`,
-    `        border-radius: ${hoverRadius};`,
-    `    }`,
-    `}`,
+    ...hoverBlock,
   ].join("\n");
 }
 
