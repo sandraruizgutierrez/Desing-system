@@ -246,7 +246,8 @@ details[open] .mft-collapsible-chevron {
 
 /* ===== BOTONES ELEMENTOR (mft-btn) ===== */
 
-.elementor-button[class^="mft-btn"] {
+/* Generic button styles - overridden by dynamically generated CSS */
+/* .elementor-button[class^="mft-btn"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -261,7 +262,7 @@ details[open] .mft-collapsible-chevron {
   border-radius: 16px;
   border: none;
   transition: all 0.2s ease;
-}
+} */
 
 .elementor-button.mft-btn-1 {
   color: #333333;

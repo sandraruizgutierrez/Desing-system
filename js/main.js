@@ -2722,9 +2722,18 @@ function applyStylesheetCssText(cssText) {
     state.sectionUseByDevice = prevSectionUse;
   }
 
-  // If no button data was imported, restore previous state
-  if (!Object.keys(state.btn).some(k => k !== "arrowGap" && k !== "arrowContent" && k !== "hiddenButtons" && k !== "customButtons" && Object.keys(state.btn[k] || {}).length > 0)) {
-    state.btn = prevBtn;
+  // If button data was imported, keep it (even if partial)
+  // Only restore if NONE of the buttons have any properties beyond arrowGap, arrowContent, etc.
+  const baseButtonKeys = ["btn1", "btn2", "btn3", "btn4", "btn5"];
+  const hasAnyButtonData = baseButtonKeys.some(k => Object.keys(state.btn[k] || {}).some(prop => prop !== "label" && prop !== "codeName"));
+
+  if (!hasAnyButtonData) {
+    const customBtnKeys = Object.keys(state.btn).filter(k => k.startsWith("btn") && !baseButtonKeys.includes(k));
+    const hasCustomButtons = customBtnKeys.length > 0 && customBtnKeys.some(k => Object.keys(state.btn[k] || {}).length > 0);
+
+    if (!hasCustomButtons) {
+      state.btn = prevBtn;
+    }
   }
 
   // If no image data was imported, restore previous state
