@@ -2406,6 +2406,26 @@ function buildButtonCssSnippet(className, cfg) {
   const fontFamily = String(cfg.fontFamily || preset.fontFamily);
   const fontSize = String(cfg.fontSize || preset.fontSize);
   const fontWeight = String(cfg.fontWeight || preset.fontWeight);
+  const hoverCss = [
+    `color: ${hoverColor};`,
+    `fill: ${hoverColor};`,
+    `background-color: ${hoverBg};`,
+  ];
+
+  // Only include border if it's explicitly different from base
+  if (cfg.hoverBorder && cfg.hoverBorder !== cfg.border) {
+    hoverCss.push(`border: ${hoverBorder};`);
+  } else if (cfg.hoverBorderWidth && cfg.hoverBorderWidth !== cfg.borderWidth) {
+    hoverCss.push(`border: ${hoverBorder};`);
+  } else if (cfg.hoverBorderColor && cfg.hoverBorderColor !== cfg.borderColor) {
+    hoverCss.push(`border: ${hoverBorder};`);
+  }
+
+  // Only include border-radius if it's explicitly different from base
+  if (cfg.hoverRadius && cfg.hoverRadius !== cfg.radius) {
+    hoverCss.push(`border-radius: ${hoverRadius};`);
+  }
+
   return [
     `/* BTN - ${className.replace("mft-btn-", "")} */`,
     `.elementor-button.${className} {`,
@@ -2427,11 +2447,7 @@ function buildButtonCssSnippet(className, cfg) {
     ``,
     `@media (hover: hover) and (pointer: fine) {`,
     `    .elementor-button.${className}:hover {`,
-    `        color: ${hoverColor};`,
-    `        fill: ${hoverColor};`,
-    `        background-color: ${hoverBg};`,
-    `        border: ${hoverBorder};`,
-    `        border-radius: ${hoverRadius};`,
+    ...hoverCss.map(prop => `        ${prop}`),
     `    }`,
     `}`,
   ].join("\n");
