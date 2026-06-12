@@ -2406,35 +2406,6 @@ function buildButtonCssSnippet(className, cfg) {
   const fontFamily = String(cfg.fontFamily || preset.fontFamily);
   const fontSize = String(cfg.fontSize || preset.fontSize);
   const fontWeight = String(cfg.fontWeight || preset.fontWeight);
-  const hoverProps = [];
-
-  // Only include hover properties that are explicitly defined (not derived from base)
-  if (cfg.hoverColor) {
-    hoverProps.push(`        color: ${hoverColor};`);
-    hoverProps.push(`        fill: ${hoverColor};`);
-  }
-
-  if (cfg.hoverBg) {
-    hoverProps.push(`        background-color: ${hoverBg};`);
-  }
-
-  if (cfg.hoverBorder || cfg.hoverBorderWidth || cfg.hoverBorderColor) {
-    hoverProps.push(`        border: ${hoverBorder};`);
-  }
-
-  if (cfg.hoverRadius) {
-    hoverProps.push(`        border-radius: ${hoverRadius};`);
-  }
-
-  const hoverBlock = hoverProps.length > 0 ? [
-    ``,
-    `@media (hover: hover) and (pointer: fine) {`,
-    `    .elementor-button.${className}:hover {`,
-    ...hoverProps,
-    `    }`,
-    `}`,
-  ] : [];
-
   return [
     `/* BTN - ${className.replace("mft-btn-", "")} */`,
     `.elementor-button.${className} {`,
@@ -2453,7 +2424,16 @@ function buildButtonCssSnippet(className, cfg) {
     `    border-radius: ${radius};`,
     `    padding: ${String(cfg.padY || "")} ${String(cfg.padX || "")};`,
     `}`,
-    ...hoverBlock,
+    ``,
+    `@media (hover: hover) and (pointer: fine) {`,
+    `    .elementor-button.${className}:hover {`,
+    `        color: ${hoverColor};`,
+    `        fill: ${hoverColor};`,
+    `        background-color: ${hoverBg};`,
+    `        border: ${hoverBorder};`,
+    `        border-radius: ${hoverRadius};`,
+    `    }`,
+    `}`,
   ].join("\n");
 }
 
@@ -2507,17 +2487,12 @@ function applyButtonStyleFromCss(cssText, btnKey, className) {
   if (baseBlock.color) next.color = normalizeColorTokenValue(baseBlock.color);
   if (baseBlock["background-color"]) next.bg = normalizeColorTokenValue(baseBlock["background-color"]);
 
-  // Only set border if explicitly in CSS, don't add defaults
+  // Only update border if explicitly in CSS
   if (baseBlock.border) {
     next.border = String(baseBlock.border);
     const parsed = parseBorderToken(next.border, next.color || next.bg || "");
     next.borderWidth = String(parsed.width || 0);
     next.borderColor = normalizeColorTokenValue(parsed.color || next.color || "");
-  } else {
-    // If no border in CSS, explicitly clear it
-    next.border = "none";
-    next.borderWidth = "0";
-    next.borderColor = "";
   }
 
   if (baseBlock["border-radius"]) next.radius = normalizeRadiusValue(baseBlock["border-radius"]);
@@ -2535,11 +2510,6 @@ function applyButtonStyleFromCss(cssText, btnKey, className) {
     const parsed = parseBorderToken(next.hoverBorder, next.hoverColor || next.hoverBg || next.color || "");
     next.hoverBorderWidth = String(parsed.width || 0);
     next.hoverBorderColor = normalizeColorTokenValue(parsed.color || next.hoverColor || next.color || "");
-  } else if (baseBlock.border) {
-    // If base has border but hover doesn't, explicitly set hover border to none
-    next.hoverBorder = "none";
-    next.hoverBorderWidth = "0";
-    next.hoverBorderColor = "";
   }
   if (hoverBlock["border-radius"]) next.hoverRadius = normalizeRadiusValue(hoverBlock["border-radius"]);
 
