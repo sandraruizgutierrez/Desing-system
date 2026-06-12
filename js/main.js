@@ -2408,21 +2408,21 @@ function buildButtonCssSnippet(className, cfg) {
   const fontWeight = String(cfg.fontWeight || preset.fontWeight);
   const hoverProps = [];
 
-  // Only include hover properties that are different from base
-  if (hoverColor !== color || hoverColor !== normalizeColorTokenValue(cfg.color)) {
+  // Only include hover properties that are explicitly defined (not derived from base)
+  if (cfg.hoverColor) {
     hoverProps.push(`        color: ${hoverColor};`);
     hoverProps.push(`        fill: ${hoverColor};`);
   }
 
-  if (hoverBg !== bg) {
+  if (cfg.hoverBg) {
     hoverProps.push(`        background-color: ${hoverBg};`);
   }
 
-  if (hoverBorder !== border) {
+  if (cfg.hoverBorder || cfg.hoverBorderWidth || cfg.hoverBorderColor) {
     hoverProps.push(`        border: ${hoverBorder};`);
   }
 
-  if (hoverRadius !== radius) {
+  if (cfg.hoverRadius) {
     hoverProps.push(`        border-radius: ${hoverRadius};`);
   }
 
