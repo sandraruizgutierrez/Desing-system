@@ -308,7 +308,8 @@ details[open] .mft-collapsible-chevron {
   }
 }
 
-.elementor-button.mft-btn-2 {
+/* BTN-2 styles are now generated dynamically in #dynamicButtonStyles */
+/* .elementor-button.mft-btn-2 {
   font-family: var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
   font-size: var(--mft-btn-2-font-size, var(--e-global-typography-6d2edf1-font-size));
   font-weight: var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
@@ -326,9 +327,10 @@ details[open] .mft-collapsible-chevron {
     border: var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
     border-radius: var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
   }
-}
+} */
 
-.elementor-button.mft-btn-3 {
+/* BTN-3 styles are now generated dynamically in #dynamicButtonStyles */
+/* .elementor-button.mft-btn-3 {
   font-family: var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
   font-size: var(--mft-btn-3-font-size, var(--e-global-typography-6d2edf1-font-size));
   font-weight: var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
@@ -346,9 +348,10 @@ details[open] .mft-collapsible-chevron {
     border: var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
     border-radius: var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
   }
-}
+} */
 
-.elementor-button.mft-btn-4 {
+/* BTN-4 styles are now generated dynamically in #dynamicButtonStyles */
+/* .elementor-button.mft-btn-4 {
   font-family: var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
   font-size: var(--mft-btn-4-font-size, var(--e-global-typography-6d2edf1-font-size));
   font-weight: var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
@@ -366,9 +369,10 @@ details[open] .mft-collapsible-chevron {
     border: var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
     border-radius: var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
   }
-}
+} */
 
-.elementor-button.mft-btn-5 {
+/* BTN-5 styles are now generated dynamically in #dynamicButtonStyles */
+/* .elementor-button.mft-btn-5 {
   font-family: var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
   font-size: var(--mft-btn-5-font-size, var(--e-global-typography-6d2edf1-font-size));
   font-weight: var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
@@ -386,7 +390,7 @@ details[open] .mft-collapsible-chevron {
     border: var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
     border-radius: var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
   }
-}
+} */
 
 /* Fuente del preview de botones en el modal */
 .button-preview-font,
