@@ -2512,7 +2512,7 @@ function importButtonStylesFromCss(cssText) {
   if (vars["--mft-btn-arrow-gap"]) state.btn.arrowGap = String(vars["--mft-btn-arrow-gap"]).trim();
   if (vars["--mft-btn-arrow-content"]) state.btn.arrowContent = String(vars["--mft-btn-arrow-content"]).trim();
 
-  const genericMatch = text.match(/\.elementor-button\[class\^=['"]mft-btn['"]\]\s*\{([\s\S]*?)\}/i);
+  const genericMatch = text.match(/\.elementor-button\[class\^=['"]*mft-btn['"]*\]\s*\{([\s\S]*?)\}(?:\s*(?:@media|\/\*))?/i);
   const genericButtonBlock = parseCssDeclarations(genericMatch ? genericMatch[1] : "");
   const genericRadius = genericButtonBlock["border-radius"] ? normalizeRadiusValue(genericButtonBlock["border-radius"]) : "";
   const genericPadding = genericButtonBlock.padding ? parseButtonPaddingShorthand(genericButtonBlock.padding) : null;
@@ -2590,8 +2590,9 @@ function importButtonStylesFromCss(cssText) {
     state.btn[btnKey] = normalizeButtonConfig(next, btnKey);
   });
 
-  const buttonBlockRegex = /\.elementor-button\.mft-btn-(\d+)\s*\{([\s\S]*?)\}(?:\s*@media[^{]+\{[\s\S]*?\})?/gi;
-  const hoverBlockRegex = /\.elementor-button\.mft-btn-(\d+):hover\s*\{([\s\S]*?)\}/gi;
+  const buttonBlockRegex = /\.elementor-button\.mft-btn-(\d+)(?!\w)?\s*\{([^}]*)\}/gi;
+  const hoverBlockRegex = /\.elementor-button\.mft-btn-(\d+):hover\s*\{([^}]*)\}/gi;
+  const mediaHoverBlockRegex = /@media\s*[^{]*\{\s*\.elementor-button\.mft-btn-(\d+):hover\s*\{([^}]*)\}/gi;
   const collected = new Map();
 
   let match = buttonBlockRegex.exec(text);
@@ -2600,6 +2601,7 @@ function importButtonStylesFromCss(cssText) {
     collected.set(btnKey, { base: match[2] || "", hover: "" });
     match = buttonBlockRegex.exec(text);
   }
+
   match = hoverBlockRegex.exec(text);
   while (match) {
     const btnKey = `btn${Number(match[1])}`;
@@ -2607,6 +2609,15 @@ function importButtonStylesFromCss(cssText) {
     prev.hover = match[2] || "";
     collected.set(btnKey, prev);
     match = hoverBlockRegex.exec(text);
+  }
+
+  match = mediaHoverBlockRegex.exec(text);
+  while (match) {
+    const btnKey = `btn${Number(match[1])}`;
+    const prev = collected.get(btnKey) || { base: "", hover: "" };
+    if (!prev.hover) prev.hover = match[2] || "";
+    collected.set(btnKey, prev);
+    match = mediaHoverBlockRegex.exec(text);
   }
 
   collected.forEach((blocks, btnKey) => {
