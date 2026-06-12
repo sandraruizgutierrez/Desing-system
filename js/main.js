@@ -2324,7 +2324,7 @@ function ensureCustomButtonOrder() {
 }
 
 function createCustomButtonConfig(label, btnKey) {
-  const base = cloneData(state.btn?.btn5 || {});
+  const base = cloneData(state.btn?.[btnKey] || state.btn?.btn5 || {});
   const preset = resolveButtonTypographyPreset(base.typographyPreset || "button");
   const defaultLabel = label || getButtonDefaultLabel(btnKey);
   const defaultClassName = getButtonDefaultClassName(btnKey);

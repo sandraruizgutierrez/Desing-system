@@ -1,0 +1,218 @@
+/*
+    Theme Name: bommahouse2026-2-2026
+    Theme URI: bommahouse2026-2-2026
+    Description: Bommahouse2026-2-2026
+    Author:       Mirai Dev Team
+    Author URI:   http://mirai.com
+    Template:     mirai-ma
+    Version:      1.0.0
+    License:      GNU General Public License v2 or later
+    License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+    Text Domain:  mirai-maai
+*/
+
+/*************************************/
+/********** GENERAL STYLES **********/
+/***********************************/
+
+:root {
+    /***** SPACES *****/
+    --mft-space-5xs: 4px;
+    --mft-space-4xs: 8px;
+    --mft-space-3xs: 12px;
+    --mft-space-2xs: 16px;
+    --mft-space-xs: clamp(16px, calc(16px + (24 - 16) * ((100vw - 1180px) / (1920 - 1180))), 24px);
+    --mft-space-s: clamp(24px, calc(24px + (32 - 24) * ((100vw - 1180px) / (1920 - 1180))), 32px);
+    --mft-space-m: clamp(32px, calc(32px + (40 - 32) * ((100vw - 1180px) / (1920 - 1180))), 40px);
+    --mft-space-l: clamp(32px, calc(32px + (48 - 32) * ((100vw - 1180px) / (1920 - 1180))), 48px);
+    --mft-space-xl: clamp(32px, calc(32px + (56 - 32) * ((100vw - 1180px) / (1920 - 1180))), 56px);
+    --mft-space-2xl: clamp(48px, calc(48px + (64 - 48) * ((100vw - 1180px) / (1920 - 1180))), 64px);
+    --mft-space-3xl: clamp(48px, calc(48px + (80 - 48) * ((100vw - 1180px) / (1920 - 1180))), 80px);
+    --mft-space-4xl: clamp(48px, calc(48px + (96 - 48) * ((100vw - 1180px) / (1920 - 1180))), 96px);
+    --mft-space-5xl: clamp(48px, calc(48px + (160 - 48) * ((100vw - 1180px) / (1920 - 1180))), 160px);
+
+    /***** CONTAINERS *****/
+    --width-s: 700px;
+    --width-m: 1280px;
+    --width-l: 1920px;
+    --container-legal: 1080px;
+
+    /***** MIN-HEIGHT FOR IMG *****/
+    --min-height-s: 40vh;
+	--min-height-m: 55vh;
+	--min-height-l: 70vh;
+
+    /***** CALCULATE THE HEADER HEIGHT BY JQ *****/
+    --mft-min-height-header: 0px;
+
+    /***** BORDER RADIUS *****/
+	--mft-border-radius: 0px;
+	--mft-btn-border-radius: 0px;
+}
+
+/********************************/
+
+/*********** BUTTONS ***********/
+
+/******************************/
+
+/***** GENERIC BUTTON STYLES *****/
+.elementor-button[class^='mft-btn'] {
+    display: inline-flex !important;
+	justify-content: center;
+    align-items: center;
+    padding: var(--mft-space-4xs) var(--mft-space-xs);
+    font-family: var(--e-global-typography-6d2edf1-font-family);
+    font-size: var(--e-global-typography-6d2edf1-font-size);
+    font-weight: var(--e-global-typography-6d2edf1-font-weight);
+    text-transform: var(--e-global-typography-6d2edf1-text-transform);
+    line-height: var(--e-global-typography-6d2edf1-line-height);
+    letter-spacing: var(--e-global-typography-6d2edf1-letter-spacing);
+    fill: inherit;
+    background-color: transparent;
+    border-radius: var(--mft-btn-border-radius);
+    min-width: clamp(44px, calc(44px + (52 - 44) * ((100vw - 1281px) / (1920 - 1281))), 52px);
+	min-height: clamp(44px, calc(44px + (52 - 44) * ((100vw - 1281px) / (1920 - 1281))), 52px);
+    transition: all .3s ease;
+}
+
+.mft-btn-width-100 .mft-btn {
+    width: 100%;
+}
+
+@media(max-width: 767px) {
+    .mft-btn-width-100-mb,
+    .elementor-element.mft-btn-width-100-mb a {
+        width: 100%;
+    }
+}
+
+/* fixed extra heigth span icon */
+.elementor-button .elementor-button-icon {
+    display: flex;
+    align-items: center;
+}
+
+/***** BTN - 1 - As the Finder Button *****/
+.elementor-button.mft-btn-1 {
+    color: var(--mirai-ui-button-color);
+    fill: var(--mirai-ui-button-color);
+    background-color: var(--mirai-ui-button-background);
+    border: 2px solid var(--mirai-ui-button-background);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .elementor-button.mft-btn-1:hover {
+        fill: var(--mirai-ui-button-color-active);
+        background-color: var(--mirai-ui-button-background-active);
+        border: 2px solid var(--mirai-ui-button-background-active);
+    }
+}
+
+/***** BTN - 2 *****/
+.elementor-button.mft-btn-2 {
+    color: var(--e-global-color-47eea86e);
+    fill: var(--e-global-color-47eea86e);
+    background-color: var(--e-global-color-primary);
+    border: 2px solid var(--e-global-color-primary);
+	border-radius: 160px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .elementor-button.mft-btn-2:hover {
+        fill: var(--e-global-color-47eea86e);
+        background-color: var(--e-global-color-13f4851a);
+        border: 2px solid var(--e-global-color-13f4851a);
+    }
+}
+
+/***** BTN - 3 *****/
+.elementor-button.mft-btn-3 {
+    color: var(--e-global-color-primary);
+    fill: var(--e-global-color-primary);
+    background-color: transparent;
+    border: 2px solid;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .elementor-button.mft-btn-3:hover {
+        color: var(--e-global-color-47eea86e);
+        fill: var(--e-global-color-47eea86e);
+        background-color: var(--e-global-color-primary);
+        border: 2px solid var(--e-global-color-primary);
+    }
+}
+
+/***** BTN - 4 *****/
+.elementor-button.mft-btn-4 {
+    position: relative;
+    padding: 0;
+    color: var(--e-global-color-primary);
+    fill: var(--e-global-color-primary);
+    background-color: transparent;
+	min-height: unset;
+}
+
+.mft-btn.mft-btn-4 .elementor-button-text {
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.mft-btn.mft-btn-4 .elementor-button-text::after {
+    padding-left: 0;
+    font-size: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .elementor-button.mft-btn-4:hover {
+        color: var(--e-global-color-primary);
+        fill: var(--e-global-color-primary);
+    }
+    .elementor-button.mft-btn.mft-btn-4:hover .elementor-button-text::after {
+        opacity: 1;
+        padding-left: 10px;
+        font-size: 12px;
+    }
+}
+
+/* underline */
+a.elementor-button.mft-btn-4::before {
+    content: "";
+    position: absolute;
+    inset: 100% 0 0 0;
+    width: 100%;
+    height: 2px;
+    background: var(--e-global-color-primary);
+}
+
+.mft-light-text a.elementor-button.mft-btn-4::before,
+.mft-light-text a.elementor-button.mft-btn-4:hover::before {
+    background: var(--e-global-color-47eea86e);
+}
+
+.mft-light-text .elementor-button.mft-btn-4:hover {
+    color: var(--e-global-color-47eea86e);
+}
+
+.mft-dark-text a.elementor-button.mft-btn-4::before,
+.mft-dark-text a.elementor-button.mft-btn-4:hover::before {
+    background: var(--e-global-color-21f8c9b7);
+}
+
+.mft-dark-text .elementor-button.mft-btn-4:hover {
+    color: var(--e-global-color-21f8c9b7);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    /* color hover underline */
+	a.elementor-button.mft-btn-4:hover::before {
+        background: var(--e-global-color-primary);
+    }
+}
+
+/***** BUTTON SIZE BUTTONS ADAPTED TO THE CONTAINER AND RESPONSIVE *****/
+.mft-wrapper-btn .mft-btn-width.elementor-element a {
+    display: block;
+    width: 100%;
+    text-align: center;
+}

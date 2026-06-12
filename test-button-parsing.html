@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Button Parsing</title>
+</head>
+<body>
+    <h1>Test Button CSS Parsing</h1>
+    <textarea id="cssInput" style="width: 100%; height: 400px;">
+/***** BTN - 2 *****/
+.elementor-button.mft-btn-2 {
+    color: var(--e-global-color-47eea86e);
+    fill: var(--e-global-color-47eea86e);
+    background-color: var(--e-global-color-primary);
+    border: 2px solid var(--e-global-color-primary);
+    border-radius: 160px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .elementor-button.mft-btn-2:hover {
+        fill: var(--e-global-color-47eea86e);
+        background-color: var(--e-global-color-13f4851a);
+        border: 2px solid var(--e-global-color-13f4851a);
+    }
+}
+    </textarea>
+    <button onclick="testParsing()">Test Parsing</button>
+    <pre id="output"></pre>
+
+    <script>
+        function stripCssComments(text) {
+            return String(text || "").replace(/\/\*[\s\S]*?\*\//g, "");
+        }
+
+        function parseCssDeclarations(blockText) {
+            const out = {};
+            const text = String(blockText || "");
+            const matcher = /([a-z-]+)\s*:\s*([^;]+);/gi;
+            let match = matcher.exec(text);
+            while (match) {
+                out[String(match[1] || "").trim().toLowerCase()] = String(match[2] || "").trim();
+                match = matcher.exec(text);
+            }
+            return out;
+        }
+
+        function findButtonCssBlock(cssText, className, pseudo = "") {
+            const text = stripCssComments(cssText);
+            const selector = pseudo ? `\\.elementor-button\\.${className}${pseudo}` : `\\.elementor-button\\.${className}`;
+            const regex = new RegExp(`${selector}\\s*\\{([\\s\\S]*?)\\}`, "i");
+            const match = text.match(regex);
+            return match ? match[1] : "";
+        }
+
+        function testParsing() {
+            const cssText = document.getElementById("cssInput").value;
+            const output = document.getElementById("output");
+
+            const baseBlock = parseCssDeclarations(findButtonCssBlock(cssText, "mft-btn-2"));
+            const hoverBlock = parseCssDeclarations(findButtonCssBlock(cssText, "mft-btn-2", ":hover"));
+
+            let text = cssText;
+            const buttonBlockRegex = /\.elementor-button\.mft-btn-(\d+)(?!\w)\s*\{([\s\S]*?)\}(?!\s*[@:])/gi;
+            const hoverBlockRegex = /\.elementor-button\.mft-btn-(\d+):hover\s*\{([\s\S]*?)\}/gi;
+            const mediaHoverBlockRegex = /@media\s*[^{]*\{\s*\.elementor-button\.mft-btn-(\d+):hover\s*\{([\s\S]*?)\}/gi;
+
+            const collected = new Map();
+            let match = buttonBlockRegex.exec(text);
+            while (match) {
+                const btnKey = `btn${Number(match[1])}`;
+                collected.set(btnKey, { base: match[2] || "", hover: "" });
+                match = buttonBlockRegex.exec(text);
+            }
+
+            match = hoverBlockRegex.exec(text);
+            while (match) {
+                const btnKey = `btn${Number(match[1])}`;
+                const prev = collected.get(btnKey) || { base: "", hover: "" };
+                prev.hover = match[2] || "";
+                collected.set(btnKey, prev);
+                match = hoverBlockRegex.exec(text);
+            }
+
+            match = mediaHoverBlockRegex.exec(text);
+            while (match) {
+                const btnKey = `btn${Number(match[1])}`;
+                const prev = collected.get(btnKey) || { base: "", hover: "" };
+                if (!prev.hover) prev.hover = match[2] || "";
+                collected.set(btnKey, prev);
+                match = mediaHoverBlockRegex.exec(text);
+            }
+
+            output.textContent = JSON.stringify({
+                baseBlockDirect: baseBlock,
+                hoverBlockDirect: hoverBlock,
+                collectedRegex: Array.from(collected.entries())
+            }, null, 2);
+        }
+    </script>
+</body>
+</html>
