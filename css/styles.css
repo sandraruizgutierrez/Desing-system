@@ -264,134 +264,195 @@ details[open] .mft-collapsible-chevron {
   transition: all 0.2s ease;
 } */
 
+/********************************/
+
+/*********** BUTTONS ***********/
+
+/******************************/
+
+/***** GENERIC BUTTON STYLES *****/
+.elementor-button[class^='mft-btn'] {
+    display: inline-flex !important;
+	justify-content: center;
+    align-items: center;
+    padding: var(--mft-space-4xs) var(--mft-space-xs);
+    font-family: var(--e-global-typography-6d2edf1-font-family);
+    font-size: var(--e-global-typography-6d2edf1-font-size);
+    font-weight: var(--e-global-typography-6d2edf1-font-weight);
+    text-transform: var(--e-global-typography-6d2edf1-text-transform);
+    line-height: var(--e-global-typography-6d2edf1-line-height);
+    letter-spacing: var(--e-global-typography-6d2edf1-letter-spacing);
+    fill: inherit;
+    background-color: transparent;
+    border-radius: var(--mft-btn-border-radius);
+    min-width: clamp(44px, calc(44px + (52 - 44) * ((100vw - 1281px) / (1920 - 1281))), 52px);
+	min-height: clamp(44px, calc(44px + (52 - 44) * ((100vw - 1281px) / (1920 - 1281))), 52px);
+    transition: all .3s ease;
+}
+
+.mft-btn-width-100 .mft-btn {
+    width: 100%;
+}
+
+@media(max-width: 767px) {
+    .mft-btn-width-100-mb,
+    .elementor-element.mft-btn-width-100-mb a {
+        width: 100%;
+    }
+}
+
+/* fixed extra heigth span icon */
+.elementor-button .elementor-button-icon {
+    display: flex;
+    align-items: center;
+}
+
+/* when hovering */
+/*@media (hover: hover) and (pointer: fine) {
+    .mft-btn .elementor-button-text::after {
+        content: "\f054";
+        opacity: 0;
+        padding-left: 10px;
+        font-family: 'fap-regular';
+        font-size: 12px;
+        transition: all .3s ease;
+    }
+    .mft-btn:not(.mft-btn-4) .elementor-button-content-wrapper {
+        align-items: center;
+        translate: 11px 0;
+        transition: all .3s ease;
+    }
+    .elementor-button.mft-btn:hover .elementor-button-text::after {
+        opacity: 1;
+    }
+    .elementor-button.mft-btn:hover .elementor-button-content-wrapper {
+        translate: 0 0;
+    }
+}*/
+
+/***** BTN - 1 - As the Finder Button *****/
 .elementor-button.mft-btn-1 {
-  color: #333333;
-  fill: #333333;
-  background-color: #F8EAEB;
-  border: 1px solid #F7DFE1;
-  border-radius: 16px;
-  padding: 10px 20px;
+    color: var(--mirai-ui-button-color);
+    fill: var(--mirai-ui-button-color);
+    background-color: var(--mirai-ui-button-background);
+    border: 2px solid var(--mirai-ui-button-background);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .elementor-button.mft-btn-1:hover {
-    color: #333333;
-    fill: #333333;
-    background-color: #F7DFE1;
-    border: 1px solid #C71827;
-  }
+    .elementor-button.mft-btn-1:hover {
+        fill: var(--mirai-ui-button-color-active);
+        background-color: var(--mirai-ui-button-background-active);
+        border: 2px solid var(--mirai-ui-button-background-active);
+    }
 }
 
-.elementor-button.mft-btn-2,
-.elementor-button.mft-btn-4,
-.elementor-button.mft-btn-5 {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--mft-btn-arrow-gap, 8px);
-}
-
-.elementor-button.mft-btn-2::after,
-.elementor-button.mft-btn-4::after,
-.elementor-button.mft-btn-5::after {
-  content: var(--mft-btn-arrow-content, "→");
-  font-size: 1em;
-  line-height: 1;
-  display: inline-block;
-  transition: transform 0.3s ease;
+/***** BTN - 2 *****/
+.elementor-button.mft-btn-2 {
+    color: var(--e-global-color-47eea86e);
+    fill: var(--e-global-color-47eea86e);
+    background-color: var(--e-global-color-primary);
+    border: 2px solid var(--e-global-color-primary);
+	border-radius: 160px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-
-  .elementor-button.mft-btn-2:hover::after,
-  .elementor-button.mft-btn-4:hover::after,
-  .elementor-button.mft-btn-5:hover::after {
-    transform: translateX(4px);
-  }
+    .elementor-button.mft-btn-2:hover {
+        fill: var(--e-global-color-47eea86e);
+        background-color: var(--e-global-color-13f4851a);
+        border: 2px solid var(--e-global-color-13f4851a);
+    }
 }
 
-/* BTN-2 styles are now generated dynamically in #dynamicButtonStyles */
-/* .elementor-button.mft-btn-2 {
-  font-family: var(--mft-btn-2-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size: var(--mft-btn-2-font-size, var(--e-global-typography-6d2edf1-font-size));
-  font-weight: var(--mft-btn-2-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color: var(--mft-btn-2-color);
-  background-color: var(--mft-btn-2-bg);
-  border: var(--mft-btn-2-border);
-  border-radius: var(--mft-btn-2-radius);
-  padding: var(--mft-btn-2-pad-y) var(--mft-btn-2-pad-x);
+/***** BTN - 3 *****/
+.elementor-button.mft-btn-3 {
+    color: var(--e-global-color-primary);
+    fill: var(--e-global-color-primary);
+    background-color: transparent;
+    border: 2px solid;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .elementor-button.mft-btn-2:hover {
-    color: var(--mft-btn-2-hover-color, var(--mft-btn-2-color));
-    background-color: var(--mft-btn-2-hover-bg);
-    border: var(--mft-btn-2-hover-border, var(--mft-btn-2-border));
-    border-radius: var(--mft-btn-2-hover-radius, var(--mft-btn-2-radius));
-  }
-} */
+    .elementor-button.mft-btn-3:hover {
+        color: var(--e-global-color-47eea86e);
+        fill: var(--e-global-color-47eea86e);
+        background-color: var(--e-global-color-primary);
+        border: 2px solid var(--e-global-color-primary);
+    }
+}
 
-/* BTN-3 styles are now generated dynamically in #dynamicButtonStyles */
-/* .elementor-button.mft-btn-3 {
-  font-family: var(--mft-btn-3-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size: var(--mft-btn-3-font-size, var(--e-global-typography-6d2edf1-font-size));
-  font-weight: var(--mft-btn-3-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color: var(--mft-btn-3-color);
-  background-color: var(--mft-btn-3-bg);
-  border: var(--mft-btn-3-border);
-  border-radius: var(--mft-btn-3-radius);
-  padding: var(--mft-btn-3-pad-y) var(--mft-btn-3-pad-x);
+/***** BTN - 4 *****/
+.elementor-button.mft-btn-4 {
+    position: relative;
+    padding: 0;
+    color: var(--e-global-color-primary);
+    fill: var(--e-global-color-primary);
+    background-color: transparent;
+	min-height: unset;
+}
+
+.mft-btn.mft-btn-4 .elementor-button-text {
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.mft-btn.mft-btn-4 .elementor-button-text::after {
+    padding-left: 0;
+    font-size: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .elementor-button.mft-btn-3:hover {
-    color: var(--mft-btn-3-hover-color, var(--mft-btn-3-color));
-    background-color: var(--mft-btn-3-hover-bg);
-    border: var(--mft-btn-3-hover-border, var(--mft-btn-3-border));
-    border-radius: var(--mft-btn-3-hover-radius, var(--mft-btn-3-radius));
-  }
-} */
+    .elementor-button.mft-btn-4:hover {
+        color: var(--e-global-color-primary);
+        fill: var(--e-global-color-primary);
+    }
+    .elementor-button.mft-btn.mft-btn-4:hover .elementor-button-text::after {
+        opacity: 1;
+        padding-left: 10px;
+        font-size: 12px;
+    }
+}
 
-/* BTN-4 styles are now generated dynamically in #dynamicButtonStyles */
-/* .elementor-button.mft-btn-4 {
-  font-family: var(--mft-btn-4-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size: var(--mft-btn-4-font-size, var(--e-global-typography-6d2edf1-font-size));
-  font-weight: var(--mft-btn-4-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color: var(--mft-btn-4-color);
-  background-color: var(--mft-btn-4-bg);
-  border: var(--mft-btn-4-border);
-  border-radius: var(--mft-btn-4-radius);
-  padding: var(--mft-btn-4-pad-y) var(--mft-btn-4-pad-x);
+/* underline */
+a.elementor-button.mft-btn-4::before {
+    content: "";
+    position: absolute;
+    inset: 100% 0 0 0;
+    width: 100%;
+    height: 2px;
+    background: var(--e-global-color-primary);
+}
+
+.mft-light-text a.elementor-button.mft-btn-4::before,
+.mft-light-text a.elementor-button.mft-btn-4:hover::before {
+    background: var(--e-global-color-47eea86e);
+}
+
+.mft-light-text .elementor-button.mft-btn-4:hover {
+    color: var(--e-global-color-47eea86e);
+}
+
+.mft-dark-text a.elementor-button.mft-btn-4::before,
+.mft-dark-text a.elementor-button.mft-btn-4:hover::before {
+    background: var(--e-global-color-21f8c9b7);
+}
+
+.mft-dark-text .elementor-button.mft-btn-4:hover {
+    color: var(--e-global-color-21f8c9b7);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .elementor-button.mft-btn-4:hover {
-    color: var(--mft-btn-4-hover-color, var(--mft-btn-4-color));
-    background-color: var(--mft-btn-4-hover-bg);
-    border: var(--mft-btn-4-hover-border, var(--mft-btn-4-border));
-    border-radius: var(--mft-btn-4-hover-radius, var(--mft-btn-4-radius));
-  }
-} */
-
-/* BTN-5 styles are now generated dynamically in #dynamicButtonStyles */
-/* .elementor-button.mft-btn-5 {
-  font-family: var(--mft-btn-5-font-family, var(--e-global-typography-6d2edf1-font-family));
-  font-size: var(--mft-btn-5-font-size, var(--e-global-typography-6d2edf1-font-size));
-  font-weight: var(--mft-btn-5-font-weight, var(--e-global-typography-6d2edf1-font-weight));
-  color: var(--mft-btn-5-color);
-  background-color: var(--mft-btn-5-bg);
-  border: var(--mft-btn-5-border);
-  border-radius: var(--mft-btn-5-radius);
-  padding: var(--mft-btn-5-pad-y) var(--mft-btn-5-pad-x);
+    /* color hover underline */
+	a.elementor-button.mft-btn-4:hover::before {
+        background: var(--e-global-color-primary);
+    }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .elementor-button.mft-btn-5:hover {
-    color: var(--mft-btn-5-hover-color, var(--mft-btn-5-color));
-    background-color: var(--mft-btn-5-hover-bg);
-    border: var(--mft-btn-5-hover-border, var(--mft-btn-5-border));
-    border-radius: var(--mft-btn-5-hover-radius, var(--mft-btn-5-radius));
-  }
-} */
+/***** BUTTON SIZE BUTTONS ADAPTED TO THE CONTAINER AND RESPONSIVE *****/
+.mft-wrapper-btn .mft-btn-width.elementor-element a {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
 
 /* Fuente del preview de botones en el modal */
 .button-preview-font,

@@ -297,6 +297,17 @@ function normalizeRadiusValue(raw) {
   return value;
 }
 
+// Resolve a radius value to a displayable px string, but preserve arbitrary var() references
+// (e.g. var(--mft-btn-border-radius)) instead of collapsing them to 0px.
+function resolveButtonRadius(raw, fallbackRaw) {
+  const r = String(raw || fallbackRaw || "").trim();
+  if (!r) return "0px";
+  if (r.includes("var(")) return r;
+  const resolved = resolveSpaceLikeForDevice(state.device, r);
+  if (resolved.kind === "css") return r;
+  return `${Math.max(0, Math.round(resolved.px || 0))}px`;
+}
+
 const spaceOrder = ["5xs", "4xs", "3xs", "2xs", "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl"];
 const defaultPaddingOrder = ["xxs", "xs", "s", "ms", "m", "lxs", "ls", "l", "xl", "2xl", "3xl", "4xl", "5xl", "6xl"];
 const paddingLegacyKeyMap = { x: "lxs" };
@@ -404,8 +415,21 @@ const state = {
     arrowContent: '"\\2192"',
     hiddenButtons: [],
     customButtons: [],
-    btn1: {
+    "btn-engine": {
+      label: "Engine",
+      codeName: "mft-btn-engine",
+    },
+    "btn-base": {
       label: "Base global",
+      color: "",
+      bg: "",
+      border: "",
+      radius: "0px",
+      padY: "",
+      padX: "",
+    },
+    btn1: {
+      label: "Botón 1",
       color: "var(--e-global-color-47eea86e)",
       bg: "var(--e-global-color-bd9d5b8)",
       border: "2px solid var(--e-global-color-bd9d5b8)",
@@ -417,7 +441,7 @@ const state = {
       hoverBorder: "2px solid var(--e-global-color-primary)",
     },
     btn2: {
-      label: "CTA sólido",
+      label: "Botón 2",
       color: "var(--e-global-color-47eea86e)",
       bg: "var(--e-global-color-primary)",
       border: "2px solid var(--e-global-color-primary)",
@@ -429,7 +453,7 @@ const state = {
       hoverBorder: "2px solid var(--e-global-color-13f4851a)",
     },
     btn3: {
-      label: "CTA destacado",
+      label: "Botón 3",
       color: "var(--e-global-color-primary)",
       bg: "transparent",
       border: "2px solid var(--e-global-color-primary)",
@@ -441,7 +465,7 @@ const state = {
       hoverBorder: "2px solid var(--e-global-color-primary)",
     },
     btn4: {
-      label: "CTA claro",
+      label: "Botón 4",
       color: "var(--e-global-color-primary)",
       bg: "transparent",
       border: "none",
@@ -453,7 +477,7 @@ const state = {
       hoverBorder: "none",
     },
     btn5: {
-      label: "Outline",
+      label: "Botón 5",
       color: "var(--e-global-color-text)",
       bg: "transparent",
       border: "2px solid var(--e-global-color-text)",
@@ -1357,8 +1381,19 @@ function applyKitDerivedButtonDefaults() {
   const header = "var(--e-global-color-bd9d5b8)";
   const primaryDark = "var(--e-global-color-13f4851a)";
 
-  state.btn.btn1 = {
+  state.btn["btn-base"] = {
     label: "Base global",
+    typographyPreset: buttonPreset.preset,
+    fontFamily: buttonPreset.fontFamily,
+    fontSize: buttonPreset.fontSize,
+    fontWeight: buttonPreset.fontWeight,
+    color: "",
+    bg: "",
+    border: "",
+    radius: "0px",
+  };
+  state.btn.btn1 = {
+    label: "Botón 1",
     typographyPreset: buttonPreset.preset,
     fontFamily: buttonPreset.fontFamily,
     fontSize: buttonPreset.fontSize,
@@ -1374,7 +1409,7 @@ function applyKitDerivedButtonDefaults() {
     hoverRadius: "0px",
   };
   state.btn.btn2 = {
-    label: "CTA sólido",
+    label: "Botón 2",
     typographyPreset: buttonPreset.preset,
     fontFamily: buttonPreset.fontFamily,
     fontSize: buttonPreset.fontSize,
@@ -1390,7 +1425,7 @@ function applyKitDerivedButtonDefaults() {
     hoverRadius: "0px",
   };
   state.btn.btn3 = {
-    label: "CTA destacado",
+    label: "Botón 3",
     typographyPreset: buttonPreset.preset,
     fontFamily: buttonPreset.fontFamily,
     fontSize: buttonPreset.fontSize,
@@ -1406,7 +1441,7 @@ function applyKitDerivedButtonDefaults() {
     hoverRadius: "0px",
   };
   state.btn.btn4 = {
-    label: "CTA claro",
+    label: "Botón 4",
     typographyPreset: buttonPreset.preset,
     fontFamily: buttonPreset.fontFamily,
     fontSize: buttonPreset.fontSize,
@@ -1422,7 +1457,7 @@ function applyKitDerivedButtonDefaults() {
     hoverRadius: "0px",
   };
   state.btn.btn5 = {
-    label: "Outline",
+    label: "Botón 5",
     typographyPreset: buttonPreset.preset,
     fontFamily: buttonPreset.fontFamily,
     fontSize: buttonPreset.fontSize,
@@ -1462,7 +1497,7 @@ function applyKitCssText(cssText) {
     // Reset to empty state - will be populated from kit if it has data
     state.sectionUseByDevice = { desktop: {}, tablet: {}, mobile: {} };
     state.spaces = cloneData(factoryDefaultStateSnapshot.spaces);
-    state.btn = { arrowGap: "8px", arrowContent: '"\\2192"', hiddenButtons: [], customButtons: [], btn1: {}, btn2: {}, btn3: {}, btn4: {}, btn5: {} };
+    state.btn = { arrowGap: "8px", arrowContent: '"\\2192"', hiddenButtons: [], customButtons: [], "btn-engine": {}, "btn-base": {}, btn1: {}, btn2: {}, btn3: {}, btn4: {}, btn5: {} };
   }
 
   const rootChunk = extractCssSlice(cssText, ".elementor-kit-", "@media(max-width: 1024px)") || cssText;
@@ -1813,10 +1848,24 @@ function applyThemeVariables() {
   root.style.setProperty("--mirai-ui-content", state.palette.text);
   root.style.setProperty("--mirai-wp-primary-dark", state.palette.primaryDark);
   root.style.setProperty("--mirai-wp-primary-light", state.palette.primaryLight);
-  root.style.setProperty("--mirai-ui-button-background", state.btn.btn1.bg);
-  root.style.setProperty("--mirai-ui-button-background-active", state.btn.btn1.hoverBg || state.palette.primary);
-  root.style.setProperty("--mirai-ui-button-color", state.btn.btn1.color);
-  root.style.setProperty("--mirai-ui-button-color-active", state.btn.btn1.hoverColor || state.btn.btn1.color);
+  // Resolve potential circular references: if btn1 delegates to --mirai-ui-button-* vars,
+  // use btn-base or palette values instead of creating a self-referencing custom property.
+  const resolveNonCircular = (val, fallback) => {
+    const s = String(val || "").trim();
+    if (!s || s === "var(--mirai-ui-button-background)" || s === "var(--mirai-ui-button-color)" ||
+        s === "var(--mirai-ui-button-background-active)" || s === "var(--mirai-ui-button-color-active)") {
+      return fallback || "";
+    }
+    return s;
+  };
+  const btn1Bg = resolveNonCircular(state.btn.btn1.bg, state.btn["btn-base"]?.bg || state.palette.dark || state.palette.primary);
+  const btn1HoverBg = resolveNonCircular(state.btn.btn1.hoverBg, state.palette.primary);
+  const btn1Color = resolveNonCircular(state.btn.btn1.color, state.btn["btn-base"]?.color || state.palette.light);
+  const btn1HoverColor = resolveNonCircular(state.btn.btn1.hoverColor, btn1Color);
+  root.style.setProperty("--mirai-ui-button-background", btn1Bg);
+  root.style.setProperty("--mirai-ui-button-background-active", btn1HoverBg);
+  root.style.setProperty("--mirai-ui-button-color", btn1Color);
+  root.style.setProperty("--mirai-ui-button-color-active", btn1HoverColor);
   root.style.setProperty("--mirai-ui-button-font-family", state.btn.btn1.fontFamily || state.typographyByDevice?.[state.device]?.families?.body || state.typographyByDevice?.desktop?.families?.body || "sans-serif");
   root.style.setProperty("--mirai-ui-button-font-size", state.btn.btn1.fontSize || `${state.typographyByDevice?.[state.device]?.styles?.button?.size || 18}px`);
   root.style.setProperty("--mirai-ui-button-font-weight", state.btn.btn1.fontWeight || String(state.typographyByDevice?.[state.device]?.styles?.button?.weight || 600));
@@ -1940,11 +1989,11 @@ function applyThemeVariables() {
 
   const dynamicButtonStyles = document.getElementById("dynamicButtonStyles");
   if (dynamicButtonStyles) {
-    const allButtons = ["btn1", "btn2", "btn3", "btn4", "btn5", ...customButtons];
+    const allButtons = ["btn-base", "btn1", "btn2", "btn3", "btn4", "btn5", ...customButtons];
     dynamicButtonStyles.textContent = allButtons
       .map((btnKey) => {
         const cfg = state.btn[btnKey];
-        const className = `mft-btn-${getButtonIndex(btnKey)}`;
+        const className = btnKey === "btn-base" ? "mft-btn-base" : `mft-btn-${getButtonIndex(btnKey)}`;
         return cfg && typeof cfg === "object" ? buildButtonCssSnippet(className, cfg) : "";
       })
       .filter(Boolean)
@@ -2257,22 +2306,28 @@ function describeCssValue(value) {
 }
 
 function getButtonIndex(btnKey) {
+  if (btnKey === "btn-engine") return -1;
+  if (btnKey === "btn-base") return 0;
   const match = String(btnKey || "").match(/^btn(\d+)$/i);
   return match ? Number(match[1]) : null;
 }
 
 function getButtonDefaultLabel(btnKey) {
-  if (btnKey === "btn1") return "Base global";
-  if (btnKey === "btn2") return "CTA sólido";
-  if (btnKey === "btn3") return "CTA destacado";
-  if (btnKey === "btn4") return "CTA claro";
-  if (btnKey === "btn5") return "Outline";
+  if (btnKey === "btn-engine") return "Engine";
+  if (btnKey === "btn-base") return "Base global";
+  if (btnKey === "btn1") return "Botón 1";
+  if (btnKey === "btn2") return "Botón 2";
+  if (btnKey === "btn3") return "Botón 3";
+  if (btnKey === "btn4") return "Botón 4";
+  if (btnKey === "btn5") return "Botón 5";
   const index = getButtonIndex(btnKey);
   if (Number.isFinite(index) && index >= 6) return `Botón ${index}`;
   return "Botón";
 }
 
 function getButtonDefaultClassName(btnKey) {
+  if (btnKey === "btn-engine") return "mft-btn-engine";
+  if (btnKey === "btn-base") return "mft-btn-base";
   const index = getButtonIndex(btnKey);
   if (Number.isFinite(index) && index >= 1) return `mft-btn-${index}`;
   return "mft-btn";
@@ -2358,8 +2413,14 @@ function createCustomButtonConfig(label, btnKey) {
 
 function normalizeButtonConfig(config, btnKey) {
   const base = createCustomButtonConfig(getButtonDefaultLabel(btnKey), btnKey);
-  const currentBorder = parseBorderToken(config?.border || base.border || "", config?.color || base.color || "");
-  const currentHoverBorder = parseBorderToken(config?.hoverBorder || base.hoverBorder || "", config?.hoverColor || config?.color || base.hoverColor || base.color || "");
+  const configColor = config?.color || base.color || "";
+  const configBg = config?.bg || base.bg || "";
+  const currentBorder = parseBorderToken(config?.border || base.border || "", configColor);
+  const currentHoverBorder = parseBorderToken(config?.hoverBorder || base.hoverBorder || "", config?.hoverColor || configColor || "");
+
+  // Preserve CSS variables - only normalize if not a var()
+  const normalizeColor = (val) => String(val || "").includes("var(") ? String(val) : normalizeColorTokenValue(val);
+
   return {
     ...base,
     ...config,
@@ -2369,20 +2430,20 @@ function normalizeButtonConfig(config, btnKey) {
     fontFamily: normalizeFontFamily(config?.fontFamily || base.fontFamily || ""),
     fontSize: normalizePx(config?.fontSize || base.fontSize || "", ""),
     fontWeight: String(config?.fontWeight || base.fontWeight || ""),
-    color: normalizeColorTokenValue(config?.color || base.color || ""),
-    bg: normalizeColorTokenValue(config?.bg || base.bg || ""),
+    color: normalizeColor(config?.color || base.color || ""),
+    bg: normalizeColor(config?.bg || base.bg || ""),
     border: String(config?.border || base.border || ""),
     borderWidth: String(config?.borderWidth || currentBorder.width || base.borderWidth || 0),
-    borderColor: normalizeColorTokenValue(config?.borderColor || currentBorder.color || base.borderColor || config?.color || base.color || ""),
-    radius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, config?.radius || base.radius || "").px || 0))}px`,
+    borderColor: normalizeColor(config?.borderColor || currentBorder.color || config?.color || base.color || ""),
+    radius: resolveButtonRadius(config?.radius || base.radius || ""),
     padY: String(config?.padY || base.padY || ""),
     padX: String(config?.padX || base.padX || ""),
-    hoverBg: normalizeColorTokenValue(config?.hoverBg || base.hoverBg || ""),
-    hoverColor: normalizeColorTokenValue(config?.hoverColor || base.hoverColor || ""),
+    hoverBg: normalizeColor(config?.hoverBg || base.hoverBg || ""),
+    hoverColor: normalizeColor(config?.hoverColor || base.hoverColor || ""),
     hoverBorder: String(config?.hoverBorder || base.hoverBorder || ""),
     hoverBorderWidth: String(config?.hoverBorderWidth || currentHoverBorder.width || currentBorder.width || base.hoverBorderWidth || 0),
-    hoverBorderColor: normalizeColorTokenValue(config?.hoverBorderColor || currentHoverBorder.color || base.hoverBorderColor || config?.hoverColor || config?.color || base.hoverColor || base.color || ""),
-    hoverRadius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, config?.hoverRadius || base.hoverRadius || config?.radius || base.radius || "").px || 0))}px`,
+    hoverBorderColor: normalizeColor(config?.hoverBorderColor || currentHoverBorder.color || config?.hoverColor || config?.color || base.hoverColor || base.color || ""),
+    hoverRadius: resolveButtonRadius(config?.hoverRadius || base.hoverRadius || config?.radius || base.radius || ""),
   };
 }
 
@@ -2394,19 +2455,8 @@ function duplicateButtonConfig(sourceCfg, btnKey) {
 }
 
 function buildButtonCssSnippet(className, cfg) {
-  const preset = resolveButtonTypographyPreset(cfg.typographyPreset || "button");
-  const color = normalizeColorTokenValue(cfg.color);
-  const bg = normalizeColorTokenValue(cfg.bg);
-  const border = buildBorderCss(cfg.borderWidth ?? parseBorderToken(cfg.border, color).width, cfg.borderColor || parseBorderToken(cfg.border, color).color);
-  const hoverBg = normalizeColorTokenValue(cfg.hoverBg || bg);
-  const hoverColor = normalizeColorTokenValue(cfg.hoverColor || color);
-  const hoverBorder = buildBorderCss(cfg.hoverBorderWidth ?? parseBorderToken(cfg.hoverBorder, hoverColor).width, cfg.hoverBorderColor || parseBorderToken(cfg.hoverBorder, hoverColor).color);
-  const radius = normalizeRadiusValue(cfg.radius || "");
-  const hoverRadius = normalizeRadiusValue(cfg.hoverRadius || radius);
-  const fontFamily = String(cfg.fontFamily || preset.fontFamily);
-  const fontSize = String(cfg.fontSize || preset.fontSize);
-  const fontWeight = String(cfg.fontWeight || preset.fontWeight);
-  return [
+  // Build CSS with generic button styles as base + specific overrides
+  const cssLines = [
     `/* BTN - ${className.replace("mft-btn-", "")} */`,
     `.elementor-button.${className} {`,
     `    display: inline-flex;`,
@@ -2414,27 +2464,88 @@ function buildButtonCssSnippet(className, cfg) {
     `    justify-content: center;`,
     `    gap: var(--mft-btn-arrow-gap, 8px);`,
     `    transition: all 0.3s ease;`,
-    `    font-family: ${fontFamily};`,
-    `    font-size: ${fontSize};`,
-    `    font-weight: ${fontWeight};`,
-    `    color: ${color};`,
-    `    fill: ${color};`,
-    `    background-color: ${bg};`,
-    `    border: ${border};`,
-    `    border-radius: ${radius};`,
-    `    padding: ${String(cfg.padY || "")} ${String(cfg.padX || "")};`,
-    `}`,
-    ``,
-    `@media (hover: hover) and (pointer: fine) {`,
-    `    .elementor-button.${className}:hover {`,
-    `        color: ${hoverColor};`,
-    `        fill: ${hoverColor};`,
-    `        background-color: ${hoverBg};`,
-    `        border: ${hoverBorder};`,
-    `        border-radius: ${hoverRadius};`,
-    `    }`,
-    `}`,
-  ].join("\n");
+  ];
+
+  // ALWAYS include typography from generic block if not overridden
+  const genericEngine = state.btn["btn-engine"] || {};
+
+  // Font family: use config or fall back to engine generic
+  if (cfg.fontFamily) {
+    const fontFamily = String(cfg.fontFamily).includes("var(") ? String(cfg.fontFamily) : normalizeFontFamily(cfg.fontFamily);
+    cssLines.push(`    font-family: ${fontFamily};`);
+  } else if (genericEngine.fontFamily) {
+    cssLines.push(`    font-family: ${genericEngine.fontFamily};`);
+  }
+
+  // Font size: use config or fall back to engine generic
+  if (cfg.fontSize) {
+    const fontSize = String(cfg.fontSize).includes("var(") ? String(cfg.fontSize) : String(cfg.fontSize);
+    cssLines.push(`    font-size: ${fontSize};`);
+  } else if (genericEngine.fontSize) {
+    cssLines.push(`    font-size: ${genericEngine.fontSize};`);
+  }
+
+  // Font weight: use config or fall back to engine generic
+  if (cfg.fontWeight) {
+    const fontWeight = String(cfg.fontWeight).includes("var(") ? String(cfg.fontWeight) : String(cfg.fontWeight);
+    cssLines.push(`    font-weight: ${fontWeight};`);
+  } else if (genericEngine.fontWeight) {
+    cssLines.push(`    font-weight: ${genericEngine.fontWeight};`);
+  }
+
+  if (cfg.color) {
+    const color = String(cfg.color).includes("var(") ? String(cfg.color) : normalizeColorTokenValue(cfg.color);
+    cssLines.push(`    color: ${color};`);
+    cssLines.push(`    fill: ${color};`);
+  }
+  if (cfg.bg) {
+    const bg = String(cfg.bg).includes("var(") ? String(cfg.bg) : normalizeColorTokenValue(cfg.bg);
+    cssLines.push(`    background-color: ${bg};`);
+  }
+  if (cfg.border) {
+    const border = String(cfg.border).includes("var(") ? String(cfg.border) : String(cfg.border);
+    cssLines.push(`    border: ${border};`);
+  }
+  if (cfg.radius) {
+    const radius = normalizeRadiusValue(cfg.radius || "");
+    cssLines.push(`    border-radius: ${radius};`);
+  }
+
+  // Padding: use config or fall back to engine generic
+  if (cfg.padY || cfg.padX) {
+    cssLines.push(`    padding: ${String(cfg.padY || "")} ${String(cfg.padX || "")};`);
+  } else if (genericEngine.padY || genericEngine.padX) {
+    cssLines.push(`    padding: ${String(genericEngine.padY || "")} ${String(genericEngine.padX || "")};`);
+  }
+
+  cssLines.push(`}`);
+  cssLines.push(``);
+  cssLines.push(`@media (hover: hover) and (pointer: fine) {`);
+  cssLines.push(`    .elementor-button.${className}:hover {`);
+
+  // Only add hover properties that are actually defined
+  if (cfg.hoverColor) {
+    const hoverColor = String(cfg.hoverColor).includes("var(") ? String(cfg.hoverColor) : normalizeColorTokenValue(cfg.hoverColor);
+    cssLines.push(`        color: ${hoverColor};`);
+    cssLines.push(`        fill: ${hoverColor};`);
+  }
+  if (cfg.hoverBg) {
+    const hoverBg = String(cfg.hoverBg).includes("var(") ? String(cfg.hoverBg) : normalizeColorTokenValue(cfg.hoverBg);
+    cssLines.push(`        background-color: ${hoverBg};`);
+  }
+  if (cfg.hoverBorder) {
+    const hoverBorder = String(cfg.hoverBorder).includes("var(") ? String(cfg.hoverBorder) : String(cfg.hoverBorder);
+    cssLines.push(`        border: ${hoverBorder};`);
+  }
+  if (cfg.hoverRadius) {
+    const hoverRadius = normalizeRadiusValue(cfg.hoverRadius || "");
+    cssLines.push(`        border-radius: ${hoverRadius};`);
+  }
+
+  cssLines.push(`    }`);
+  cssLines.push(`}`);
+
+  return cssLines.join("\n");
 }
 
 function parseCssDeclarations(blockText) {
@@ -2466,54 +2577,123 @@ function parseButtonPaddingShorthand(raw) {
 function findButtonCssBlock(cssText, className, pseudo = "") {
   const text = stripCssComments(cssText);
   const selector = pseudo ? `\\.elementor-button\\.${className}${pseudo}` : `\\.elementor-button\\.${className}`;
+
+  // First try to find the block directly (outside media queries)
   const regex = new RegExp(`${selector}\\s*\\{([\\s\\S]*?)\\}`, "i");
   const match = text.match(regex);
+
+  if (match && match[1]) {
+    // Check if this match is inside a media query by looking backwards
+    const beforeMatch = text.substring(0, match.index);
+    const openMediaCount = (beforeMatch.match(/@media/g) || []).length;
+    const closeMediaCount = (beforeMatch.match(/\}/g) || []).length;
+
+    // If we're not inside a media query, return directly
+    if (openMediaCount <= closeMediaCount) {
+      return match[1];
+    }
+  }
+
+  // If no direct match or inside media query, look inside @media blocks
+  const mediaRegex = new RegExp(`@media\\s*[^{]*\\{[\\s\\S]*?${selector}\\s*\\{([\\s\\S]*?)\\}`, "i");
+  const mediaMatch = text.match(mediaRegex);
+  if (mediaMatch && mediaMatch[1]) {
+    return mediaMatch[1];
+  }
+
   return match ? match[1] : "";
 }
 
 function applyButtonStyleFromCss(cssText, btnKey, className) {
   const baseBlock = parseCssDeclarations(findButtonCssBlock(cssText, className));
   const hoverBlock = parseCssDeclarations(findButtonCssBlock(cssText, className, ":hover"));
-  const index = getButtonIndex(btnKey);
-  const existing = state.btn[btnKey] && typeof state.btn[btnKey] === "object" ? state.btn[btnKey] : null;
 
-  // Start with existing config to preserve label and other metadata
-  const next = existing ? { ...existing } : {};
+  // Also get the generic button block for fallback
+  const text = stripCssComments(cssText);
+  const genericDirectMatch = text.match(/\.elementor-button\[class\^=['"]*mft-btn['"]*\]\s*\{([\s\S]*?)\}(?!\s*@media)/i);
+  const genericButtonBlock = genericDirectMatch ? parseCssDeclarations(genericDirectMatch[1]) : {};
 
-  // Only update properties that are explicitly defined in the CSS
-  if (baseBlock["font-family"]) next.fontFamily = normalizeFontFamily(baseBlock["font-family"]);
-  if (baseBlock["font-size"]) next.fontSize = normalizePx(baseBlock["font-size"], next.fontSize || "");
-  if (baseBlock["font-weight"]) next.fontWeight = String(baseBlock["font-weight"]);
-  if (baseBlock.color) next.color = normalizeColorTokenValue(baseBlock.color);
-  if (baseBlock["background-color"]) next.bg = normalizeColorTokenValue(baseBlock["background-color"]);
+  const existing = state.btn[btnKey] && typeof state.btn[btnKey] === "object" ? state.btn[btnKey] : {};
 
-  // Only update border if explicitly in CSS
-  if (baseBlock.border) {
-    next.border = String(baseBlock.border);
-    const parsed = parseBorderToken(next.border, next.color || next.bg || "");
-    next.borderWidth = String(parsed.width || 0);
-    next.borderColor = normalizeColorTokenValue(parsed.color || next.color || "");
+  // Start from existing state so properties not present in the CSS block are preserved
+  const next = { ...existing };
+
+  // Font properties: prefer button-specific, fall back to generic
+  if (baseBlock["font-family"]) {
+    next.fontFamily = normalizeFontFamily(baseBlock["font-family"]);
+  } else if (genericButtonBlock["font-family"]) {
+    next.fontFamily = normalizeFontFamily(genericButtonBlock["font-family"]);
   }
 
-  if (baseBlock["border-radius"]) next.radius = normalizeRadiusValue(baseBlock["border-radius"]);
+  if (baseBlock["font-size"]) {
+    next.fontSize = normalizePx(baseBlock["font-size"], "");
+  } else if (genericButtonBlock["font-size"]) {
+    next.fontSize = normalizePx(genericButtonBlock["font-size"], "");
+  }
+
+  if (baseBlock["font-weight"]) {
+    next.fontWeight = String(baseBlock["font-weight"]);
+  } else if (genericButtonBlock["font-weight"]) {
+    next.fontWeight = String(genericButtonBlock["font-weight"]);
+  }
+
+  // Preserve CSS variables exactly as they appear.
+  // Also accept `fill` as a source for text color (some button blocks use fill instead of color).
+  const baseColor = baseBlock.color || baseBlock.fill;
+  if (baseColor) {
+    const colorValue = String(baseColor).trim();
+    next.color = colorValue.includes("var(") ? colorValue : normalizeColorTokenValue(colorValue);
+  }
+  if (baseBlock["background-color"]) {
+    const bgValue = String(baseBlock["background-color"]).trim();
+    next.bg = bgValue.includes("var(") ? bgValue : normalizeColorTokenValue(bgValue);
+  }
+
+  if (baseBlock.border) {
+    const borderValue = String(baseBlock.border).trim();
+    next.border = borderValue.includes("var(") ? borderValue : String(borderValue);
+  }
+
+  if (baseBlock["border-radius"]) {
+    next.radius = normalizeRadiusValue(baseBlock["border-radius"]);
+  } else if (genericButtonBlock["border-radius"]) {
+    next.radius = normalizeRadiusValue(genericButtonBlock["border-radius"]);
+  }
+
+  // Padding: prefer button-specific, fall back to generic
   if (baseBlock.padding) {
     const pad = parseButtonPaddingShorthand(baseBlock.padding);
     if (pad.padY) next.padY = pad.padY;
     if (pad.padX) next.padX = pad.padX;
+  } else if (genericButtonBlock.padding) {
+    const pad = parseButtonPaddingShorthand(genericButtonBlock.padding);
+    if (pad.padY) next.padY = pad.padY;
+    if (pad.padX) next.padX = pad.padX;
   }
 
-  // Hover properties - only set if explicitly in CSS
-  if (hoverBlock.color) next.hoverColor = normalizeColorTokenValue(hoverBlock.color);
-  if (hoverBlock["background-color"]) next.hoverBg = normalizeColorTokenValue(hoverBlock["background-color"]);
+  // Hover properties. Accept `fill` as fallback for color in hover blocks too.
+  const hoverColor = hoverBlock.color || hoverBlock.fill;
+  if (hoverColor) {
+    const hoverColorValue = String(hoverColor).trim();
+    next.hoverColor = hoverColorValue.includes("var(") ? hoverColorValue : normalizeColorTokenValue(hoverColorValue);
+  }
+  if (hoverBlock["background-color"]) {
+    const hoverBgValue = String(hoverBlock["background-color"]).trim();
+    next.hoverBg = hoverBgValue.includes("var(") ? hoverBgValue : normalizeColorTokenValue(hoverBgValue);
+  }
   if (hoverBlock.border) {
-    next.hoverBorder = String(hoverBlock.border);
-    const parsed = parseBorderToken(next.hoverBorder, next.hoverColor || next.hoverBg || next.color || "");
-    next.hoverBorderWidth = String(parsed.width || 0);
-    next.hoverBorderColor = normalizeColorTokenValue(parsed.color || next.hoverColor || next.color || "");
+    const hoverBorderValue = String(hoverBlock.border).trim();
+    next.hoverBorder = hoverBorderValue.includes("var(") ? hoverBorderValue : String(hoverBorderValue);
   }
-  if (hoverBlock["border-radius"]) next.hoverRadius = normalizeRadiusValue(hoverBlock["border-radius"]);
+  if (hoverBlock["border-radius"]) {
+    next.hoverRadius = normalizeRadiusValue(hoverBlock["border-radius"]);
+  }
 
-  state.btn[btnKey] = normalizeButtonConfig({ ...next, label: String(next.label || getButtonDefaultLabel(btnKey)) }, btnKey);
+  state.btn[btnKey] = {
+    ...next,
+    label: String(next.label || getButtonDefaultLabel(btnKey)),
+    codeName: String(next.codeName || getButtonDefaultClassName(btnKey)),
+  };
 }
 
 function importButtonStylesFromCss(cssText) {
@@ -2522,13 +2702,75 @@ function importButtonStylesFromCss(cssText) {
   if (vars["--mft-btn-arrow-gap"]) state.btn.arrowGap = String(vars["--mft-btn-arrow-gap"]).trim();
   if (vars["--mft-btn-arrow-content"]) state.btn.arrowContent = String(vars["--mft-btn-arrow-content"]).trim();
 
-  const genericMatch = text.match(/\.elementor-button\[class\^=['"]*mft-btn['"]*\]\s*\{([\s\S]*?)\}(?:\s*(?:@media|\/\*))?/i);
-  const genericButtonBlock = parseCssDeclarations(genericMatch ? genericMatch[1] : "");
+  // Find generic button block - handle both direct and within media queries
+  let genericButtonBlock = {};
+  const genericDirectMatch = text.match(/\.elementor-button\[class\^=['"]*mft-btn['"]*\]\s*\{([\s\S]*?)\}(?!\s*@media)/i);
+  if (genericDirectMatch && genericDirectMatch[1]) {
+    genericButtonBlock = parseCssDeclarations(genericDirectMatch[1]);
+  } else {
+    const genericMediaMatch = text.match(/@media\s*[^{]*\{\s*\.elementor-button\[class\^=['"]*mft-btn['"]*\]\s*\{([\s\S]*?)\}/i);
+    if (genericMediaMatch && genericMediaMatch[1]) {
+      genericButtonBlock = parseCssDeclarations(genericMediaMatch[1]);
+    }
+  }
+
+  // Create two buttons from generic button block:
+  // 1. "Engine" - the raw engine.css styles
+  // 2. "Base global" - combination of engine + specific overrides
+  if (Object.keys(genericButtonBlock).length > 0) {
+    // Engine button - the shared CSS from engine.css
+    const engineBtn = {
+      label: "Engine",
+      codeName: "mft-btn-engine",
+    };
+    if (genericButtonBlock.color) engineBtn.color = String(genericButtonBlock.color).includes("var(") ? String(genericButtonBlock.color) : normalizeColorTokenValue(genericButtonBlock.color);
+    if (genericButtonBlock["background-color"]) engineBtn.bg = String(genericButtonBlock["background-color"]).includes("var(") ? String(genericButtonBlock["background-color"]) : normalizeColorTokenValue(genericButtonBlock["background-color"]);
+    if (genericButtonBlock.border) engineBtn.border = String(genericButtonBlock.border);
+    if (genericButtonBlock["border-radius"]) engineBtn.radius = normalizeRadiusValue(genericButtonBlock["border-radius"]);
+    if (genericButtonBlock["font-family"]) engineBtn.fontFamily = normalizeFontFamily(genericButtonBlock["font-family"]);
+    if (genericButtonBlock["font-size"]) engineBtn.fontSize = normalizePx(genericButtonBlock["font-size"], "");
+    if (genericButtonBlock["font-weight"]) engineBtn.fontWeight = String(genericButtonBlock["font-weight"]);
+    if (genericButtonBlock.padding) {
+      const pad = parseButtonPaddingShorthand(genericButtonBlock.padding);
+      if (pad.padY) engineBtn.padY = pad.padY;
+      if (pad.padX) engineBtn.padX = pad.padX;
+    }
+    if (genericButtonBlock["min-width"]) engineBtn.minWidth = String(genericButtonBlock["min-width"]);
+    if (genericButtonBlock["min-height"]) engineBtn.minHeight = String(genericButtonBlock["min-height"]);
+    state.btn["btn-engine"] = engineBtn;
+
+    // Base global button - uses --mirai-ui-base color variable + engine background
+    const globalBtn = { ...engineBtn, label: "Base global", codeName: "mft-btn-base" };
+    // Base color: from stylesheet vars, or fall back to current DOM value (set by engine.css)
+    const baseColor = vars["--mirai-ui-base"] || vars["--mirai-ui-button-color"] ||
+      getComputedStyle(document.documentElement).getPropertyValue("--mirai-ui-base").trim() ||
+      getComputedStyle(document.documentElement).getPropertyValue("--mirai-ui-button-color").trim();
+    if (baseColor) {
+      globalBtn.color = String(baseColor).includes("var(") ? String(baseColor) : normalizeColorTokenValue(baseColor);
+    }
+    // Base background: from stylesheet vars, or fall back to current DOM value (set by engine.css)
+    const baseBg = vars["--mirai-ui-button-background"] ||
+      getComputedStyle(document.documentElement).getPropertyValue("--mirai-ui-button-background").trim();
+    if (baseBg) {
+      globalBtn.bg = String(baseBg).includes("var(") ? String(baseBg) : normalizeColorTokenValue(baseBg);
+    }
+    // Hover from engine DOM vars if available
+    const baseHoverBg = vars["--mirai-ui-button-background-active"] ||
+      getComputedStyle(document.documentElement).getPropertyValue("--mirai-ui-button-background-active").trim();
+    if (baseHoverBg) globalBtn.hoverBg = String(baseHoverBg).includes("var(") ? String(baseHoverBg) : normalizeColorTokenValue(baseHoverBg);
+    const baseHoverColor = vars["--mirai-ui-button-color-active"] ||
+      getComputedStyle(document.documentElement).getPropertyValue("--mirai-ui-button-color-active").trim();
+    if (baseHoverColor) globalBtn.hoverColor = String(baseHoverColor).includes("var(") ? String(baseHoverColor) : normalizeColorTokenValue(baseHoverColor);
+    state.btn["btn-base"] = globalBtn;
+  }
+
   const genericRadius = genericButtonBlock["border-radius"] ? normalizeRadiusValue(genericButtonBlock["border-radius"]) : "";
   const genericPadding = genericButtonBlock.padding ? parseButtonPaddingShorthand(genericButtonBlock.padding) : null;
   const genericFontFamily = genericButtonBlock["font-family"] ? normalizeFontFamily(genericButtonBlock["font-family"]) : "";
   const genericFontSize = genericButtonBlock["font-size"] ? normalizePx(genericButtonBlock["font-size"], "") : "";
   const genericFontWeight = genericButtonBlock["font-weight"] ? String(genericButtonBlock["font-weight"]) : "";
+  const genericMinWidth = genericButtonBlock["min-width"] ? String(genericButtonBlock["min-width"]) : "";
+  const genericMinHeight = genericButtonBlock["min-height"] ? String(genericButtonBlock["min-height"]) : "";
 
   const baseButtonVars = [
     ["btn1", "mirai-ui-button"],
@@ -2538,7 +2780,7 @@ function importButtonStylesFromCss(cssText) {
     ["btn5", "mft-btn-5"],
   ];
 
-  if (genericRadius || genericPadding || genericFontFamily || genericFontSize || genericFontWeight) {
+  if (genericRadius || genericPadding || genericFontFamily || genericFontSize || genericFontWeight || genericMinWidth || genericMinHeight) {
     baseButtonVars.forEach(([btnKey]) => {
       const current = state.btn[btnKey];
       if (!current || typeof current !== "object") return;
@@ -2581,11 +2823,10 @@ function importButtonStylesFromCss(cssText) {
     if (radius) next.radius = normalizeRadiusValue(radius);
     else if (genericRadius) next.radius = genericRadius;
     if (padY) next.padY = String(padY);
+    else if (genericPadding && genericPadding.padY) next.padY = genericPadding.padY;
+
     if (padX) next.padX = String(padX);
-    else if (genericPadding) {
-      if (genericPadding.padY) next.padY = genericPadding.padY;
-      if (genericPadding.padX) next.padX = genericPadding.padX;
-    }
+    else if (genericPadding && genericPadding.padX) next.padX = genericPadding.padX;
     if (fontFamily) next.fontFamily = normalizeFontFamily(fontFamily);
     else if (genericFontFamily) next.fontFamily = genericFontFamily;
     if (fontSize) next.fontSize = normalizePx(fontSize, next.fontSize || "");
@@ -2600,22 +2841,24 @@ function importButtonStylesFromCss(cssText) {
     state.btn[btnKey] = normalizeButtonConfig(next, btnKey);
   });
 
-  const buttonBlockRegex = /\.elementor-button\.mft-btn-(\d+)(?!\w)?\s*\{([^}]*)\}/gi;
-  const hoverBlockRegex = /\.elementor-button\.mft-btn-(\d+):hover\s*\{([^}]*)\}/gi;
-  const mediaHoverBlockRegex = /@media\s*[^{]*\{\s*\.elementor-button\.mft-btn-(\d+):hover\s*\{([^}]*)\}/gi;
+  const buttonBlockRegex = /\.elementor-button\.(mft-btn-(?:\d+|base))(?!\w)?\s*\{([^}]*)\}/gi;
+  const hoverBlockRegex = /\.elementor-button\.(mft-btn-(?:\d+|base)):hover\s*\{([^}]*)\}/gi;
+  const mediaHoverBlockRegex = /@media\s*[^{]*\{\s*\.elementor-button\.(mft-btn-(?:\d+|base)):hover\s*\{([^}]*)\}/gi;
   const collected = new Map();
 
   let match = buttonBlockRegex.exec(text);
   while (match) {
-    const btnKey = `btn${Number(match[1])}`;
-    collected.set(btnKey, { base: match[2] || "", hover: "" });
+    const className = match[1];
+    const btnKey = className === "mft-btn-base" ? "btn-base" : `btn${Number(className.match(/\d+/)[0])}`;
+    collected.set(btnKey, { base: match[2] || "", hover: "", className });
     match = buttonBlockRegex.exec(text);
   }
 
   match = hoverBlockRegex.exec(text);
   while (match) {
-    const btnKey = `btn${Number(match[1])}`;
-    const prev = collected.get(btnKey) || { base: "", hover: "" };
+    const className = match[1];
+    const btnKey = className === "mft-btn-base" ? "btn-base" : `btn${Number(className.match(/\d+/)[0])}`;
+    const prev = collected.get(btnKey) || { base: "", hover: "", className };
     prev.hover = match[2] || "";
     collected.set(btnKey, prev);
     match = hoverBlockRegex.exec(text);
@@ -2623,17 +2866,21 @@ function importButtonStylesFromCss(cssText) {
 
   match = mediaHoverBlockRegex.exec(text);
   while (match) {
-    const btnKey = `btn${Number(match[1])}`;
-    const prev = collected.get(btnKey) || { base: "", hover: "" };
+    const className = match[1];
+    const btnKey = className === "mft-btn-base" ? "btn-base" : `btn${Number(className.match(/\d+/)[0])}`;
+    const prev = collected.get(btnKey) || { base: "", hover: "", className };
     if (!prev.hover) prev.hover = match[2] || "";
     collected.set(btnKey, prev);
     match = mediaHoverBlockRegex.exec(text);
   }
 
-  collected.forEach((blocks, btnKey) => {
+  collected.forEach(({ className }, btnKey) => {
     const index = getButtonIndex(btnKey);
-    if (!Number.isFinite(index) || index > 5) return;
-    applyButtonStyleFromCss(text, btnKey, `mft-btn-${index}`);
+    if (btnKey === "btn-base") {
+      applyButtonStyleFromCss(text, btnKey, "mft-btn-base");
+    } else if (Number.isFinite(index) && index <= 5) {
+      applyButtonStyleFromCss(text, btnKey, `mft-btn-${index}`);
+    }
   });
 
   ["btn6", "btn7", "btn8", "btn9", "btn10", "btn11", "btn12"].forEach((btnKey) => {
@@ -2707,6 +2954,32 @@ function extractClampValues(clampStr) {
   return { min: val, max: val, mid: val };
 }
 
+function applyEngineCssText(cssText) {
+  // Extract CSS variables from :root block
+  const rootMatch = cssText.match(/:root\s*\{([^}]+)\}/);
+  if (!rootMatch) {
+    alert("No se encontró bloque :root en el CSS");
+    return;
+  }
+
+  const rootContent = rootMatch[1];
+  const root = document.documentElement;
+
+  // Parse all variables in the :root block
+  const varRegex = /(--[a-z0-9-]+)\s*:\s*([^;]+);/gi;
+  let match;
+  while ((match = varRegex.exec(rootContent)) !== null) {
+    const varName = String(match[1]).trim();
+    const varValue = String(match[2]).trim();
+    root.style.setProperty(varName, varValue);
+  }
+
+  // Store the raw engine CSS for reference
+  state.engineCss = cssText;
+  saveToLocalStorage();
+  renderAll();
+}
+
 function applyStylesheetCssText(cssText) {
   // Store current state to preserve what's not in the new CSS
   const prevSectionUse = cloneData(state.sectionUseByDevice);
@@ -2732,11 +3005,19 @@ function applyStylesheetCssText(cssText) {
   }
 
   // If button data was imported, keep it (even if partial)
-  // Only restore if NONE of the buttons have any properties beyond arrowGap, arrowContent, etc.
-  const baseButtonKeys = ["btn1", "btn2", "btn3", "btn4", "btn5"];
-  const hasAnyButtonData = baseButtonKeys.some(k => Object.keys(state.btn[k] || {}).some(prop => prop !== "label" && prop !== "codeName"));
+  // Check if btn-engine or btn-base now have any properties (padY, padX, etc.)
+  const baseButtonKeys = ["btn-engine", "btn-base", "btn1", "btn2", "btn3", "btn4", "btn5"];
+  const engineHasData = Object.keys(state.btn["btn-engine"] || {}).some(prop => prop !== "label" && prop !== "codeName");
+  const baseHasData = Object.keys(state.btn["btn-base"] || {}).some(prop => prop !== "label" && prop !== "codeName");
+  const hasImportedButtonData = engineHasData || baseHasData || baseButtonKeys.some(k => {
+    const curr = state.btn[k];
+    const prev = prevBtn[k];
+    if (!curr || !prev) return false;
+    // Check if this button has NEW properties compared to prev
+    return Object.keys(curr).some(prop => prop !== "label" && prop !== "codeName" && curr[prop] !== prev[prop]);
+  });
 
-  if (!hasAnyButtonData) {
+  if (!hasImportedButtonData) {
     const customBtnKeys = Object.keys(state.btn).filter(k => k.startsWith("btn") && !baseButtonKeys.includes(k));
     const hasCustomButtons = customBtnKeys.length > 0 && customBtnKeys.some(k => Object.keys(state.btn[k] || {}).length > 0);
 
@@ -2750,7 +3031,8 @@ function applyStylesheetCssText(cssText) {
     state.imageByDevice = prevImage;
   }
 
-  applyThemeVariables();
+  // Don't call applyThemeVariables() here - it will overwrite imported button data with defaults
+  // Just render with the imported values
   renderAll();
   saveToLocalStorage();
 }
@@ -3101,7 +3383,7 @@ function setupButtonModal() {
       border: String(input?.border || ""),
       borderWidth: String(baseBorder.width || 0),
       borderColor: normalizeColorTokenValue(baseBorder.color || input?.color || ""),
-      radius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, input?.radius || "").px || 0))}px`,
+      radius: resolveButtonRadius(input?.radius),
       padY: String(input?.padY || ""),
       padX: String(input?.padX || ""),
       hoverBg: normalizeColorTokenValue(input?.hoverBg || ""),
@@ -3109,7 +3391,7 @@ function setupButtonModal() {
       hoverBorder: String(input?.hoverBorder || ""),
       hoverBorderWidth: String(hoverBorder.width || baseBorder.width || 0),
       hoverBorderColor: normalizeColorTokenValue(hoverBorder.color || input?.hoverColor || input?.color || ""),
-      hoverRadius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, input?.hoverRadius || input?.radius || "").px || 0))}px`,
+      hoverRadius: resolveButtonRadius(input?.hoverRadius, input?.radius),
     };
   }
 
@@ -3195,7 +3477,7 @@ function setupButtonModal() {
   }
 
   function renderShapeSection(cfg, colorOptions, spaceOptions) {
-    const radiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.radius || "0px").px || 0))));
+    const radiusValue = resolveButtonRadius(cfg.radius);
     const borderColorValue = cfg.borderColor || cfg.color;
     const padYValue = cfg.padY;
     const padXValue = cfg.padX;
@@ -3322,7 +3604,7 @@ function setupButtonModal() {
   }
 
   function renderHoverShapeSection(cfg, colorOptions) {
-    const hoverRadiusValue = String(Math.max(0, Math.round(Number(resolveSpaceLikeForDevice(state.device, cfg.hoverRadius || cfg.radius || "0px").px || 0))));
+    const hoverRadiusValue = resolveButtonRadius(cfg.hoverRadius, cfg.radius);
     const hoverBorderColorValue = cfg.hoverBorderColor || cfg.borderColor || cfg.color;
 
 
@@ -3809,8 +4091,8 @@ function setupButtonModal() {
     next.fontFamily = preset.fontFamily;
     next.fontSize = preset.fontSize;
     next.fontWeight = preset.fontWeight;
-    next.radius = `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, next.radius || "").px || 0))}px`;
-    next.hoverRadius = `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, next.hoverRadius || next.radius || "").px || 0))}px`;
+    next.radius = resolveButtonRadius(next.radius);
+    next.hoverRadius = resolveButtonRadius(next.hoverRadius, next.radius);
     next.border = buildBorderCss(next.borderWidth, next.borderColor);
     next.hoverBorder = buildBorderCss(next.hoverBorderWidth, next.hoverBorderColor);
     ctx.apply(next);
@@ -4106,30 +4388,46 @@ function applyImportedState(data) {
   }
   if (data.btn && typeof data.btn === "object") {
     state.btn = { ...state.btn, ...data.btn };
-    ["btn1", "btn2", "btn3", "btn4", "btn5"].forEach((btnKey) => {
+    ["btn-engine", "btn-base", "btn1", "btn2", "btn3", "btn4", "btn5"].forEach((btnKey) => {
       if (!state.btn[btnKey] || typeof state.btn[btnKey] !== "object") return;
+      const oldLabels = {
+        "Base global": "Base global",
+        "CTA sólido": "Botón 2",
+        "CTA destacado": "Botón 3",
+        "CTA claro": "Botón 4",
+        "Outline": "Botón 5",
+      };
+      const currentLabel = String(state.btn[btnKey].label || "");
+      let newLabel = oldLabels[currentLabel] || currentLabel;
+      if (!newLabel && btnKey === "btn1") newLabel = "Botón 1";
+      if (!newLabel) newLabel = getButtonDefaultLabel(btnKey);
+
+      // Helper to preserve CSS variables
+      const preserveVar = (val) => String(val || "").includes("var(") ? String(val) : normalizeColorTokenValue(val);
+
       state.btn[btnKey] = {
         ...state.btn[btnKey],
+        label: newLabel,
         codeName: String(state.btn[btnKey].codeName || getButtonDefaultClassName(btnKey)),
         typographyPreset: String(state.btn[btnKey].typographyPreset || "button"),
-        fontFamily: normalizeFontFamily(state.btn[btnKey].fontFamily || ""),
-        fontSize: normalizePx(state.btn[btnKey].fontSize || "", ""),
-        fontWeight: String(state.btn[btnKey].fontWeight || ""),
+        fontFamily: state.btn[btnKey].fontFamily ? normalizeFontFamily(state.btn[btnKey].fontFamily) : "",
+        fontSize: state.btn[btnKey].fontSize ? normalizePx(state.btn[btnKey].fontSize, "") : "",
+        fontWeight: state.btn[btnKey].fontWeight ? String(state.btn[btnKey].fontWeight) : "",
         ...normalizeButtonSpacingConfig(state.btn[btnKey]),
-        color: normalizeColorTokenValue(state.btn[btnKey].color),
-        bg: normalizeColorTokenValue(state.btn[btnKey].bg),
-        hoverBg: normalizeColorTokenValue(state.btn[btnKey].hoverBg),
-        hoverColor: normalizeColorTokenValue(state.btn[btnKey].hoverColor),
-        hoverBorder: String(state.btn[btnKey].hoverBorder || ""),
-        radius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, state.btn[btnKey].radius || "").px || 0))}px`,
-        hoverRadius: `${Math.max(0, Math.round(resolveSpaceLikeForDevice(state.device, state.btn[btnKey].hoverRadius || state.btn[btnKey].radius || "").px || 0))}px`,
+        color: preserveVar(state.btn[btnKey].color),
+        bg: preserveVar(state.btn[btnKey].bg),
+        hoverBg: preserveVar(state.btn[btnKey].hoverBg),
+        hoverColor: preserveVar(state.btn[btnKey].hoverColor),
+        hoverBorder: state.btn[btnKey].hoverBorder ? String(state.btn[btnKey].hoverBorder) : "",
+        radius: state.btn[btnKey].radius ? resolveButtonRadius(state.btn[btnKey].radius) : "",
+        hoverRadius: state.btn[btnKey].hoverRadius ? resolveButtonRadius(state.btn[btnKey].hoverRadius, state.btn[btnKey].radius) : "",
       };
     });
     ensureCustomButtonOrder().forEach((btnKey) => {
       if (!state.btn[btnKey] || typeof state.btn[btnKey] !== "object") return;
       state.btn[btnKey] = normalizeButtonConfig(state.btn[btnKey], btnKey);
     });
-    state.btn.hiddenButtons = Array.isArray(state.btn.hiddenButtons) ? state.btn.hiddenButtons.filter((key) => !["btn1", "btn2", "btn3", "btn4", "btn5"].includes(key)) : [];
+    state.btn.hiddenButtons = Array.isArray(state.btn.hiddenButtons) ? state.btn.hiddenButtons.filter((key) => !["btn-engine", "btn-base", "btn1", "btn2", "btn3", "btn4", "btn5"].includes(key)) : [];
   }
   if (data.typographyClamp && typeof data.typographyClamp === "object") {
     const from = Number(data.typographyClamp.from);
@@ -4344,6 +4642,7 @@ function renderButtonTokens() {
   const customButtons = ensureCustomButtonOrder().filter((btnKey) => !hiddenButtons.has(btnKey));
 
   const rows = [
+    ["btn-base", "mft-btn-base", state.btn["btn-base"]],
     ["btn1", "mft-btn-1", state.btn.btn1],
     ["btn2", "mft-btn-2", state.btn.btn2],
     ["btn3", "mft-btn-3", state.btn.btn3],
@@ -4378,10 +4677,10 @@ function renderButtonTokens() {
             <div data-btn-edit="${btnKey}" class="rounded-2xl border border-slate-200 bg-white p-3 text-left transition hover:border-slate-300 hover:bg-slate-50 ${editable ? "cursor-pointer" : "cursor-default"}">
               <div class="flex items-center justify-between gap-3">
                 <div class="min-w-0">
-                  <button type="button" data-btn-edit-name="${btnKey}" class="truncate text-left text-sm font-semibold text-slate-900 hover:text-slate-700">${editable ? getButtonDraftLabel(btnKey) : "Base global"}</button>
+                  <button type="button" data-btn-edit-name="${btnKey}" class="truncate text-left text-sm font-semibold text-slate-900 hover:text-slate-700">${getButtonDraftLabel(btnKey)}</button>
                   <div class="mt-0.5 flex flex-wrap items-center gap-1.5">
-                    <button type="button" data-btn-edit-code="${btnKey}" class="truncate font-mono text-[10px] font-semibold tracking-[0.08em] text-slate-500 hover:text-slate-900" title="Editar nombre técnico">${editable ? getButtonDisplayCodeName(btnKey) : "mft-btn-1"}</button>
-                    <button type="button" data-btn-copy-class="${editable ? className : "mft-btn-1"}" class="truncate rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-slate-600 hover:bg-slate-200" title="Copiar ${editable ? className : "mft-btn-1"}">Copiar clase</button>
+                    <button type="button" data-btn-edit-code="${btnKey}" class="truncate font-mono text-[10px] font-semibold tracking-[0.08em] text-slate-500 hover:text-slate-900" title="Editar nombre técnico">${getButtonDisplayCodeName(btnKey)}</button>
+                    <button type="button" data-btn-copy-class="${className}" class="truncate rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold tracking-[0.08em] text-slate-600 hover:bg-slate-200" title="Copiar ${className}">Copiar clase</button>
                   </div>
                 </div>
                 <div class="flex flex-nowrap items-center gap-1.5 whitespace-nowrap">
@@ -5165,6 +5464,40 @@ function bindInputs() {
       validate: (raw) => {
         const v = String(raw || "").trim();
         return v ? { ok: true, value: v } : { ok: false, message: "Pega primero la hoja CSS." };
+      },
+    });
+    if (next === null) return;
+    applyStylesheetCssText(String(next));
+  });
+
+  document.getElementById("engineBtn").addEventListener("click", async () => {
+    const next = await openEditor({
+      kicker: "CSS",
+      title: "Pegar Engine CSS",
+      description: "Pega el CSS del engine. Se extraerán las variables CSS (:root) y se aplicarán globalmente.",
+      kind: "textarea",
+      value: "",
+      okLabel: "Aplicar Engine",
+      validate: (raw) => {
+        const v = String(raw || "").trim();
+        return v ? { ok: true, value: v } : { ok: false, message: "Pega primero el CSS del engine." };
+      },
+    });
+    if (next === null) return;
+    applyEngineCssText(String(next));
+  });
+
+  document.getElementById("baseBtn").addEventListener("click", async () => {
+    const next = await openEditor({
+      kicker: "CSS",
+      title: "Pegar Base CSS",
+      description: "Pega el CSS base. Se extraerán los estilos genéricos de botones y se aplicarán como base.",
+      kind: "textarea",
+      value: "",
+      okLabel: "Aplicar Base",
+      validate: (raw) => {
+        const v = String(raw || "").trim();
+        return v ? { ok: true, value: v } : { ok: false, message: "Pega primero el CSS base." };
       },
     });
     if (next === null) return;
